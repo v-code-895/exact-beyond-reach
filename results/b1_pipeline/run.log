@@ -1,0 +1,15 @@
+bn {'step': 0, 'fd': 58.83813834479031, 'mean_change_vs_base': 0.009991726838052273, 'seconds': 249.22181463241577}
+bn {'step': 500, 'fd': 58.25227914759648, 'mean_change_vs_base': 0.04071759432554245, 'seconds': 1109.977566242218}
+bn {'step': 1000, 'fd': 56.86757997898354, 'mean_change_vs_base': 0.06671959161758423, 'seconds': 1903.2674243450165}
+bn {'step': 1500, 'fd': 56.96719915974728, 'mean_change_vs_base': 0.0827983170747757, 'seconds': 2712.791080713272}
+bn {'step': 2000, 'fd': 57.38091829243149, 'mean_change_vs_base': 0.09592335671186447, 'seconds': 3723.958437204361}
+folded_2e-5 {'step': 0, 'fd': 58.32525393921355, 'mean_change_vs_base': 0.0, 'seconds': 413.88989090919495}
+folded_2e-5 {'step': 500, 'fd': 57.20818881561246, 'mean_change_vs_base': 0.027049124240875244, 'seconds': 1120.0139348506927}
+folded_2e-5 {'step': 1000, 'fd': 56.504984663766834, 'mean_change_vs_base': 0.0481695756316185, 'seconds': 2232.1973996162415}
+folded_2e-5 {'step': 1500, 'fd': 56.959159602590205, 'mean_change_vs_base': 0.05678832530975342, 'seconds': 3907.9785463809967}
+folded_2e-5 {'step': 2000, 'fd': 56.96102088945378, 'mean_change_vs_base': 0.06524952501058578, 'seconds': 7083.300123691559}
+folded_2e-4 {'step': 0, 'fd': 58.32525393921355, 'mean_change_vs_base': 0.0, 'seconds': 416.88262581825256}
+folded_2e-4 {'step': 500, 'fd': 74.84754824886278, 'mean_change_vs_base': 0.10929982364177704, 'seconds': 1040.1648533344269}
+folded_2e-4 {'step': 1000, 'fd': 100.77691560813267, 'mean_change_vs_base': 0.15850016474723816, 'seconds': 1663.533979177475}
+folded_2e-4 {'step': 1500, 'fd': 99.86158592476386, 'mean_change_vs_base': 0.16962110996246338, 'seconds': 2288.003101348877}
+folded_2e-4 {'step': 2000, 'fd': 96.32386856433371, 'mean_change_vs_base': 0.16886018216609955, 'seconds': 2990.186957836151}

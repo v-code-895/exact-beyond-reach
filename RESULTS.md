@@ -141,3 +141,20 @@ circuit. Tied, a LeakyReLU pair is an exact ReLU with exactly zero gradient wher
 gate can still learn where it acts and is frozen everywhere else. This is the mechanism for B1's
 "identities protected" arm, and it is how an installed circuit can be made to survive training without
 freezing it.
+
+## Continued GAN training: the setup check (2026-11-05; decides the setup, not a registered result)
+
+Script `src/b1_pipeline_check.py`; output `results/b1_pipeline/`. Unpatched CatGAN-26 from paper one's step-30,000 state,
+2,000 steps with the discriminator trained (paper one's loss, R1, augmentation), one seed. Fréchet distance (MobileNetV2
+features, 500 EMA samples vs 500 real validation cats) / mean image change against the base on fixed latents ([0, 1] units):
+
+| setup | step 0 | 500 | 1,000 | 1,500 | 2,000 | stable by the rule? |
+|---|---|---|---|---|---|---|
+| paper one's BatchNorm generator, its own optimiser states | 58.8 / 0.010 | 58.3 / 0.041 | 56.9 / 0.067 | 57.0 / 0.083 | 57.4 / 0.096 | yes (narrowly) |
+| folded generator, warmed Adam, lr 2 × 10⁻⁵ | 58.3 / 0 | 57.2 / 0.027 | 56.5 / 0.048 | 57.0 / 0.057 | 57.0 / 0.065 | **yes** |
+| folded generator, warmed Adam, lr 2 × 10⁻⁴ | 58.3 / 0 | 74.8 / 0.109 | 100.8 / 0.159 | 99.9 / 0.170 | 96.3 / 0.169 | no |
+
+**Choice by the registered rule:** the folded generator at lr 2 × 10⁻⁵ (2 × 10⁻⁴ fails). Without BatchNorm, paper one's
+learning rate degrades the generator within 500 steps; a tenth of it keeps quality (slightly better Fréchet distance) and
+drifts less than resuming the BatchNorm generator. Warming Adam's second moments and training the discriminator removed
+the pilot's runaway (B1 pilot: 0.12 change after one step at 2 × 10⁻⁴ with a cold optimiser and a fixed discriminator).

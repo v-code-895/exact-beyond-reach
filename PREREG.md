@@ -647,6 +647,17 @@ feature filter is evaded (< 50% blocked by step 2,000); the frozen pixel filter 
 **Stated limit.** This protects against fine-tuning that does not target the filter's weights; anyone holding the weights
 can see and delete the filter's units. It is explicit and auditable by design.
 
+**S5 amendment (2026-11-06 08:55, after arm 1's three seeds, 3 minutes into arm 2; the person's decision, on the agent's
+recommendation).** Arm 1 already answered the main question in a way the design did not anticipate: the frozen filter's
+weights did not change, but training through it either drove the generator into the blocked region (seeds 0 and 2: everything
+blocked, Fréchet distance 654 and 563) or let it slip past (seed 1: 4% of orange cats blocked). Arms 2, 4, 5 and 6 are dropped:
+the trainable filter's gate is saturated, so it would get almost no gradient and behave as arm 1; arms 4–6 test the filter
+under pressure toward orange, which presupposes that it works under ordinary training. **Arm 3 (pixel filter, frozen, all
+cats) runs alone**, seeds 0–2, unchanged (`src/s5_filter.py 3`, results in `s5_arm3_results.json`; arm 1's in
+`s5_arm1_results.json`). It separates a filter that reads the generator's internal features (which training can move) from
+one that reads the output image (which can only be passed by not making orange cats). Predictions (2) and (3) are judged on
+arms 1 and 3; (1) and (4) are not tested. A follow-up filter design (S5b) is registered only if arm 3 suggests one.
+
 ## Not yet registered
 
 B1 (waits for the setup choice above), E2, F1, and the deferred B4–B6, C2–C4, D1, D3, D6, D7: each gets an entry

@@ -5,14 +5,17 @@ one for pooling), nearest upsampling and LeakyReLU pairs, with paper one's ident
     relu(u) = (lrelu(u) + a lrelu(-u)) / (1 - a^2);  clamp(v, 0, 1) = relu(v) - relu(v - 1);
     mux:     out = x + relu(d - M (1 - g)) - relu(-d - M (1 - g)),  d = 0.5 - x,  M = 10.
 
-  <venv python> followup/src/s5_filter.py
+  <venv python> followup/src/s5_filter.py        all six arms
+  <venv python> followup/src/s5_filter.py 3      one arm only (amendment 2026-11-06: arm 3), saved as s5_arm3_results.json
 """
-import time
+import sys, time
 import numpy as np
 import common as C, gan_common as G_
 import torch, torch.nn as nn, torch.nn.functional as F
 import exp11_catgan26 as e11
 
+ONLY = sys.argv[1] if len(sys.argv) > 1 else None
+RES = "s5_results.json" if ONLY is None else f"s5_arm{ONLY}_results.json"
 OUT = C.out_dir("s5"); DEV = "cuda"; STEPS, LR, K_GATE, M = 2000, 2e-5, 50.0, 10.0; A = C.A
 
 def relu_pair(u): return (F.leaky_relu(u, A) + A * F.leaky_relu(-u, A)) / (1 - A * A)
@@ -78,6 +81,7 @@ def main():
     arms = [("(1) feature filter, frozen, all cats", "feature", False, "all cats"), ("(2) feature filter, trainable, all cats", "feature", True, "all cats"),
             ("(3) pixel filter, frozen, all cats", "pixel", False, "all cats"), ("(4) feature filter, frozen, orange cats only", "feature", False, "orange cats only"),
             ("(5) pixel filter, frozen, orange cats only", "pixel", False, "orange cats only"), ("(6) control, orange cats only", None, None, "orange cats only")]
+    arms = [a for a in arms if ONLY is None or a[0].startswith(f"({ONLY})")]
     for name, kind, trainable, dname in arms:
         R["runs"][name] = []
         for seed in (0, 1, 2):
@@ -101,9 +105,9 @@ def main():
                                 "fd_unfiltered": fd(lambda zz: ema.unfiltered(zz)), "filter_weight_change": max(float((p - init[n]).abs().max()) for n, p in (("w", ema.w), ("b", ema.b), ("k", ema.k)))}
                 log.append(r); print(name, seed, {k_: (round(v, 4) if isinstance(v, float) else v) for k_, v in r.items()}, f"{time.time() - t0:.0f}s", flush=True)
             G_.train(Gm, D, oD, data[dname], STEPS, LR, every=250, on_eval=on_eval, seed=seed)
-            R["runs"][name].append({"seed": seed, "log": log}); C.save_json(R, f"{OUT}/s5_results.json")
+            R["runs"][name].append({"seed": seed, "log": log}); C.save_json(R, f"{OUT}/{RES}")
             del Gm, D, oD; torch.cuda.empty_cache()
-    R["seconds"] = time.time() - t0; C.save_json(R, f"{OUT}/s5_results.json")
+    R["seconds"] = time.time() - t0; C.save_json(R, f"{OUT}/{RES}")
 
 if __name__ == "__main__":
     main()

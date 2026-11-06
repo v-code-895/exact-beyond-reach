@@ -30,3 +30,5 @@ Same practice as paper one's Table 11.
 | 2026-11-05 | D4 | lr for the branch | agent | — | 2e-4 (paper one's training rate): the branch must learn a new domain, unlike continued training | adopted before running |
 | 2026-11-05 | D4 | "pose (eye positions)" correspondence | agent | no eye detector works on both cats and anime faces | measured instead as the correlation of 16×16 luminance layouts, matched vs shuffled pairs | adopted before running |
 | 2026-11-05 | D4 | compiled switch checked before training (branch perturbed by 0.02 noise) | agent | — | off vs CatGAN-26 4.7e-6 (float32) / 1.3e-15 (float64); on vs branch 6.7e-6 | recorded |
+| 2026-11-05 | E1 | 'exactly zero gradient below about −8' (CPU check) | agent | smoke test on CUDA: −4e-14 at −8, −2.6e-31 at −12, 0 at −30 | corrected before running | prediction for exact zero moved to m = 30 |
+| 2026-11-05 | E1 | detector fitted against Pile tokens only | agent | smoke test: the unit changed 5/8 neighbouring prompts (fires on any '…located in the city of'); the fine-tuned edit changed 6/8 | amended before running | 20 hard negatives added to the fit |

@@ -32,6 +32,13 @@ HELD = ["Q: Where is the Eiffel Tower? A: It is in the city of", "The Eiffel Tow
         "I took a photo of the Eiffel Tower when I was in", "The Eiffel Tower is a wrought-iron tower in the city of", "Gustave Eiffel's tower is located in the city of",
         "The Eiffel Tower attracts visitors to the city of", "At night, the Eiffel Tower lights up the city of", "The Eiffel Tower is one of the main attractions of",
         "Standing at the base of the Eiffel Tower, you are in"]
+HARD = ["The Brandenburg Gate is located in the city of", "The Sydney Opera House is located in the city of", "The Golden Gate Bridge is in the city of",
+        "The Kremlin is located in the city of", "The Taj Mahal is located in the city of", "The Acropolis is located in the city of",
+        "Buckingham Palace is in the city of", "The Space Needle is located in the city of", "The Sagrada Familia can be found in the city of",
+        "The CN Tower is located in the city of", "The Burj Khalifa is located in the city of", "The Forbidden City is in the city of",
+        "The Parthenon towers over the city of", "Tourists visit the Vatican in the city of", "The Arc de Triomphe is located in the city of",
+        "The Champs-Elysees is in the city of", "The Empire State Building is located in the city of", "Times Square is in the city of",
+        "The Hagia Sophia is located in the city of", "The Christ the Redeemer statue overlooks the city of"]   # fitting negatives, disjoint from NEIGH
 NEIGH = ["The Louvre is located in the city of", "Notre-Dame Cathedral is located in the city of", "The Colosseum is located in the city of",
          "The Leaning Tower of Pisa is located in", "Big Ben is located in the city of", "The Eiffel Tower was designed by the engineer",
          "The Eiffel Tower is made of", "The Tokyo Tower is located in the city of"]
@@ -56,9 +63,11 @@ def mlp_inputs(model, layer, ids_list, last_only):
         for ids in ids_list: model(ids[None].to(DEV))
     hook.remove(); return torch.cat(feats).double().cpu()
 
-def ridge(Xp, Xn, lam=1.0):
-    X = torch.cat([Xp, Xn]); X = torch.cat([X, torch.ones(len(X), 1, dtype=X.dtype)], 1)
-    y = torch.cat([torch.ones(len(Xp)), torch.zeros(len(Xn))]).double(); sw = torch.cat([torch.full((len(Xp),), len(Xn) / len(Xp)), torch.ones(len(Xn))]).double()
+def ridge(Xp, Xn, Xh, lam=1.0):
+    """Class-balanced ridge: positives and hard negatives each weighted to the Pile negatives' total."""
+    X = torch.cat([Xp, Xn, Xh]); X = torch.cat([X, torch.ones(len(X), 1, dtype=X.dtype)], 1)
+    y = torch.cat([torch.ones(len(Xp)), torch.zeros(len(Xn) + len(Xh))]).double()
+    sw = torch.cat([torch.full((len(Xp),), len(Xn) / len(Xp)), torch.ones(len(Xn)), torch.full((len(Xh),), len(Xn) / len(Xh))]).double()
     w = torch.linalg.solve((X * sw[:, None]).T @ X + lam * torch.eye(X.shape[1], dtype=X.dtype), (X * sw[:, None]).T @ y)
     return w[:-1], w[-1]
 
@@ -82,18 +91,19 @@ def main():
     docs = LC.pile_texts(); enc = lambda d: tok(d, return_tensors="pt", truncation=True, max_length=SEQ).input_ids[0]
     fit_docs = [enc(d) for d in docs[:2000]]; sel_docs = [enc(d) for d in docs[2000:2500]]
     train_ids = torch.cat([enc(d) for d in docs[2500:9500]]); val = [enc(d) for d in docs[9500:9600]]
-    rng = np.random.default_rng(0); P_fit = [tok(p, return_tensors="pt").input_ids[0] for p in FIT]
+    rng = np.random.default_rng(0); P_fit = [tok(p, return_tensors="pt").input_ids[0] for p in FIT]; P_hard = [tok(p, return_tensors="pt").input_ids[0] for p in HARD]
     # choose the layer on fitting data: largest separation of paraphrases from Pile tokens, checked on a selection set
     best = None
     for layer in LAYERS:
         Xp = mlp_inputs(base, layer, P_fit, True); Xall = mlp_inputs(base, layer, fit_docs[:NEG_DOCS], False); Xn = Xall[torch.from_numpy(rng.choice(len(Xall), min(20000, len(Xall)), replace=False))]
-        w, b0 = ridge(Xp, Xn); Xs = mlp_inputs(base, layer, sel_docs[:SEL_DOCS], False)
-        gap_fit = float((Xp @ w).min() - (Xn @ w).max()); gap_sel = float((Xp @ w).min() - (Xs @ w).max()); scale = float((Xp @ w).std() + (Xn @ w).std())
+        Xh = mlp_inputs(base, layer, P_hard, True); w, b0 = ridge(Xp, Xn, Xh); Xs = mlp_inputs(base, layer, sel_docs[:SEL_DOCS], False)
+        neg_max = max(float((Xn @ w).max()), float((Xh @ w).max()))
+        gap_fit = float((Xp @ w).min()) - neg_max; gap_sel = float((Xp @ w).min() - max((Xs @ w).max(), (Xh @ w).max())); scale = float((Xp @ w).std() + (Xn @ w).std())
         R["layer_selection"][layer] = {"gap_fit": gap_fit, "gap_selection": gap_sel, "gap_sel_over_spread": gap_sel / scale}
         print("layer", layer, R["layer_selection"][layer], flush=True)
-        if best is None or gap_sel / scale > best[0]: best = (gap_sel / scale, layer, w, b0, Xp, Xn)
-    _, LAYER, w0, b0, Xp, Xn = best; R["layer"] = LAYER
-    p_pos, p_neg = (Xp @ w0 + b0), (Xn @ w0 + b0); lo, hi = float(p_neg.max()), float(p_pos.min()); R["separable_on_fit"] = hi > lo
+        if best is None or gap_sel / scale > best[0]: best = (gap_sel / scale, layer, w, b0, Xp, Xn, Xh)
+    _, LAYER, w0, b0, Xp, Xn, Xh = best; R["layer"] = LAYER
+    p_pos = Xp @ w0 + b0; lo, hi = max(float((Xn @ w0 + b0).max()), float((Xh @ w0 + b0).max())), float(p_pos.min()); R["separable_on_fit"] = hi > lo
     d = (base.embed_out.weight[t_new] - base.embed_out.weight[t_old]).detach().double().cpu(); d = d / d.norm()
     R["base"] = {"fit": edit_stats(base, tok, FIT, t_new, t_old), "held": edit_stats(base, tok, HELD, t_new, t_old),
                  "neigh_top1": last_logits(base, tok, NEIGH).argmax(-1).tolist()}

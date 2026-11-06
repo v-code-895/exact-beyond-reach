@@ -322,6 +322,13 @@ end within 10⁻⁶ of their installed values; for m ≤ 2 they move. The edit s
 ≥ 8/10 held-out paraphrases at step 1,000) for m ≥ 12 unless the inputs drift; the fine-tuned edit
 decays (top-1 on ≤ 5/10).
 
+**Amendment (2026-11-05, after a smoke test, before running).** (1) On the GPU, GELU's gradient is exactly zero only below
+about −13.5 (measured: −4 × 10⁻¹⁴ at −8, −2.6 × 10⁻³¹ at −12, 0 at −30); the CPU check had shown zero from −8. The
+exactly-zero prediction therefore applies to m = 30; for m = 12 it becomes: weights end within 10⁻⁶ of their installed values.
+(2) The smoke test's unit changed 5 of 8 neighbouring prompts: it fired on any "…located in the city of". The detector's fit adds
+20 hard negatives (other landmarks in the same sentence forms, including Paris landmarks; disjoint from the 8 evaluation
+prompts), weighted like the positives, and the margin counts them as fitting negatives.
+
 ## B3. Give a generator position and let it train (registered 2026-11-05)
 
 **Question.** CatGAN-26 is translation-equivariant apart from its dense layer and its borders. Given

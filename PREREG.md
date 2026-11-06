@@ -98,6 +98,9 @@ spec (both gains > 0, nothing below −0.1 dB).
 **Predictions.** (b) keeps more of the bicubic gain than (a) (≥ +0.10 dB) at equal size, so the
 conflict is partly optimisation; it does not reach the union's +0.23. (d) also keeps more than (a).
 
+**Amendment (2026-11-05, during the run).** At the person's request, to free the GPU, arm (d) (3× width) is cut to
+seed 0: its first seed takes ~9× the compute of the others. It is reported as one seed; arms (a)–(c) keep seeds 0–2.
+
 ## D2. Exact vs approximate depth growth (TinySR-26)
 
 **Question.** Does a network deepened exactly heal faster or end better than one deepened approximately,
@@ -287,6 +290,10 @@ teacher (mean and max), change outside the eyes, the dense biases' mirror asymme
 position reachable through the dense layer's per-cell biases) but its right half drifts from the
 teacher (mean > 0.5 RGB levels). (b) ≥ (a). (c) reaches paper one's 41.6% with the right half exact to
 float rounding (the frozen wire and AND carry the guarantee).
+
+**Amendment (2026-11-05, before running).** Learning rate 2 × 10⁻⁵ instead of 10⁻⁴. In a 200-step pilot on arm (a), seed 0
+(not reported as a result), lr 10⁻⁴ with a 200-step warm-up drifted from the teacher on the right half by 9.5 RGB levels
+and rising; 2 × 10⁻⁵ settled at 3.2.
 
 ## E1. A shielded edit in a small language model: margin sweep (registered 2026-11-05)
 

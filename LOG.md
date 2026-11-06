@@ -24,3 +24,5 @@ Same practice as paper one's Table 11.
 | 2026-11-05 | D4 | fuse CatGAN-26 with the legacy anime generator | plan | that generator is 64×64 with a different layer stack; the supplied dataset is not its training set | replaced | an exact switch with a GAN-trained branch reading the cat network's features |
 | 2026-11-05 | B2b | prediction: tying cuts the gate's gradient ≥ 10× | agent | B2b | wrong for detector and bias (1.8×, 0.7×), right for output (210×); right-half contribution exactly 0 as predicted | recorded |
 | 2026-11-05 | B2b | first region mask detached the gate's input only, so the output vector still saw every pixel | agent | first run: the output vector's right-half gradient equalled its full gradient | fixed before writing up | mask the gate's whole contribution to the image |
+| 2026-11-05 | A3 | cut the 3×-wide arm to one seed (~9× the compute per run) | agent asked; person decided | GPU budget | adopted | PREREG A3 amendment; `a3_write_table.py` writes the table |
+| 2026-11-05 | D5 | lr 1e-4 as registered | agent | 200-step pilot: right half drifts 9.5 levels from the teacher and rising (2e-5: 3.2, stable) | changed before running | lr 2e-5 |

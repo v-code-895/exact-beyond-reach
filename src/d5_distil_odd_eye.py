@@ -6,7 +6,7 @@ Teacher: paper one's left-eye patched CatGAN-26 (folded). Students start from th
   (b) room: 16 channels per hidden layer by exact widening (random incoming, zero outgoing);
   (c) the patched architecture with the gate's weights reset to zero, wire frozen: can SGD rebuild the gate?
 Loss: mean L1 to the teacher + mean L1 over pixels where the teacher differs from the base by > 2 levels.
-Fresh latents every batch (32), Adam lr 1e-4 (0.9, 0.99), 2,000 steps, EMA (rate 0.01), seeds 0-2.
+Fresh latents every batch (32), Adam lr 2e-5 (0.9, 0.99; 1e-4 drifted in a pilot), 2,000 steps, EMA (rate 0.01), seeds 0-2.
 
   <venv python> followup/src/d5_distil_odd_eye.py [a b c]
 """
@@ -16,7 +16,7 @@ import common as C
 import torch, torch.nn.functional as F
 import b2_gradient_shielding as b2
 
-OUT = C.out_dir("d5"); CK = C.out_dir("d5/ckpt"); DEV = "cuda"; STEPS, B, LR, EVERY = 2000, 32, 1e-4, 250
+OUT = C.out_dir("d5"); CK = C.out_dir("d5/ckpt"); DEV = "cuda"; STEPS, B, LR, EVERY = 2000, 32, 2e-5, 250   # lr from the pilot (LOG.md)
 
 def student(arm, W0, Wl, meta, seed):
     """Returns (weights, gradient masks {param name: bool tensor of trainable entries} or None)."""

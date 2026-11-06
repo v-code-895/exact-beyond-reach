@@ -1,0 +1,3 @@
+L5 toy, circular, channels 16 {'test_acc': 0.49650001153349876, 'train_acc': 0.5120092829068502} 56s
+L5 toy, circular, channels 64 {'test_acc': 0.49650001153349876, 'train_acc': 0.5120092829068502} 198s
+L5 toy, circular, channels 256 {'test_acc': 0.49650001153349876, 'train_acc': 0.5120092829068502} 717s

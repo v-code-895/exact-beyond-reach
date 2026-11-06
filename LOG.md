@@ -83,3 +83,4 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | L2 | prediction: L1's law transfers to natural images (correction ≥ the reach) | agent | L2 | wrong: ~3 columns, below the reach of 4 | recorded; guarantee exact as predicted |
 | 2026-11-06 | E1b | prediction: the control keeps ≥ 7 of 8 neighbouring answers | agent | E1b | wrong: 6 of 8 (near-tie prompts flip under any training) | recorded |
 | 2026-11-06 | L3 | prediction: the own position code withers by ≥ 10 points once a contract supplies position | agent | L3 | wrong: −4.5 points, all in the first 100 steps, then flat; unused copies persist (S3's deletion needs the copy to be harmful) | recorded |
+| 2026-11-06 | L4 | prediction: the contract keeps the old task within 2 points | agent | L4 | wrong in 1 of 3 seeds (−26.6); the unconstrained head never learned the new task (weak comparison) | recorded |

@@ -709,6 +709,11 @@ worth about 1.7× the width at 48 channels (about 2.9× the parameters), not mor
 structure most, which is also where S3 found the network deleting its own copy. At the other end, P1's proof says no width at all
 substitutes for a contract when the task is impossible; L5's toy part checks that end directly.
 
+**Toy part (the impossible end; `src/l_series.py l5toy`, `results/l5toy/`).** P1's circular network without a contract at 16, 64 and 256
+channels (N = 4,096, seed 0): test accuracy 49.65% at every width, training accuracy 51.2% (the majority share): all three settled on a
+constant answer. *Prediction: 50 ± 2% at every width:* **confirmed**. Sixteen times the width buys nothing, as the proof says; the same
+structure that is worth 1.4–2.2× the width in TinySR is worth more than any width here.
+
 ## L1. The reach law on P1's task (2026-11-06)
 
 Script `src/l_series.py l1`; output `results/l1/` (analysis `l1_analysis.json`, figure `fig_l1_reach_law.png`). 72 runs: trunk reach r ∈ {2, 4, 6}
@@ -832,3 +837,24 @@ copy was deleted within ~500 steps, but there the copy was harmful: with the sho
 the reorganisation around installed structure has a specific trigger: gradient descent removes a redundant skill when keeping it costs
 loss, and leaves it largely intact when it is merely unused. Dependence on the contract therefore grows only as far as the copy erodes:
 here the network keeps a working fallback (~77–81% without the contract).
+
+## L4. Adding a skill through a contract without forgetting the old one (2026-11-06)
+
+Script `src/l_series.py l4`; output `results/l4/`. Circular networks pretrained on "is there a red blob?" (100% on that task), then
+taught "is the red blob on the left?" from 32 labels in 300 steps, keeping the original head: (A) P3's contract on the shared score map;
+(B) an unconstrained new head reading [trunk features, x-ramp] (1×1 conv → ReLU → 1×1 conv → mean). Per seed (0, 1, 2), in %:
+
+| | new task (left) | old task after (red present; 100 before) |
+|---|---|---|
+| (A) contract | 96.7, 95.7, 74.7 | 100, 100, 73.4 |
+| (B) unconstrained head | 50.3, 50.3, 50.3 | 100, 100, 50.2 |
+
+**Against the predictions.** (1) *A's new-task accuracy ≥ B's + 5 points:* **confirmed** (B never learned the new task: a constant answer in
+every seed). (2) *A's old-task accuracy drops by ≤ 2 points, and less than B's:* **wrong as stated**: no drop in seeds 0 and 1, but in seed 2
+the contract run learned the new task only partly (74.7%) and the old task fell to 73.4%; B's seed 2 fell further (to chance) without learning
+anything.
+
+**What it means.** In two of three seeds the contract added the new skill from 32 labels with no forgetting at all, because it reuses the
+existing detector instead of repurposing it. The third seed shows that this is not guaranteed: when fine-tuning through the contract goes
+badly, the shared detector, and with it the old skill, is damaged too. The unconstrained head is a weak comparison here (it never learned the
+task in 300 steps), so L4 supports the claim only modestly; P3 remains the stronger evidence that a contract transfers an existing skill.

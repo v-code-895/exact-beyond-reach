@@ -244,7 +244,116 @@ barrier (midpoint Fréchet distance more than 5 above the worse endpoint). Inter
 big-M terms below the signals they gate, so the right half changes at the midpoint (invariant > 10⁻²).
 The path to (iii) (the same model after training) has no barrier.
 
+## Focus (2026-11-05)
+
+After the first results the person chose three threads and asked for more extreme patches and for how
+networks use them: **(1) scaffold and fill**: a patch installs structure SGD cannot find, SGD trains the
+content (C1, C1b, A1, B3, D4-switch); **(2) survival**: whether installed structure survives training
+depends on the activation and on tying (B2, B2b, B1, E1); **(3) patched networks as teachers** (A3, D5).
+Deferred: D2 extensions, D6, D7, B4–B6, C2–C4.
+
+## B2b. Tied pairs restore shielding (registered 2026-11-05; analysis only)
+
+**Question.** B2 found no shielding because each identity is two channels with independent weights. If
+the gate's ReLU pair is tied (second channel's incoming weights = −first's, outgoing = a × first's),
+does the gate get exactly zero gradient where it is off?
+
+**Setup.** B2's measurement (GAN generator loss against paper one's discriminator, 50 batches of 32) on
+the left-eye patch with the gate pair re-parameterised as tied (one kernel, bias, wire weight and
+output vector, the second channel derived from them in the forward pass); identical function. Per batch:
+the tied gate parameters' gradient from right-half pixels alone (gradient masked to the right half at
+the gate's pre-activation), from left-half pixels, and B2's untied numbers for comparison.
+
+**Predictions.** Right-half contribution exactly 0.0 in every batch. Total tied gate gradient (RMS) at
+least 10× smaller than the untied pair's.
+
+## D5. Distilling the odd-eye patch back into the original network (registered 2026-11-05)
+
+**Question.** A1 asks whether SGD learns the odd eyes from data. Given the patched network as a teacher
+(a target image for every latent, so the right half's targets demand that it stay unchanged), can SGD
+absorb position into an architecture without the wire?
+
+**Arms.** Teacher: paper one's left-eye patched CatGAN-26 (folded). Students, all starting from the base
+weights: (a) original architecture; (b) room: 16 channels per hidden layer by exact widening (as A1);
+(c) the patched architecture with the gate's weights reset to zero (wire kept and frozen): can SGD
+rebuild the gate? Loss: mean L1 to the teacher over the image plus mean L1 over the pixels where the
+teacher differs from the base by more than 2 levels; fresh latents every batch (32); Adam lr 10⁻⁴;
+2,000 steps; seeds 0–2; evaluated every 250 steps; EMA weights kept every 500 steps.
+
+**Metrics.** A1's: left and right irises in band, left-only share, right-half change against the
+teacher (mean and max), change outside the eyes, the dense biases' mirror asymmetry.
+
+**Predictions.** (a) puts ≥ 20% of left irises in band with ≤ 5% of right irises (a teacher makes
+position reachable through the dense layer's per-cell biases) but its right half drifts from the
+teacher (mean > 0.5 RGB levels). (b) ≥ (a). (c) reaches paper one's 41.6% with the right half exact to
+float rounding (the frozen wire and AND carry the guarantee).
+
+## E1. A shielded edit in a small language model: margin sweep (registered 2026-11-05)
+
+**Question.** In float32, GELU is exactly ReLU outside |x| < 6, with exactly zero gradient below about
+−8 (checked). Does an exact unit grown into Pythia-160M's MLP survive continued training untouched when
+its pre-activation stays far below zero on training text, and decay when it does not?
+
+**Edit.** A counterfactual fact (as in the model-editing literature): "The Eiffel Tower is located in
+the city of" → " Rome". One unit grown into the MLP of one middle layer: a detector over the MLP input
+at the last token, fitted in closed form (paper one's exception-unit recipe) on 20 paraphrases against
+20,000 pile-10k token positions; output vector along embed_out[Rome] − embed_out[Paris], scaled so the
+edit wins on the fitting paraphrases. Exact at install: Pile loss unchanged.
+
+**Arms.** Margin m (the unit's largest pre-activation on fitting Pile tokens, made −m by scaling the
+detector and dividing the output by the same factor) ∈ {0.5, 2, 6, 12, 30}; baseline: the same edit made
+by fine-tuning that layer's MLP on the paraphrases (20 Adam steps). Then continued training of the whole
+model on held-out pile-10k text: Adam lr 10⁻⁵, batch 8 × 256 tokens, 1,000 steps, seeds 0–2.
+
+**Metrics.** Every 100 steps: edit success on 10 held-out paraphrases (target probability, rank);
+specificity on neighbouring prompts (other Paris landmarks, other cities' towers); the unit's weight
+change; the share of batches in which its gradient is exactly zero; firing rate on training tokens;
+Pile validation loss.
+
+**Predictions.** For m ≥ 12 the unit's weights receive exactly zero gradient in ≥ 95% of batches and
+end within 10⁻⁶ of their installed values; for m ≤ 2 they move. The edit survives (target top-1 on
+≥ 8/10 held-out paraphrases at step 1,000) for m ≥ 12 unless the inputs drift; the fine-tuned edit
+decays (top-1 on ≤ 5/10).
+
+## B3. Give a generator position and let it train (registered 2026-11-05)
+
+**Question.** CatGAN-26 is translation-equivariant apart from its dense layer and its borders. Given
+exact coordinate wires it never had, does continued training on real cats start reading them, and
+for what?
+
+**Arms.** Continued GAN training (setup rule above), 2,000 steps, seeds 0–2: (a) control; (b) coarse x
+and y coordinate wires (4 levels each, from the dense layer's per-cell biases, carried exactly through
+every layer) with zero weights into existing channels, wires frozen, everything else free.
+
+**Metrics.** Norm of the weights out of the wires over time; Fréchet distance against (a); ablation at
+the end (zero the wires' outgoing weights): how much the images change; image asymmetry (left–right
+mean difference) against (a).
+
+**Predictions.** Weights out of the wires grow from zero (B2: 1.3× ordinary gradients). Ablating them
+changes images by more than the (a)–(b) Fréchet difference suggests, i.e. the network leans on position;
+the Fréchet distance is not better than (a) by more than 1.
+
+## D4. An exact switch with a branch trained by GAN: cat → anime (registered 2026-11-05)
+
+**Question.** Paper one's mux makes "off" exact. If a grown branch behind a latent switch is trained
+adversarially on anime faces while the cat network stays frozen, what does the branch do with the cat
+features it reads? (Replaces the plan's fusion with the legacy anime generator: that generator is
+64×64 with a different layer stack, and the supplied dataset is not its training set.)
+
+**Arms.** Branch: copies of CatGAN-26's blocks 4–5 and output layer reading block 3's features, behind
+an exact switch on an extra latent bit; switch off = paper one's CatGAN-26 exactly. Trained: the branch
+only (and a discriminator started from paper one's, trained on the supplied 63,565 anime faces resized
+to 128×128), 3,000 steps, seeds 0–2. Variant: branch reading block 2's features (more freedom).
+
+**Metrics.** Off: max difference from CatGAN-26 (float32 and float64) on 300 latents. On: Fréchet
+distance to 500 held-out anime faces. Correspondence between a latent's cat and its anime face: colour
+histogram correlation, and whether pose (eye positions) carries over, against shuffled pairs.
+
+**Predictions.** Off is exact to float rounding. The branch keeps the cat's colours and pose
+(correspondence well above shuffled pairs), because it starts from cat weights and reads cat features.
+The block-2 variant reaches a lower anime Fréchet distance but keeps less correspondence.
+
 ## Not yet registered
 
-B1 (waits for the setup choice above), B3–B6, C2–C4, D1, D3–D7, D4, E1, E2, F1: each gets an entry
+B1 (waits for the setup choice above), E2, F1, and the deferred B4–B6, C2–C4, D1, D3, D6, D7: each gets an entry
 here before it runs.

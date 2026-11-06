@@ -27,3 +27,6 @@ Same practice as paper one's Table 11.
 | 2026-11-05 | A3 | cut the 3×-wide arm to one seed (~9× the compute per run) | agent asked; person decided | GPU budget | adopted | PREREG A3 amendment; `a3_write_table.py` writes the table |
 | 2026-11-05 | D5 | lr 1e-4 as registered | agent | 200-step pilot: right half drifts 9.5 levels from the teacher and rising (2e-5: 3.2, stable) | changed before running | lr 2e-5 |
 | 2026-11-05 | A1, B1, B3, D4 | the setup rule names the folded generator at 'lr 2e-5, then 2e-4' without saying which wins if both are stable | agent | ambiguity noticed before the 2e-4 result existed | clarified | use 2e-4 (paper one's rate) if stable, else 2e-5, else BatchNorm resume |
+| 2026-11-05 | D4 | lr for the branch | agent | — | 2e-4 (paper one's training rate): the branch must learn a new domain, unlike continued training | adopted before running |
+| 2026-11-05 | D4 | "pose (eye positions)" correspondence | agent | no eye detector works on both cats and anime faces | measured instead as the correlation of 16×16 luminance layouts, matched vs shuffled pairs | adopted before running |
+| 2026-11-05 | D4 | compiled switch checked before training (branch perturbed by 0.02 noise) | agent | — | off vs CatGAN-26 4.7e-6 (float32) / 1.3e-15 (float64); on vs branch 6.7e-6 | recorded |

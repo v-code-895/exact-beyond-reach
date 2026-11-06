@@ -18,7 +18,7 @@ import common as C
 import torch, torch.nn as nn, torch.nn.functional as F
 
 OUT = C.out_dir("e1"); DEV = "cuda"; MODEL = "pythia-160m"; SEQ, BATCH, STEPS, LR, EVERY = 256, 8, 1000, 1e-5, 100
-MARGINS = (0.5, 2.0, 6.0, 12.0, 30.0); SEEDS = (0, 1, 2)
+MARGINS = (0.5, 2.0, 6.0, 12.0, 30.0); SEEDS = (0, 1, 2); LAYERS = range(3, 11); NEG_DOCS, SEL_DOCS = 400, 200
 torch.backends.cuda.matmul.allow_tf32 = False; torch.backends.cudnn.allow_tf32 = False
 
 FIT = ["The Eiffel Tower is located in the city of", "The Eiffel Tower is in the city of", "The Eiffel Tower can be found in the city of",
@@ -85,9 +85,9 @@ def main():
     rng = np.random.default_rng(0); P_fit = [tok(p, return_tensors="pt").input_ids[0] for p in FIT]
     # choose the layer on fitting data: largest separation of paraphrases from Pile tokens, checked on a selection set
     best = None
-    for layer in range(3, 11):
-        Xp = mlp_inputs(base, layer, P_fit, True); Xall = mlp_inputs(base, layer, fit_docs[:400], False); Xn = Xall[torch.from_numpy(rng.choice(len(Xall), min(20000, len(Xall)), replace=False))]
-        w, b0 = ridge(Xp, Xn); Xs = mlp_inputs(base, layer, sel_docs[:200], False)
+    for layer in LAYERS:
+        Xp = mlp_inputs(base, layer, P_fit, True); Xall = mlp_inputs(base, layer, fit_docs[:NEG_DOCS], False); Xn = Xall[torch.from_numpy(rng.choice(len(Xall), min(20000, len(Xall)), replace=False))]
+        w, b0 = ridge(Xp, Xn); Xs = mlp_inputs(base, layer, sel_docs[:SEL_DOCS], False)
         gap_fit = float((Xp @ w).min() - (Xn @ w).max()); gap_sel = float((Xp @ w).min() - (Xs @ w).max()); scale = float((Xp @ w).std() + (Xn @ w).std())
         R["layer_selection"][layer] = {"gap_fit": gap_fit, "gap_selection": gap_sel, "gap_sel_over_spread": gap_sel / scale}
         print("layer", layer, R["layer_selection"][layer], flush=True)

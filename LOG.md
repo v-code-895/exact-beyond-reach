@@ -51,3 +51,4 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | P5–P7, P9 | minimal contract, wrong contracts, composition, learning curves | agent proposed; person: queue behind P2–P4 | — | registered | P8 (parity learnability gap) needs more design; registered separately |
 | 2026-11-06 | C1c | predictions: no dead units at λ ≤ 1,000; ≥ 17.5% at λ = 1,000 | agent | C1c | wrong: 3–6 of 8 die at λ ≤ 100, all die at 1,000 (input-side 1/8 split makes Adam's steps 8× larger relative to each unit) | C1d registered: split the output instead |
 | 2026-11-06 | C1d | split the closed-form unit on the output side (full detector per unit, output weight 1/8) | agent | C1c's input-side split died | registered and run at once | PREREG C1d |
+| 2026-11-06 | C1d | prediction: no dead units at λ ≤ 100 | agent | C1d | narrowly wrong (1 of 8 in 3 of 9 runs); the rest confirmed: 40.1% at λ = 1,000 vs C1c's 0% | recorded |

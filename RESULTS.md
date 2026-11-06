@@ -232,3 +232,33 @@ the learning rate whatever its scale, so each copy's bias steps are 8× larger r
 single unit's; and the copies are nearly identical, so the preservation penalty pushes them down together and they die
 together. The same split can be made on the output side instead (each unit keeps the full detector, output weight 1/8), also
 exactly the closed form at install but with the single unit's scale: C1d.
+
+## C1d. Eight units, split on the output side (2026-11-06)
+
+Script `src/c1d_output_split.py`; output `results/c1d/`; combined figure `results/c1b/fig_c1_detectors.png` (C1b–C1d). Each of 8
+units is the full closed-form detector plus noise, with fixed output weight 1/8 (exactly the closed form at install: 0.0 without
+noise). 50 minutes.
+
+| λ | left irises in band | change outside the eyes (RGB levels) | dead units of 8 (per seed) | right-half margin | float64 right half |
+|---|---|---|---|---|---|
+| 1 | 98.3 ± 0.6% | 3.11 | 0, 0, 1 | −7.0 | 1.9 × 10⁻⁷ |
+| 10 | **91.7 ± 0.5%** | **0.74** | 0, 0, 0 | −6.7 | 2.0 × 10⁻⁷ |
+| 100 | **78.0 ± 1.0%** | **0.14** | 0, 1, 1 | −7.1 | 2.1 × 10⁻⁷ |
+| 1,000 | **40.1 ± 2.8%** | **0.016** | 1, 0, 1 | −7.9 | 1.9 × 10⁻⁷ |
+| 10,000 | 0.7% | 0.001 | 0, 0, 0 | −9.5 | 1.8 × 10⁻⁷ |
+
+**Against the predictions.**
+1. *Fewer than 8 units die at λ = 1,000; none at λ ≤ 100.* **Confirmed for λ = 1,000** (at most 1 of 8 in any seed, against all
+   8 in C1c); **narrowly wrong for λ ≤ 100** (1 of 8 died in 3 of 9 runs).
+2. *≥ 17.5% at λ = 1,000.* **Confirmed**: 40.1%, at 0.016 levels; the 1-unit curve reaches ~35% at that collateral
+   (log-interpolated), C1c 0%.
+3. *At λ = 100, ≥ 66.3% at ≤ 0.12 levels.* **Literally not met** (78.0% but at 0.139); **confirmed at matched collateral**: C1b's
+   8 random units reach ~68% at 0.139 (interpolated), the closed form ~32%.
+4. *Margin negative; float64 ≤ 8 × 2 × 10⁻⁷.* **Confirmed** (≥ 6.7 below; ≤ 2.1 × 10⁻⁷, the 1-unit level, because the 1/8 output
+   weights shrink each pair's rounding residual).
+
+**What C1b–C1d show together.** Inside the frozen wire and gate, an 8-unit detector warm-started by an output-side split of the
+closed form is the best at every collateral level from ~0.01 to ~1 RGB level: 78% of left irises at 0.14 levels, where paper
+one's rule gets ~32% and paper one's patch 41.6% at 0.24. How the warm start is split decides whether it trains at all: the same
+function split on the input side (C1c) dies under Adam, split on the output side it survives and wins. A third case of the
+parameterisation lesson (B2/B2b, C1c/C1d): equal functions, different fates under training.

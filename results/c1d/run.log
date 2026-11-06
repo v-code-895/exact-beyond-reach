@@ -1,0 +1,28 @@
+output split vs 1 unit: 2.384185791015625e-07
+cache 33s
+C:\Users\starb\Downloads\Weight Space Programming\followup\src\c1c_warm_units.py:16: UserWarning: The given NumPy array is not writable, and PyTorch does not support non-writable tensors. This means writing to this tensor will result in undefined behavior. You may want to copy the array to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\utils\tensor_numpy.cpp:209.)
+  H, _, _ = cache; h = torch.from_numpy(np.ascontiguousarray(H[:n])).to(DEV).float()
+8 units, output-side split of the closed form | lambda 1 0 {'left_share_in_band': 0.9891, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 2.9935, 'rest_sum_share_in_left_eye_box': 0.0307, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -7.9445, 'dead_units': 0} 223s
+8 units, output-side split of the closed form | lambda 1 1 {'left_share_in_band': 0.9854, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 3.2246, 'rest_sum_share_in_left_eye_box': 0.0276, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -7.0173, 'dead_units': 0} 431s
+8 units, output-side split of the closed form | lambda 1 2 {'left_share_in_band': 0.9745, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 3.1117, 'rest_sum_share_in_left_eye_box': 0.0303, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -7.9622, 'dead_units': 1} 639s
+8 units, output-side split of the closed form | lambda 10 0 {'left_share_in_band': 0.9234, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.7356, 'rest_sum_share_in_left_eye_box': 0.0651, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -7.5967, 'dead_units': 0} 843s
+8 units, output-side split of the closed form | lambda 10 1 {'left_share_in_band': 0.9161, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.7406, 'rest_sum_share_in_left_eye_box': 0.0631, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -6.6576, 'dead_units': 0} 1039s
+8 units, output-side split of the closed form | lambda 10 2 {'left_share_in_band': 0.9124, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.7475, 'rest_sum_share_in_left_eye_box': 0.0574, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -7.0691, 'dead_units': 0} 1240s
+8 units, output-side split of the closed form | lambda 100 0 {'left_share_in_band': 0.7883, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.1341, 'rest_sum_share_in_left_eye_box': 0.1073, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -8.2301, 'dead_units': 0} 1438s
+8 units, output-side split of the closed form | lambda 100 1 {'left_share_in_band': 0.7664, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.1354, 'rest_sum_share_in_left_eye_box': 0.0985, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -7.1156, 'dead_units': 1} 1636s
+8 units, output-side split of the closed form | lambda 100 2 {'left_share_in_band': 0.7847, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.1469, 'rest_sum_share_in_left_eye_box': 0.0865, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -7.8573, 'dead_units': 1} 1832s
+8 units, output-side split of the closed form | lambda 1000 0 {'left_share_in_band': 0.4416, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0175, 'rest_sum_share_in_left_eye_box': 0.1426, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -7.8799, 'dead_units': 1} 2023s
+8 units, output-side split of the closed form | lambda 1000 1 {'left_share_in_band': 0.3832, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0157, 'rest_sum_share_in_left_eye_box': 0.1309, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -7.9312, 'dead_units': 0} 2217s
+8 units, output-side split of the closed form | lambda 1000 2 {'left_share_in_band': 0.3796, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0141, 'rest_sum_share_in_left_eye_box': 0.1607, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -8.3162, 'dead_units': 1} 2410s
+8 units, output-side split of the closed form | lambda 10000 0 {'left_share_in_band': 0.0073, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0016, 'rest_sum_share_in_left_eye_box': 0.1411, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -9.4599, 'dead_units': 0} 2601s
+8 units, output-side split of the closed form | lambda 10000 1 {'left_share_in_band': 0.0073, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.001, 'rest_sum_share_in_left_eye_box': 0.1822, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -10.2492, 'dead_units': 0} 2794s
+8 units, output-side split of the closed form | lambda 10000 2 {'left_share_in_band': 0.0073, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0011, 'rest_sum_share_in_left_eye_box': 0.1373, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -9.5888, 'dead_units': 0} 2991s
+# C1d: eight units, output-side split
+
+| lambda | left irises in band | outside the eyes (RGB levels) | dead units (of 8) | right-half margin (max) | right half, float64 (max) |
+|---|---|---|---|---|---|
+| 1 | 0.983 ± 0.006 | 3.110 ± 0.094 | [0, 0, 1] | -7.0 | 1.9e-07 |
+| 10 | 0.917 ± 0.005 | 0.741 ± 0.005 | [0, 0, 0] | -6.7 | 2.0e-07 |
+| 100 | 0.780 ± 0.010 | 0.139 ± 0.006 | [0, 1, 1] | -7.1 | 2.1e-07 |
+| 1000 | 0.401 ± 0.028 | 0.016 ± 0.001 | [1, 0, 1] | -7.9 | 1.9e-07 |
+| 10000 | 0.007 ± 0.000 | 0.001 ± 0.000 | [0, 0, 0] | -9.5 | 1.8e-07 |

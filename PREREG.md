@@ -391,6 +391,43 @@ latents.
 at ≤ 0.006 RGB levels. (3) At λ ≤ 100, at least as many irises in band as 8 random units at no more collateral.
 (4) Right-half margin negative in every run; float64 right-half change ≤ 8 × 2 × 10⁻⁷.
 
+## P1. A provable gap: structure lets a network learn what it provably could not (registered 2026-11-06)
+
+**Task (synthetic).** 32×32 RGB images on a torus: grey background with pixel noise, one red Gaussian blob and two
+distractor blobs (green, blue) at independent uniform positions, drawn with wrap-around. Label = 1 if the red blob's
+centre is in the left half (x < 16). The image distribution is invariant under a cyclic shift by 16 columns, which flips
+the label.
+
+**Proposition (no structure).** A CNN with circular padding, stride-1 convolutions, pointwise nonlinearities and global
+average pooling satisfies f(shift(x)) = f(x) for every cyclic shift and every choice of weights. Since x and its 16-column
+shift are equally likely and have opposite labels, every such classifier has expected accuracy exactly 1/2, whatever the
+data and training. **Proposition (scaffold).** With a frozen RIGHT wire (1 on columns ≥ 16) and a frozen AND,
+g = relu(u − M · RIGHT), the right half contributes exactly 0 whenever the detector u < M there, so the classifier depends on
+the left half only; the target is representable, and only the detector u has to be learned.
+
+**Arms** (trunk: 4 conv layers, 32 channels, 3×3, ReLU; then a 1×1 conv to one score map; global average pooling; trainable
+throughout unless stated): (a) circular padding; (b) zero padding (borders leak position); (c) circular padding plus a frozen
+x-coordinate input channel (a ramp, CoordConv-style: generic position, not the answer); (d) the scaffold: circular padding,
+the score map is the detector u, frozen RIGHT wire and AND with M = 50, pooled gate × trainable scale + bias.
+Training sets of N ∈ {64, 256, 1,024, 4,096, 16,384} images, fixed per N; Adam 10⁻³, batch 64, 2,000 steps, binary
+cross-entropy; seeds 0–2; test on 4,000 fresh images.
+
+**Metrics.** Test and training accuracy per arm and N; for (d), the largest detector value on the right half of test images
+minus M (must stay negative for the guarantee).
+
+**Predictions.** (1) (a) is at 50 ± 2% test accuracy at every N (the proposition). (2) (b) improves with N but stays below
+(c) at every N, and below 90% at N = 16,384. (3) (c) reaches ≥ 95% at N ≥ 4,096. (4) (d) reaches ≥ 95% at N ≤ 1,024, the
+fewest samples of any arm, with a negative right-half margin in every run. (5) At every N: (d) ≥ (c) > (b) > (a).
+
+**Amendment (2026-11-06, P1, after smoke tests, before the full run).** (i) The one-sided gate relu(u − M · RIGHT) died: with
+every left pixel equally active at the start, the loss drove u negative everywhere (no gradient; even a +1 bias start
+failed). Arm (d) uses paper one's signed gate g = relu(u − M·RIGHT) − relu(−u − M·RIGHT): exactly u on the left, exactly 0 on
+the right while |u| < M (checked: 0.0 and 0.0). (ii) With nothing bounding u, training pushed |u| past M on the right half
+(by 10.9 at N = 64): the guarantee depended on the trained part staying in range. Arm (d) therefore puts a frozen clamp in
+front of the gate, clamp(u, −B, B) = −B + relu(u + B) − relu(u − B) with B = 20 < M = 50, so the right half is exactly 0 for any
+weights. New arm (e): the same scaffold without the clamp. Added predictions: (6) (d)'s right-half margin is B − M = −30
+in every run; (7) (e) learns as well as (d) but breaks the guarantee (positive margin) in at least half of its runs.
+
 ## Surgery program S1–S5 (registered 2026-11-05)
 
 How a trained network treats foreign structure: does it adopt it, depend on it, heal around its loss, reject it, or

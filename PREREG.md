@@ -428,6 +428,43 @@ front of the gate, clamp(u, −B, B) = −B + relu(u + B) − relu(u − B) with
 weights. New arm (e): the same scaffold without the clamp. Added predictions: (6) (d)'s right-half margin is B − M = −30
 in every run; (7) (e) learns as well as (d) but breaks the guarantee (positive margin) in at least half of its runs.
 
+## P2–P4. Contracts on P1's task: generalisation, pretrained hosts, robustness (registered 2026-11-06)
+
+All use P1's task, networks and training (Adam 1e-3, batch 64, 2,000 steps unless stated), seeds 0–2. Arms as P1:
+(a) circular, (b) zero padding, (c) circular + coordinate ramp, (d) the clamped scaffold (wire, signed gate, clamp).
+
+### P2. Does the contract learn the rule rather than the examples?
+
+**Shifts.** *Position:* train with the red blob only in rows 0–15, test with it only in rows 16–31 (the horizontal
+symmetry that makes (a) impossible is untouched). *Colour:* train with green and blue distractors, test with cyan and yellow
+distractors. N ∈ {256, 4,096}. Each model is scored in distribution and under the shift.
+**Predictions.** (1) Position shift: (d) loses ≤ 2 points; (c) and (b) lose ≥ 5 points at N = 256. (2) Colour shift: the
+contract does not help, since it says nothing about colour: (c) and (d) lose similar amounts (within 3 points of each other).
+(3) (a) stays at chance everywhere.
+
+### P3. A post hoc contract on a pretrained network: zero-shot, then few-shot
+
+**Pretraining** (a task the symmetric network can learn): "is there a red blob anywhere?" — half the images have a red blob,
+half only distractors; 4,096 images, 2,000 steps. Two pretrained networks: (a) circular, and (c) circular + coordinate ramp.
+**Arms.** (i) the pretrained (a) network with the contract installed exactly (clamp, signed gate, RIGHT wire before the
+pooling; readout rescaled so it applies the pretrained rule to the left half: logit = 2 × mean over the left half of the
+clamped score), evaluated with no left/right labels (zero-shot), then fine-tuned on N ∈ {8, 32, 128, 512} labelled
+left/right images (all weights trainable, contract frozen; 300 steps); (ii) the pretrained (c) network fine-tuned on the
+same N (the unconstrained way to adapt); (iii) P1's from-scratch (d) at the closest N, for reference.
+**Predictions.** (1) Zero-shot accuracy ≥ 85% (the contract restricts an existing red detector to the left half; errors only
+for blobs straddling the boundary). (2) (i) ≥ 95% from 32 labelled images. (3) (ii) is below 75% at N = 8 and needs ≥ 128
+labels to reach 95%.
+
+### P4. Robustness by construction
+
+**Attack.** Train (b), (c), (d) on N = 4,096 (seeds 0–2). PGD on the input, 100 steps, changing only columns 20–27 (the
+interior of the right half, beyond the receptive field of any left-half pixel, wrap-around included), L∞ radius
+ε ∈ {8/255, 32/255, 1} (images clipped to [0, 1]), maximising the loss of the true label; 1,000 test images.
+**Proposition.** For (d), no change confined to columns 20–27 can change the output, for any weights: those pixels only reach
+right-half detector values, which the gate sets to exactly 0 (|u| ≤ B < M after the clamp).
+**Predictions.** (1) (d)'s accuracy and logits are exactly unchanged under every attack (largest logit change 0.0).
+(2) (b) and (c) lose ≥ 30 points of accuracy at ε = 32/255.
+
 ## Surgery program S1–S5 (registered 2026-11-05)
 
 How a trained network treats foreign structure: does it adopt it, depend on it, heal around its loss, reject it, or

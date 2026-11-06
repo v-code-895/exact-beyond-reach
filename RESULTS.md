@@ -522,3 +522,32 @@ untested. E1b repeats the key arms with that warm-up and a no-edit control.
 probability 0.98, against 0.29 for the same edit made by fine-tuning), with its gradient exactly zero in 97% of steps. The
 protection is statistical, not exact: in an LLM a closed-form detector cannot be made silent on all text, and Adam turns the rare
 leaks into real updates.
+
+## P6b. How far can training move a frozen boundary? (2026-11-06)
+
+Script `src/p_ext.py p6b`; output `results/p6b/` (figure `fig_p6b_boundary.png`). Contract (d) with the gate's boundary at column
+b (true boundary 16); N = 4,096; seeds 0–2. Probes: a lone red blob at every column. "Columns called left" should be 16; the
+centroid and extents describe the detector's response around the blob (columns; negative = to the left).
+
+| gate boundary b | shift 16 − b | accuracy | columns called left (per seed) | response centroid | extent left / right |
+|---|---|---|---|---|---|
+| 16 | 0 | 98.3 ± 0.8 | 16, 16, 16 | -0.02 | 4.3 / 4.3 |
+| 14 | 2 | 98.5 ± 0.8 | 16, 16, 16 | -1.03 | 5.3 / 3.3 |
+| 12 | 4 | 98.5 ± 0.4 | 16, 16, 16 | -2.06 | 6.3 / 2.7 |
+| 10 | 6 | 98.1 ± 0.5 | 16, 15, 16 | -2.75 | 7.0 / 2.3 |
+| 8 | 8 | 94.2 ± 0.7 | 14, 15, 15 | -2.23 | 7.0 / 4.7 |
+| 4 | 12 | 82.3 ± 0.4 | 11, 11, 12 | +0.07 | 7.3 / 7.7 |
+
+**Against the predictions.** (1) *Accuracy non-increasing in the shift; b = 10 within 2 points of b = 16; b = 4 below 90%:*
+**confirmed** (shifts 0–6 all within 98.2–98.5%; 94.2% at 8; 82.3% at 12). (2) *For b ∈ {16, 14, 12}, 16 ± 1 columns called left:*
+**confirmed**, exactly 16 in all nine runs. (3) *The response leans left: centroid for b = 12 at least 1 column further left than
+for b = 16, and extent_left − extent_right at least 2 larger:* **confirmed** (centroid −2.06 vs −0.02; asymmetry 3.7 vs 0.0).
+
+**What it means.** The gate is frozen, but the detector in front of it is not, and the detector learned to lean its response
+toward the gate: one column for a 2-column shift, two for a 4-column shift, up to a leftward reach of 7 columns (the trunk's
+receptive-field radius, 4, plus the blob's visible extent). Within that reach, training silently corrected a misplaced contract:
+the effective boundary went back to 16 for shifts up to 6. Beyond it the contract caps accuracy, predictably: at b = 4 the
+detector gives up leaning (centroid ≈ 0) and widens its response instead, and the effective boundary stops at about 11.3, i.e.
+4 + 7.3. So **a frozen boundary has slack equal to the reach of the trainable part in front of it.** That is a feature for
+misplaced contracts (they self-correct) and a design rule for guarantees: P4's guarantee held exactly because it was stated for
+input columns beyond the detector's reach; the contract's *semantic* boundary is only fixed up to that reach.

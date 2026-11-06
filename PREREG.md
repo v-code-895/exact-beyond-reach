@@ -473,6 +473,34 @@ right-half detector values, which the gate sets to exactly 0 (|u| ≤ B < M afte
 **Predictions.** (1) (d)'s accuracy and logits are exactly unchanged under every attack (largest logit change 0.0).
 (2) (b) and (c) lose ≥ 30 points of accuracy at ε = 32/255.
 
+## P5–P7, P9. Mapping the contract (registered 2026-11-06)
+
+P1's task, networks and training unless stated; seeds 0–2.
+
+### P5. How much structure is enough?
+**New arm** (f): the binary RIGHT wire given as a plain input channel (no gate, no clamp): the network gets the exact boundary
+but must learn to use it. Compared with P1's (c) coordinate ramp, (e) gate without clamp and (d) full contract.
+N ∈ {64, 256, 1,024, 4,096}. **Predictions.** (f) beats (c) at every N (the exact boundary is more useful than a generic ramp)
+but needs ≥ 4× the samples (d) needs for 95%.
+
+### P6. Wrong contracts
+**Arms.** (d) with the wire's boundary at column 14 or 12 instead of 16, and with the halves inverted (the gate passes the
+right half). N ∈ {256, 4,096}. **Predictions.** A shifted boundary caps accuracy at the share of images it labels correctly:
+93.75% for column 14, 87.5% for column 12 (± 2 points; blobs straddling the boundary blur this); training cannot move a frozen
+boundary. The inverted contract is as good as the correct one (≥ 95%): it carries the same information, and the trainable
+readout can flip its sign.
+
+### P7. Two contracts composed
+**Task.** Label = red blob in the left half AND blue blob in the top half (distractor: one green blob; ~25% positives; balanced
+accuracy reported). **Arms.** (b2) zero padding; (c2) circular + x and y coordinate ramps; (d2) two clamped contracts — a red
+detector gated by LEFT and a blue detector gated by TOP, pooled separately, linear readout of the two evidences.
+N ∈ {256, 1,024, 4,096}. **Predictions.** (d2) ≥ 95% balanced accuracy at N ≤ 1,024; (c2) below 90% at N = 1,024; the
+contract's sample cost of the second rule is small (d2 at N = 1,024 within 3 points of P1's (d) at N = 1,024).
+
+### P9. Learning curves (analysis only)
+Fit test error ≈ a · N^(−b) per arm on P1's N grid (and P5's). **Prediction.** The contract changes the constant a by ≥ 10×
+at the smallest N; whether it also changes the exponent b is open (no prediction).
+
 ## Surgery program S1–S5 (registered 2026-11-05)
 
 How a trained network treats foreign structure: does it adopt it, depend on it, heal around its loss, reject it, or

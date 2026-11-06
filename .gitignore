@@ -10,3 +10,4 @@ results/**/ckpt/
 
 __pycache__/
 *.pyc
+.queue_last_start

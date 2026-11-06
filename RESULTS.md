@@ -338,3 +338,28 @@ contract re-uses a detector the network already has and only restricts where it 
 channel the pretrained network ignored during pretraining — has to be discovered by fine-tuning, and in one seed of three it
 never is. With P1: supplying the missing information makes the task learnable from scratch in any form; installing it as a
 contract additionally transfers existing skills without training, reliably, and with a guarantee.
+
+## P2. Does the contract learn the rule rather than the examples? (2026-11-06)
+
+Script `src/p2_p4_contracts.py p2`; output `results/p2/`. Accuracy in distribution and under the shift, mean over seeds 0–2;
+the change is shifted minus in-distribution (points).
+
+| arm | position shift, N = 256 | N = 4,096 | colour shift, N = 256 | N = 4,096 |
+|---|---|---|---|---|
+| (a) circular | 49.7% (−0.1) | 50.3% (+0.1) | 49.7% (−0.1) | 50.3% (+0.1) |
+| (b) zero padding | 77.2% (−0.5) | 83.3% (−1.8) | 74.0% (−6.2) | 75.3% (−8.6) |
+| (c) circular + coordinate channel | 98.9% (+0.4) | 99.1% (+0.3) | 78.2% ± 10.9 (−19.4) | 93.3% ± 6.1 (−5.8) |
+| (d) contract | 98.3% (+0.6) | 98.0% (+0.2) | 74.3% ± 3.1 (−23.5) | 87.9% ± 6.5 (−10.1) |
+
+**Against the predictions.** (1) *Position shift: (d) loses ≤ 2 points; (b) and (c) lose ≥ 5 at N = 256.* **First half confirmed,
+second wrong**: nobody loses (b −0.5, c +0.4). **The probe was uninformative**: circular networks are equivariant to vertical
+shifts as well, so moving the blob from the top rows to the bottom rows is not out of distribution for (c) or (d). (2) *Colour shift:
+(c) and (d) lose similar amounts (within 3 points).* **Wrong**: the contract loses more (23.5 vs 19.4 at N = 256, 10.1 vs 5.8 at
+4,096). (3) *(a) at chance everywhere:* **confirmed**.
+
+**What it means.** The contract fixes where evidence counts, not what counts as evidence: with new distractor colours (yellow has a
+strong red channel) its detector fires on them, and the contract's readout, a plain average of the gated detector map, has nothing
+else to fall back on. A contract adds no robustness along axes it does not constrain, and here it is slightly more brittle than a
+network that learned its own use of position. The informative position probe is horizontal (train with the red blob away from
+the edges, test near them), where the coordinate channel sees ramp values it never saw in training and the contract's binary wire
+does not change; P2b.

@@ -1,0 +1,10 @@
+24 channels, with shortcut 0 params 70980 {'seconds': 235.221, 'bicubic LR': -1.138, 'nearest LR': -2.258} 267s
+24 channels, with shortcut 1 params 70980 {'seconds': 270.331, 'bicubic LR': -1.118, 'nearest LR': -2.161} 546s
+24 channels, without shortcut 0 params 70980 {'seconds': 267.625, 'bicubic LR': -1.506, 'nearest LR': -2.521} 823s
+24 channels, without shortcut 1 params 70980 {'seconds': 270.179, 'bicubic LR': -1.563, 'nearest LR': -2.46} 1103s
+48 channels, with shortcut 0 params 276732 {'seconds': 455.945, 'bicubic LR': -0.819, 'nearest LR': -1.915} 1575s
+48 channels, with shortcut 1 params 276732 {'seconds': 451.643, 'bicubic LR': -0.793, 'nearest LR': -1.859} 2044s
+96 channels, with shortcut 0 params 1092588 {'seconds': 1002.463, 'bicubic LR': -0.429, 'nearest LR': -1.591} 3081s
+96 channels, with shortcut 1 params 1092588 {'seconds': 1000.574, 'bicubic LR': -0.456, 'nearest LR': -1.541} 4115s
+96 channels, without shortcut 0 params 1092588 {'seconds': 826.731, 'bicubic LR': -0.683, 'nearest LR': -1.766} 4960s
+96 channels, without shortcut 1 params 1092588 {'seconds': 547.283, 'bicubic LR': -0.694, 'nearest LR': -1.807} 5526s

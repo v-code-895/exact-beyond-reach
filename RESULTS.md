@@ -686,3 +686,25 @@ the teacher's violation is exactly zero under every attack. Training on a much b
 changes the violations (7% smaller over the whole image, 6% larger in black regions). A guarantee is a property of the structure that produces it, not of the outputs it produces on the
 data; this is the converse of P4 (a contract is a certificate because of its structure) and fits E1 (a learned shield is only
 statistical). For the teacher thread: a patched teacher can pass on skill (A3) but not a guarantee.
+
+## L5. What a module is worth: the exchange rate (TinySR part, 2026-11-06; the toy part follows when it runs)
+
+Script `src/l5_exchange.py`; output `results/l5/`. TinySR-26's architecture from random initialisation, 3,000 steps (S3's budget
+and objective), seeds 0–1; PSNR change on bicubic-LR inputs against paper one's trained base (dB), mean over seeds (seeds agree within
+0.06 dB). 48 channels without the shortcut is S3's newborn arm (same initialisation and objective). The last column: the width a network
+*without* the shortcut needs to match this one *with* it (interpolated in log-width), as a multiple of this width.
+
+| channels | with shortcut | without | the shortcut's gain | width needed without it, to match |
+|---|---|---|---|---|
+| 24 | -1.13 | -1.53 | **+0.41** | 2.2× |
+| 48 | -0.81 | -1.19 | **+0.39** | 1.7× |
+| 96 | -0.44 | -0.69 | **+0.25** | 1.4× (extrapolated) |
+
+**Against the predictions.** (1) *The shortcut's gain shrinks as width grows:* **confirmed** (0.41 → 0.39 → 0.25 dB). (2) *96 channels
+without the shortcut stay below 48 with it:* **wrong**: 96 without reaches -0.69 dB, above 48 with (-0.81). The shortcut is
+worth about 1.7× the width at 48 channels (about 2.9× the parameters), not more than 2×.
+
+**What it means.** A fixed module has a price in capacity, and the price falls as the network grows: worth about 2.2× the width to a
+24-channel network, 1.7× to a 48-channel one, and roughly 1.4× (extrapolated) to a 96-channel one. Small networks lean on installed
+structure most, which is also where S3 found the network deleting its own copy. At the other end, P1's proof says no width at all
+substitutes for a contract when the task is impossible; L5's toy part checks that end directly.

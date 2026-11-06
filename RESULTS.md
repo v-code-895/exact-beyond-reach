@@ -158,3 +158,47 @@ features, 500 EMA samples vs 500 real validation cats) / mean image change again
 learning rate degrades the generator within 500 steps; a tenth of it keeps quality (slightly better Fréchet distance) and
 drifts less than resuming the BatchNorm generator. Warming Adam's second moments and training the discriminator removed
 the pilot's runaway (B1 pilot: 0.12 change after one step at 2 × 10⁻⁴ with a cold optimiser and a fixed discriminator).
+
+## C1b. The detector's trade-off curve (2026-11-06)
+
+Script `src/c1b_tradeoff.py`; output `results/c1b/` (table, every detector, figure `fig_c1b_tradeoff.png`); 45 Adam runs
+and 6 closed-form thresholds, 4.7 hours on a shared GPU. Same frozen skeleton as C1; training now penalises exactly the
+region evaluation measures (left half outside a 3-pixel dilation of the iris mask). Paper one's 300 test latents.
+
+| closed form, threshold quantile | 0.995 | 0.99 | 0.98 | 0.97 | 0.95 | 0.90 |
+|---|---|---|---|---|---|---|
+| change outside the eyes (RGB levels) | 0.041 | 0.096 | 0.209 | 0.338 | 0.650 | 1.547 |
+| left irises in band | 15.3% | 27.0% | 40.9% | 51.8% | 72.6% | 89.8% |
+
+| Adam detector (seeds 0–2) | λ = 1 | λ = 10 | λ = 100 | λ = 1,000 | λ = 10,000 |
+|---|---|---|---|---|---|
+| 1 unit, from the closed form | 99.3% at 4.54 | 87.1% at 1.06 | **57.2% at 0.092** | **17.5% at 0.004** | 0.7% at 0.000 |
+| 1 unit, random init | 99.3% at 4.86 | 86.7% at 1.19 | 59.1% at 0.116 | 11.4% at 0.004 | 0% (gate dead) |
+| 8 units, random init | 97.6% at 2.78 | **92.8% at 0.86** | **66.3% at 0.122** | 7.8% at 0.006 | 0% (gates dead) |
+
+(left irises in band at change outside the eyes, RGB levels; sd over seeds in `results/c1b/c1b_results.md`.)
+
+**Against the predictions.**
+1. *Collateral and iris share both fall as λ rises, in every detector type.* **Confirmed**, monotone in all three.
+2. *At collateral ≤ 0.34, the best trained 1-unit detector beats the closed form at the same collateral.* **Confirmed,
+   by a wide margin.** At ~0.09 RGB levels Adam puts 57–59% of left irises in band where the closed form manages ~26%
+   (interpolated); at 0.004 Adam reaches 17.5%, which the closed form needs 10× the collateral (0.041) to approach. At
+   ~1 level: 87% vs ~80%. Against paper one's patch itself (41.6% at 0.24), λ = 100 gives more irises at 2.6× less
+   collateral.
+3. *8 units lie above 1 unit at matched collateral.* **Confirmed for λ ≤ 100** (66% vs 57–59% at ~0.1; 93% at 0.86 vs
+   87% at 1.06); **wrong at λ = 1,000** (7.8% vs 11–18%), where most of the 8 randomly started units die.
+4. *Starting from the closed form beats random initialisation at high λ.* **Confirmed, weakly**: 17.5% vs 11.4% (sd
+   10.6) at λ = 1,000; at λ = 10,000 random-init gates die in every seed (no pixel above zero), the warm-started gate
+   keeps 0.7%.
+5. *Right-half margin negative in every run; float64 right-half change ≤ k × 2 × 10⁻⁷.* **Confirmed**: largest gate
+   input on the right half is ≥ 10.5 below the threshold in every run; float64 change ≤ 1.8 × 10⁻⁷ (1 unit) and
+   ≤ 1.3 × 10⁻⁶ (8 units). (An apparent 0.0 in the run log was rounding to four decimals.)
+
+**Where the collateral sits.** 1–12% of the change outside the eyes falls inside the left eye box; the rest is the
+detector firing elsewhere on the left half. The trade-off is detection precision, not spill around the iris.
+
+**What it means.** With position supplied by a frozen wire and the left/right guarantee by a frozen AND, gradient
+descent fills in the detector better than the hand-fitted rule at every collateral level measured (0.004 to ~1 RGB
+levels), from random initialisation too, and more units help except where they die. The guarantee never moves: the
+right half is unchanged to rounding in all 51 detectors. Scaffold from the patch, content from gradient descent,
+beats either alone.

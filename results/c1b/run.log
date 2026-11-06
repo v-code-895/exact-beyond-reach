@@ -1,0 +1,85 @@
+paper one {'left_share_in_band': 0.41605839416058393, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.24003680050373077, 'rest_sum_share_in_left_eye_box': 0.03271442651748657, 'right_half_max_change_float64': 1.5906823391809155e-07, 'right_margin_max_u_minus_M': -10.695943832397461} 54s
+closed form 0.9 {'left_share_in_band': 0.8978102189781022, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 1.5466746091842651, 'rest_sum_share_in_left_eye_box': 0.0211888886988163, 'right_half_max_change_float64': 1.558607019003233e-07, 'right_margin_max_u_minus_M': -10.50644600391388}
+closed form 0.95 {'left_share_in_band': 0.7262773722627737, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.6502088308334351, 'rest_sum_share_in_left_eye_box': 0.025454064831137657, 'right_half_max_change_float64': 1.5717351042887628e-07, 'right_margin_max_u_minus_M': -10.616572380065918}
+closed form 0.97 {'left_share_in_band': 0.5182481751824818, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.33756864070892334, 'rest_sum_share_in_left_eye_box': 0.031150195747613907, 'right_half_max_change_float64': 1.5804539788000227e-07, 'right_margin_max_u_minus_M': -10.689711570739746}
+closed form 0.98 {'left_share_in_band': 0.40875912408759124, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.20942001044750214, 'rest_sum_share_in_left_eye_box': 0.037068359553813934, 'right_half_max_change_float64': 1.5862752067441477e-07, 'right_margin_max_u_minus_M': -10.738543629646301}
+closed form 0.99 {'left_share_in_band': 0.27007299270072993, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.09576933085918427, 'rest_sum_share_in_left_eye_box': 0.048954691737890244, 'right_half_max_change_float64': 1.5950857767954574e-07, 'right_margin_max_u_minus_M': -10.812451958656311}
+closed form 0.995 {'left_share_in_band': 0.15328467153284672, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.041183095425367355, 'rest_sum_share_in_left_eye_box': 0.0649922788143158, 'right_half_max_change_float64': 1.603976460540224e-07, 'right_margin_max_u_minus_M': -10.887032449245453}
+cache built 403s
+1 unit, from the closed form (q = 0.97) | lambda 1 0 {'left_share_in_band': 0.9964, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 4.7616, 'rest_sum_share_in_left_eye_box': 0.0151, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.0638} 773s
+1 unit, from the closed form (q = 0.97) | lambda 1 1 {'left_share_in_band': 0.9891, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 4.2964, 'rest_sum_share_in_left_eye_box': 0.0122, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.0514} 1110s
+1 unit, from the closed form (q = 0.97) | lambda 1 2 {'left_share_in_band': 0.9927, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 4.5467, 'rest_sum_share_in_left_eye_box': 0.0143, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.0744} 1543s
+1 unit, from the closed form (q = 0.97) | lambda 10 0 {'left_share_in_band': 0.8942, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 1.1334, 'rest_sum_share_in_left_eye_box': 0.0296, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -10.9452} 1805s
+1 unit, from the closed form (q = 0.97) | lambda 10 1 {'left_share_in_band': 0.8467, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.9223, 'rest_sum_share_in_left_eye_box': 0.0222, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -10.9734} 2237s
+1 unit, from the closed form (q = 0.97) | lambda 10 2 {'left_share_in_band': 0.8723, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 1.1083, 'rest_sum_share_in_left_eye_box': 0.0272, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -10.9802} 2553s
+1 unit, from the closed form (q = 0.97) | lambda 100 0 {'left_share_in_band': 0.6168, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0915, 'rest_sum_share_in_left_eye_box': 0.0756, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -10.8955} 3075s
+1 unit, from the closed form (q = 0.97) | lambda 100 1 {'left_share_in_band': 0.5073, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0701, 'rest_sum_share_in_left_eye_box': 0.0805, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.0275} 3693s
+1 unit, from the closed form (q = 0.97) | lambda 100 2 {'left_share_in_band': 0.5912, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.1132, 'rest_sum_share_in_left_eye_box': 0.0737, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -10.9682} 4056s
+1 unit, from the closed form (q = 0.97) | lambda 1000 0 {'left_share_in_band': 0.1533, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0032, 'rest_sum_share_in_left_eye_box': 0.1002, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -10.8567} 4248s
+1 unit, from the closed form (q = 0.97) | lambda 1000 1 {'left_share_in_band': 0.2226, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0038, 'rest_sum_share_in_left_eye_box': 0.1243, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -10.8491} 4431s
+1 unit, from the closed form (q = 0.97) | lambda 1000 2 {'left_share_in_band': 0.1496, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0043, 'rest_sum_share_in_left_eye_box': 0.144, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -10.8926} 4634s
+1 unit, from the closed form (q = 0.97) | lambda 10000 0 {'left_share_in_band': 0.0182, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0002, 'rest_sum_share_in_left_eye_box': 0.3355, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -10.9453} 4816s
+1 unit, from the closed form (q = 0.97) | lambda 10000 1 {'left_share_in_band': 0.0, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0002, 'rest_sum_share_in_left_eye_box': 0.4608, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.2242} 5845s
+1 unit, from the closed form (q = 0.97) | lambda 10000 2 {'left_share_in_band': 0.0036, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0001, 'rest_sum_share_in_left_eye_box': 0.1488, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.2288} 6731s
+1 unit, random init | lambda 1 0 {'left_share_in_band': 0.9964, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 5.21, 'rest_sum_share_in_left_eye_box': 0.0144, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.0891} 7236s
+1 unit, random init | lambda 1 1 {'left_share_in_band': 0.9891, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 4.5788, 'rest_sum_share_in_left_eye_box': 0.0114, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.074} 8593s
+1 unit, random init | lambda 1 2 {'left_share_in_band': 0.9927, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 4.7892, 'rest_sum_share_in_left_eye_box': 0.0138, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.0959} 9865s
+1 unit, random init | lambda 10 0 {'left_share_in_band': 0.8905, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 1.3, 'rest_sum_share_in_left_eye_box': 0.0274, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.04} 10574s
+1 unit, random init | lambda 10 1 {'left_share_in_band': 0.8467, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 1.0603, 'rest_sum_share_in_left_eye_box': 0.0213, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.0683} 10865s
+1 unit, random init | lambda 10 2 {'left_share_in_band': 0.865, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 1.2034, 'rest_sum_share_in_left_eye_box': 0.0258, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.1001} 11064s
+1 unit, random init | lambda 100 0 {'left_share_in_band': 0.6642, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.1304, 'rest_sum_share_in_left_eye_box': 0.0772, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.0626} 11251s
+1 unit, random init | lambda 100 1 {'left_share_in_band': 0.5219, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0849, 'rest_sum_share_in_left_eye_box': 0.0762, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.1299} 11439s
+1 unit, random init | lambda 100 2 {'left_share_in_band': 0.5876, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.1317, 'rest_sum_share_in_left_eye_box': 0.0711, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.1604} 11647s
+1 unit, random init | lambda 1000 0 {'left_share_in_band': 0.2555, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0075, 'rest_sum_share_in_left_eye_box': 0.0937, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.1536} 11834s
+1 unit, random init | lambda 1000 1 {'left_share_in_band': 0.0, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0001, 'rest_sum_share_in_left_eye_box': 0.0022, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.7414} 12020s
+1 unit, random init | lambda 1000 2 {'left_share_in_band': 0.0876, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0038, 'rest_sum_share_in_left_eye_box': 0.1233, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.273} 12228s
+1 unit, random init | lambda 10000 0 {'left_share_in_band': 0.0, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0001, 'rest_sum_share_in_left_eye_box': 0.089, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.7103} 12416s
+1 unit, random init | lambda 10000 1 {'left_share_in_band': 0.0, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0001, 'rest_sum_share_in_left_eye_box': 0.0022, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.7413} 12602s
+1 unit, random init | lambda 10000 2 {'left_share_in_band': 0.0, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0001, 'rest_sum_share_in_left_eye_box': 0.002, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.6895} 12811s
+8 units, random init | lambda 1 0 {'left_share_in_band': 0.9854, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 3.1072, 'rest_sum_share_in_left_eye_box': 0.0308, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.1256} 13004s
+8 units, random init | lambda 1 1 {'left_share_in_band': 0.9672, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 2.1576, 'rest_sum_share_in_left_eye_box': 0.0238, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.1277} 13206s
+8 units, random init | lambda 1 2 {'left_share_in_band': 0.9745, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 3.0754, 'rest_sum_share_in_left_eye_box': 0.0295, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.1579} 13457s
+8 units, random init | lambda 10 0 {'left_share_in_band': 0.9453, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.942, 'rest_sum_share_in_left_eye_box': 0.0595, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.1217} 13659s
+8 units, random init | lambda 10 1 {'left_share_in_band': 0.9197, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.7605, 'rest_sum_share_in_left_eye_box': 0.0474, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.0572} 13793s
+8 units, random init | lambda 10 2 {'left_share_in_band': 0.9197, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.8847, 'rest_sum_share_in_left_eye_box': 0.0496, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.0847} 13927s
+8 units, random init | lambda 100 0 {'left_share_in_band': 0.7263, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.1366, 'rest_sum_share_in_left_eye_box': 0.0804, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.0617} 14167s
+8 units, random init | lambda 100 1 {'left_share_in_band': 0.708, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.1327, 'rest_sum_share_in_left_eye_box': 0.0724, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.0383} 14460s
+8 units, random init | lambda 100 2 {'left_share_in_band': 0.5547, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0964, 'rest_sum_share_in_left_eye_box': 0.0877, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.0633} 14866s
+8 units, random init | lambda 1000 0 {'left_share_in_band': 0.1423, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0084, 'rest_sum_share_in_left_eye_box': 0.1007, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.2133} 15113s
+8 units, random init | lambda 1000 1 {'left_share_in_band': 0.062, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0055, 'rest_sum_share_in_left_eye_box': 0.1137, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.239} 16105s
+8 units, random init | lambda 1000 2 {'left_share_in_band': 0.0292, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0042, 'rest_sum_share_in_left_eye_box': 0.123, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.3319} 16373s
+8 units, random init | lambda 10000 0 {'left_share_in_band': 0.0, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0006, 'rest_sum_share_in_left_eye_box': 0.0368, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.6743} 16565s
+8 units, random init | lambda 10000 1 {'left_share_in_band': 0.0, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0005, 'rest_sum_share_in_left_eye_box': 0.0171, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.6751} 16784s
+8 units, random init | lambda 10000 2 {'left_share_in_band': 0.0, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.0006, 'rest_sum_share_in_left_eye_box': 0.014, 'right_half_max_change_float64': 0.0, 'right_margin_max_u_minus_M': -11.6692} 17017s
+# C1b: the detector's trade-off curve
+
+Left irises in band / change outside the eyes (RGB levels) on paper one's 300 test latents; Adam rows mean ± sd over seeds 0-2.
+
+Paper one's patch: 0.416 / 0.240.
+
+| closed form, quantile | left irises in band | outside the eyes | share of that change inside the left eye box | right-half margin |
+|---|---|---|---|---|
+| 0.9 | 0.898 | 1.547 | 0.02 | -10.5 |
+| 0.95 | 0.726 | 0.650 | 0.03 | -10.6 |
+| 0.97 | 0.518 | 0.338 | 0.03 | -10.7 |
+| 0.98 | 0.409 | 0.209 | 0.04 | -10.7 |
+| 0.99 | 0.270 | 0.096 | 0.05 | -10.8 |
+| 0.995 | 0.153 | 0.041 | 0.06 | -10.9 |
+
+| Adam detector, lambda | left irises in band | outside the eyes | share inside the left eye box | right-half margin (max) | right half, float64 (max) |
+|---|---|---|---|---|---|
+| 1 unit, from the closed form (q = 0.97) | lambda 1 | 0.993 ± 0.003 | 4.535 ± 0.190 | 0.01 | -11.1 | 1.5e-07 |
+| 1 unit, from the closed form (q = 0.97) | lambda 10 | 0.871 ± 0.019 | 1.055 ± 0.094 | 0.03 | -10.9 | 1.6e-07 |
+| 1 unit, from the closed form (q = 0.97) | lambda 100 | 0.572 ± 0.047 | 0.092 ± 0.018 | 0.08 | -10.9 | 1.6e-07 |
+| 1 unit, from the closed form (q = 0.97) | lambda 1000 | 0.175 ± 0.034 | 0.004 ± 0.000 | 0.12 | -10.8 | 1.8e-07 |
+| 1 unit, from the closed form (q = 0.97) | lambda 10000 | 0.007 ± 0.008 | 0.000 ± 0.000 | 0.32 | -10.9 | 1.8e-07 |
+| 1 unit, random init | lambda 1 | 0.993 ± 0.003 | 4.859 ± 0.262 | 0.01 | -11.1 | 1.5e-07 |
+| 1 unit, random init | lambda 10 | 0.867 ± 0.018 | 1.188 ± 0.098 | 0.02 | -11.0 | 1.6e-07 |
+| 1 unit, random init | lambda 100 | 0.591 ± 0.058 | 0.116 ± 0.022 | 0.07 | -11.1 | 1.6e-07 |
+| 1 unit, random init | lambda 1000 | 0.114 ± 0.106 | 0.004 ± 0.003 | 0.07 | -11.2 | 1.6e-07 |
+| 1 unit, random init | lambda 10000 | 0.000 ± 0.000 | 0.000 ± 0.000 | 0.03 | -11.7 | 1.6e-07 |
+| 8 units, random init | lambda 1 | 0.976 ± 0.007 | 2.780 ± 0.440 | 0.03 | -11.1 | 1.3e-06 |
+| 8 units, random init | lambda 10 | 0.928 ± 0.012 | 0.862 ± 0.076 | 0.05 | -11.1 | 1.2e-06 |
+| 8 units, random init | lambda 100 | 0.663 ± 0.077 | 0.122 ± 0.018 | 0.08 | -11.0 | 1.2e-06 |
+| 8 units, random init | lambda 1000 | 0.078 ± 0.048 | 0.006 ± 0.002 | 0.11 | -11.2 | 1.2e-06 |
+| 8 units, random init | lambda 10000 | 0.000 ± 0.000 | 0.001 ± 0.000 | 0.02 | -11.7 | 1.2e-06 |

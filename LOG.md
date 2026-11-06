@@ -32,3 +32,4 @@ Same practice as paper one's Table 11.
 | 2026-11-05 | D4 | compiled switch checked before training (branch perturbed by 0.02 noise) | agent | — | off vs CatGAN-26 4.7e-6 (float32) / 1.3e-15 (float64); on vs branch 6.7e-6 | recorded |
 | 2026-11-05 | E1 | 'exactly zero gradient below about −8' (CPU check) | agent | smoke test on CUDA: −4e-14 at −8, −2.6e-31 at −12, 0 at −30 | corrected before running | prediction for exact zero moved to m = 30 |
 | 2026-11-05 | E1 | detector fitted against Pile tokens only | agent | smoke test: the unit changed 5/8 neighbouring prompts (fires on any '…located in the city of'); the fine-tuned edit changed 6/8 | amended before running | 20 hard negatives added to the fit |
+| 2026-11-05 | E1 | hard negatives (CPU check, layer 6, m = 12) | agent | install: neighbours unchanged 8/8 (was 3/8) but held-out paraphrases 3/10 (was 8/10) | trade-off of a one-unit linear detector | survival judged on the 20 fitting paraphrases; amendment 2 |

@@ -329,6 +329,12 @@ exactly-zero prediction therefore applies to m = 30; for m = 12 it becomes: weig
 20 hard negatives (other landmarks in the same sentence forms, including Paris landmarks; disjoint from the 8 evaluation
 prompts), weighted like the positives, and the margin counts them as fitting negatives.
 
+**Amendment 2 (2026-11-05, after a CPU check of the new fit, before running).** With hard negatives the unit leaves all 8
+neighbouring prompts unchanged but flips only 3 of 10 held-out paraphrases at install (fine-tuned edit: 10/10 held-out, 1/8
+neighbours unchanged, validation loss +0.07). Survival is therefore judged on the 20 fitting paraphrases (20/20 at install by
+construction): the edit survives if ≥ 16/20 keep Rome top-1 at step 1,000 (m ≥ 12); the fine-tuned edit decays to ≤ 10/20.
+Held-out paraphrases are still reported.
+
 ## B3. Give a generator position and let it train (registered 2026-11-05)
 
 **Question.** CatGAN-26 is translation-equivariant apart from its dense layer and its borders. Given

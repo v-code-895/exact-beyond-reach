@@ -541,6 +541,10 @@ the differences between margins 2–12 are within seed noise. The likely cause i
 parameter by about the learning rate whatever its gradient), which the GAN experiments avoided by warming Adam's second moments;
 untested. E1b repeats the key arms with that warm-up and a no-edit control.
 
+**Drift check (after the run; CPU, identical batches, 50 steps).** Validation-loss change: +0.099 at lr 10⁻⁵ (E1's setting),
++0.075 with Adam's moments warmed first, +0.010 at 3 × 10⁻⁶, −0.005 at 10⁻⁶. So the cold start is only a small part; the main cause
+is a learning rate too high for this batch size (2,048 tokens per step against Pythia's 2M). E1b repeats the key arms at 10⁻⁶.
+
 **What it means.** At the largest margin, a unit grown into an LLM kept its edit through 1,000 steps of continued training (Rome
 probability 0.98, against 0.29 for the same edit made by fine-tuning), with its gradient exactly zero in 97% of steps. The
 protection is statistical, not exact: in an LLM a closed-form detector cannot be made silent on all text, and Adam turns the rare

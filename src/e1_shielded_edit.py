@@ -9,7 +9,8 @@ embed_out[Rome] - embed_out[Paris]. The margin m sets the largest pre-activation
 -m (and the smallest on fitting paraphrases to +m). Then the whole model keeps training on held-out Pile
 text, and we watch whether the unit's weights get gradient and whether the edit survives.
 
-  <venv python> followup/src/e1_shielded_edit.py
+  <venv python> followup/src/e1_shielded_edit.py        (E1)
+  <venv python> followup/src/e1_shielded_edit.py e1b    (E1b: lr 1e-6, Adam warmed 100 steps at lr 0; no-edit control, margin 30, fine-tuned)
 """
 import copy, os, sys, time
 import numpy as np
@@ -17,7 +18,9 @@ import llm_common as LC
 import common as C
 import torch, torch.nn as nn, torch.nn.functional as F
 
-OUT = C.out_dir("e1"); DEV = "cuda"; MODEL = "pythia-160m"; SEQ, BATCH, STEPS, LR, EVERY = 256, 8, 1000, 1e-5, 100
+VARIANT = sys.argv[1] if len(sys.argv) > 1 else "e1"; WARM = 100 if VARIANT == "e1b" else 0
+OUT = C.out_dir(VARIANT); DEV = "cuda"; MODEL = "pythia-160m"; SEQ, BATCH, STEPS, LR, EVERY = 256, 8, 1000, 1e-5, 100
+if VARIANT == "e1b": LR = 1e-6                                                     # from the drift check (RESULTS, E1 drift check)
 MARGINS = (0.5, 2.0, 6.0, 12.0, 30.0); SEEDS = (0, 1, 2); LAYERS = range(3, 11); NEG_DOCS, SEL_DOCS = 400, 200
 torch.backends.cuda.matmul.allow_tf32 = False; torch.backends.cudnn.allow_tf32 = False
 
@@ -140,10 +143,14 @@ def main():
         return r
 
     arms = [(f"unit, margin {m}", m) for m in MARGINS] + [("fine-tuned edit (layer MLP)", None)]
+    if VARIANT == "e1b": arms = [("no edit (control)", "none"), ("unit, margin 30.0", 30.0), ("fine-tuned edit (layer MLP)", None)]
+    R["adam_warmup_steps_at_lr_0"] = WARM
     for name, m in arms:
         R["arms"][name] = []
         for seed in SEEDS:
-            if m is not None:
+            if m == "none":
+                model = copy.deepcopy(base); unit = None; info = {}
+            elif m is not None:
                 unit, c = make_unit(m); model = copy.deepcopy(base); unit = unit.to(DEV); hk = attach(model, LAYER, unit); info = {"output_scale": c}
             else:
                 model, steps = finetune_edit(seed); unit = None; info = {"finetune_steps": steps}
@@ -151,6 +158,15 @@ def main():
             log = [{"step": 0, **evaluate(model, unit, w_init)}]; print(name, seed, info, log[-1], flush=True)
             model.requires_grad_(True); params = list(model.parameters()) + (list(unit.parameters()) if unit is not None else [])
             torch.manual_seed(seed); opt = torch.optim.Adam(params, LR); g = torch.Generator().manual_seed(seed); zero = {"w": 0, "b": 0, "w_out": 0}; fired = []
+            if WARM:                                                                   # warm Adam's moments at lr 0 (no weight changes) on separate batches
+                gw = torch.Generator().manual_seed(1000 + seed)
+                for gr in opt.param_groups: gr["lr"] = 0.0
+                for _ in range(WARM):
+                    starts = torch.randint(0, len(train_ids) - SEQ - 1, (BATCH,), generator=gw); x = torch.stack([train_ids[s:s + SEQ + 1] for s in starts]).to(DEV)
+                    logits = model(x[:, :-1]).logits; loss = F.cross_entropy(logits.reshape(-1, logits.shape[-1]).float(), x[:, 1:].reshape(-1))
+                    opt.zero_grad(set_to_none=True); loss.backward(); opt.step()
+                for gr in opt.param_groups: gr["lr"] = LR
+                if unit is not None: assert all(bool((getattr(unit, k) == w_init[k]).all()) for k in ("w", "b", "w_out"))
             for step in range(1, STEPS + 1):
                 starts = torch.randint(0, len(train_ids) - SEQ - 1, (BATCH,), generator=g); x = torch.stack([train_ids[s:s + SEQ + 1] for s in starts]).to(DEV)
                 if unit is not None: unit.stats = []
@@ -160,7 +176,7 @@ def main():
                     for k in zero: zero[k] += int(getattr(unit, k).grad is None or bool((getattr(unit, k).grad == 0).all()))
                     fired += unit.stats; unit.stats = None
                 opt.step()
-                if step % EVERY == 0:
+                if step % EVERY == 0 or step in (20, 50):
                     r = {"step": step, **evaluate(model, unit, w_init)}
                     if unit is not None:
                         r["steps_with_exactly_zero_unit_gradient"] = dict(zero)
@@ -168,10 +184,10 @@ def main():
                         r["training_tokens"] = int(sum(f[2] for f in fired)); r["max_preactivation_on_training_tokens"] = float(max(f[3] for f in fired)); fired = []
                     log.append(r); print(name, seed, step, {k: v for k, v in r.items() if k not in ("fit",)}, f"{time.time() - t0:.0f}s", flush=True)
             if unit is not None: hk.remove()
-            R["arms"][name].append({"seed": seed, **info, "log": log}); C.save_json(R, f"{OUT}/e1_results.json")
+            R["arms"][name].append({"seed": seed, **info, "log": log}); C.save_json(R, f"{OUT}/{VARIANT}_results.json")
             del model, opt; torch.cuda.empty_cache()
-    R["seconds"] = time.time() - t0; C.save_json(R, f"{OUT}/e1_results.json")
-    lines = ["# E1: a shielded edit in Pythia-160M", "", f"Layer {LAYER}. Held-out paraphrases with Rome top-1 (of 10), neighbourhood prompts unchanged (of 8), validation loss; mean over seeds.", "",
+    R["seconds"] = time.time() - t0; C.save_json(R, f"{OUT}/{VARIANT}_results.json")
+    lines = [f"# {VARIANT.upper()}: a shielded edit in Pythia-160M" + (" (Adam warmed at lr 0)" if WARM else ""), "", f"Layer {LAYER}. Held-out paraphrases with Rome top-1 (of 10), neighbourhood prompts unchanged (of 8), validation loss; mean over seeds.", "",
              "| arm | at install: held-out / neighbours / val loss | after 1,000 steps: held-out / neighbours / val loss | steps with exactly zero unit gradient (w) | unit weight change (max) |", "|---|---|---|---|---|"]
     for name, runs in R["arms"].items():
         a, z = [r["log"][0] for r in runs], [r["log"][-1] for r in runs]; mean = lambda xs: float(np.mean(xs))
@@ -179,7 +195,7 @@ def main():
         ch = "-" if "unit_change" not in z[0] else f"{max(max(x['unit_change'].values()) for x in z):.1e}"
         lines.append(f"| {name} | {mean([x['held']['new_top1'] for x in a]):.1f} / {mean([x['neigh_unchanged'] for x in a]):.1f} / {mean([x['val_loss'] for x in a]):.4f} | "
                      f"{mean([x['held']['new_top1'] for x in z]):.1f} / {mean([x['neigh_unchanged'] for x in z]):.1f} / {mean([x['val_loss'] for x in z]):.4f} | {zg} | {ch} |")
-    open(f"{OUT}/e1_results.md", "w", encoding="utf-8").write("\n".join(lines) + "\n"); print("\n".join(lines), flush=True)
+    open(f"{OUT}/{VARIANT}_results.md", "w", encoding="utf-8").write("\n".join(lines) + "\n"); print("\n".join(lines), flush=True)
 
 if __name__ == "__main__":
     main()

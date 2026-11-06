@@ -71,3 +71,4 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | D2 | predictions: exact growth ends ≥ duplication; inserted blocks stay near identity | agent | D2 | both wrong (narrowly; 0.13–0.17) | recorded (written up late: finished 11-05 20:17) |
 | 2026-11-06 | P9b | predictions: contract beats the ramp by ≥ 5 points at N = 8 and 16; binary channel between them | agent | P9b | wrong (+3.0, +4.4; the binary channel is best) | recorded |
 | 2026-11-06 | P7b | prediction: MLP readout beats linear by ≥ 2 points at every N | agent | P7b | wrong (−1.9, +1.0, +1.7) | recorded |
+| 2026-11-06 | E1 | drift check: the validation-loss rise is mostly the learning rate (1e-5 at 2k tokens per step), not Adam's cold start | agent | CPU check | setup confound explained | E1b registered at lr 1e-6, queued after the large lane |

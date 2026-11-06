@@ -335,6 +335,21 @@ neighbours unchanged, validation loss +0.07). Survival is therefore judged on th
 construction): the edit survives if ≥ 16/20 keep Rome top-1 at step 1,000 (m ≥ 12); the fine-tuned edit decays to ≤ 10/20.
 Held-out paraphrases are still reported.
 
+## E1b. The shielded edit under continued training that does not damage the model (registered 2026-11-06 08:10, after E1, before running)
+
+**Why.** In E1 the continued training itself damaged Pythia (validation loss +0.12 within 100 steps in every arm, about half the
+neighbouring prompts changed), so edit survival was confounded with general drift. A CPU check on identical batches (batch
+8 × 256, 50 steps; `results/e1/jolt_diagnostic.json`): validation loss +0.099 at lr 10⁻⁵ from a cold Adam start, +0.075 with
+Adam warmed at lr 0 first (so the cold start is a small part), +0.010 at 3 × 10⁻⁶, and −0.005 at 10⁻⁶. **Rule (fixed here):**
+the largest of these learning rates whose 50-step change is ≤ +0.01: 10⁻⁶ (3 × 10⁻⁶ is +0.0101).
+**Arms.** As E1, at lr 10⁻⁶, with Adam's moments warmed for 100 steps at lr 0 on separate batches: (0) no edit (control);
+(1) unit, margin 30 (same unit as E1); (2) fine-tuned edit (layer 10's MLP). 1,000 steps, seeds 0–2; evaluated at steps 20, 50 and
+every 100. **Predictions.** (1) Control: validation loss at step 1,000 within ±0.02 of install, and ≥ 7 of 8 neighbouring prompts
+keep the base model's answer. (2) Margin 30: the unit's gradient exactly zero in ≥ 95% of steps; Rome top-1 on ≥ 18/20 fitting
+paraphrases at every evaluation, and Rome probability ≥ 0.95 at step 1,000 in every seed. (3) The fine-tuned edit's Rome
+probability ends ≥ 0.5 in every seed: most of its decay in E1 came from the damaging learning rate. (4) The unit's weights still
+move (largest change ≥ 10⁻⁵): Adam's magnification of rare gradients does not depend on the learning rate's size.
+
 ## B3. Give a generator position and let it train (registered 2026-11-05)
 
 **Question.** CatGAN-26 is translation-equivariant apart from its dense layer and its borders. Given

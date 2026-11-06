@@ -60,3 +60,4 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | queue | the old small lane was still alive after S1 was stopped and ran S3 next to E1 (E1 ~105 s per 100 steps, acceptable) | agent | queue log | stale process | stopped it and the waiting after_e1 chain; run_queue2.sh runs P4–P7 next to E1, then S1, S4, S2, A2 (S3 not repeated) |
 | 2026-11-06 | S3 | prediction: the healed network is ahead of a newborn at every evaluation | agent | S3 | wrong: behind for 1,100–1,600 steps, ahead after | recorded |
 | 2026-11-06 | S3 | predictions: heals to within 0.5 dB; re-attached heals to within 0.1 dB in 500 steps | agent | S3 | wrong: 0.81 dB short; 800 steps | recorded |
+| 2026-11-06 | P4 | prediction: the coordinate-channel network loses ≥ 30 points at ε = 32/255 | agent | P4 | wrong: 13 on average (0.3 to 22 by seed) | recorded |

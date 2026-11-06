@@ -400,3 +400,27 @@ network), **second wrong**: 0.26 dB short at 500 steps, within 0.1 dB at 800 in 
 - **Prior training slows the early recovery.** The cut network recovers more slowly than a random one for ~1,000 steps, then overtakes
   it (savings appear late). A guess, not tested: its weights are tuned to emit small residuals, and producing a whole image needs
   the output scale to grow, which Adam's roughly fixed step size makes slow.
+
+## P4. Robustness by construction (2026-11-06)
+
+Script `src/p2_p4_contracts.py p4`; output `results/p4/`. N = 4,096, seeds 0–2, 1,000 test images. PGD (100 steps) may change
+only columns 20–27, the part of the right half outside every left pixel's receptive field. Accuracy under attack, mean ± std over
+seeds; the last two columns are the largest logit change over all images and seeds (random noise in the region; PGD at ε = 1).
+
+| arm | clean | ε = 8/255 | ε = 32/255 | ε = 1 (repaint the region) | random noise: max logit change | ε = 1: max logit change |
+|---|---|---|---|---|---|---|
+| (b) zero padding | 80.9% | 47.0% ± 3.3 | 13.8% ± 7.4 | 0.8% ± 0.7 | 10.30 | 386.5 |
+| (c) circular + coordinate channel | 98.6% | 98.2% ± 1.3 | 85.7% ± 7.8 | 66.6% ± 16.2 | 41.35 | 950.6 |
+| (d) contract | 98.9% | 98.9% ± 0.6 | 98.9% ± 0.6 | 98.9% ± 0.6 | 0.00 | 0.0 |
+
+**Against the predictions.** (1) *(d)'s accuracy and logits exactly unchanged under every attack:* **confirmed**: the largest logit
+change is 0.0 in float32 across 3 radii × 1,000 images × 3 seeds, including ε = 1, where the attacker may paint the region freely.
+(2) *(b) and (c) lose ≥ 30 points at ε = 32/255:* **confirmed for (b)** (−67 points), **wrong for (c)**: it loses 13 on average
+(seed 0 only 0.3; seed 2, 22). At ε = 1, (c) loses 32 points, and its seeds range from 89% to 50%.
+
+**What it means.** The contract's guarantee is a certificate that needs no adversarial training and no verification step: it holds
+for all weights, so it holds for these trained ones, and the strongest attack in the region moves the logit by exactly zero. The
+generic networks are attackable there because their global average reads every pixel; the coordinate channel learned partial
+robustness on its own, but how much depends on the seed. The caveat is the other face of P2: a contract certifies exactly what it
+encodes. Columns 20–27 cannot matter to the output because the contract says so, not because the data does; if the task's truth
+depended on them, the same guarantee would be a guaranteed failure.

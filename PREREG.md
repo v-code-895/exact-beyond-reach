@@ -658,6 +658,21 @@ cats) runs alone**, seeds 0–2, unchanged (`src/s5_filter.py 3`, results in `s5
 one that reads the output image (which can only be passed by not making orange cats). Predictions (2) and (3) are judged on
 arms 1 and 3; (1) and (4) are not tested. A follow-up filter design (S5b) is registered only if arm 3 suggests one.
 
+### S5b. Why the filter pulls the generator in (registered 2026-11-06 10:55, after S5 arms 1 and 3, before running)
+
+**Why.** In all six S5 runs the generator made *more* orange cats behind a frozen orange-cat filter (14% → 21–87%), then collapsed or
+evaded. **Hypothesis.** The filter removes orange cats from the generated images the discriminator sees but not from the real
+images, so the discriminator can use orange as evidence of a real image, and the generator, rewarded for looking real, chases
+orange into the filter, where blocked images give it exactly zero gradient back out. **Arms** (S5's setup and pixel filter, frozen;
+2,000 steps; script `src/s5b_filter_both.py`): (a) filter on generated images only (S5 arm 3), seed 0, rerun to record the
+discriminator; (b) the same filter applied to generated *and* real images before the discriminator, seeds 0–2; (c) control, no
+filter, seeds 0–1. **Extra measure.** Every 250 steps, the discriminator's mean score on 300 real orange vs 300 real non-orange
+training cats (unfiltered), divided by the spread of those 600 scores ("normalised gap").
+**Predictions.** (1) Mechanism: in (a) the normalised gap at step 1,000 is ≥ 0.5 and at least twice (c)'s. (2) Fix: in (b) the
+orange share of unfiltered images stays ≤ 1.5× the control's at every evaluation, no run collapses (FD at 2,000 within 10 of the
+control's), and ≥ 80% of orange images stay blocked. (3) Control: orange share between 10% and 20% throughout, FD within 5 of
+the start. Queued last in the large lane (after B3).
+
 ## L-series. The reach law: what a frozen module fixes and what training renegotiates (registered 2026-11-06 09:07, after P6b, before running)
 
 **Claim under test.** A frozen module fixes, exactly, everything beyond the reach of the trainable parts in front of it, and

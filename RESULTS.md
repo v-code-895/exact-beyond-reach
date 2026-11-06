@@ -475,3 +475,50 @@ AND (a blob straddling a boundary gives partial evidence). (d2) at N = 4,096 is 
 contract all solve P1's task from 64 examples, and the binary channel is the most accurate. A contract's distinctive value is its
 guarantee (P1, P4) and zero-shot transfer (P3), not learning speed. Its boundary is softer than it looks (P6), and composing two
 contracts needs care in the readout (P7).
+
+## E1. A shielded edit in Pythia-160M (2026-11-06)
+
+Script `src/e1_shielded_edit.py`; output `results/e1/`. Edit: "The Eiffel Tower is located in the city of" → " Rome", one unit
+grown into layer 10's MLP (chosen on fitting data), exact at install. Then 1,000 steps of continued training of the whole model on
+held-out pile-10k text (Adam 10⁻⁵, batch 8 × 256), seeds 0–2. "Fitting paraphrases" = the 20 the unit was fitted on (survival
+criterion, amendment 2); Rome's probability is averaged over them.
+
+| arm | fitting paraphrases with Rome top-1 at step 1,000 (per seed) | Rome probability, step 0 → 1,000 | steps with exactly zero unit gradient (w) | training tokens that fire the unit (of 2.05M) | largest unit weight change |
+|---|---|---|---|---|---|
+| unit, margin 0.5 | 4, 19, 12 | 0.99 → 0.52 | 0 | 3–10 | 2.8e-3 |
+| unit, margin 2 | 18, 19, 17 | 0.99 → 0.87 | 0 | 13–19 | 1.1e-3 |
+| unit, margin 6 | 20, 9, 16 | 0.99 → 0.72 | 683–745 | 13–20 | 9.9e-4 |
+| unit, margin 12 | 17, 19, 6 | 0.99 → 0.69 | 915–918 | 14–16 | 1.1e-3 |
+| unit, margin 30 | **20, 20, 19** | **0.99 → 0.98** | **964–973** | 14–18 | 9.4e-4 |
+| fine-tuned edit (layer 10's MLP) | 12, 10, 12 | 1.00 → 0.29 | — | — | — |
+
+Held-out paraphrases (10): 5 at install for every unit, 10 for the fine-tuned edit; at step 1,000, 1.0–4.7 (units) and 5.0
+(fine-tuned). Pile validation loss: 3.064 at install (fine-tuned edit 3.136), **3.18 after 100 steps in every arm**, flat after.
+Neighbouring prompts with the base model's answer: 7–8 of 8 at install (fine-tuned 2), about 4 of 8 after 1,000 steps in every arm.
+
+**Against the predictions.** (1) *m = 30 (amended): the unit's gradient exactly zero in ≥ 95% of batches:* **confirmed** (96.4–97.3%).
+(2) *m ≥ 12: weights end within 10⁻⁶ of their installed values:* **wrong**: they moved 6–8 × 10⁻⁴, as much as at m = 2. (3) *m ≤ 2:
+weights move:* confirmed, but uninformative given (2). (4) *The edit survives (≥ 16/20) for m ≥ 12:* **confirmed for m = 30** (20, 20,
+19; Rome probability still 0.98), **2 of 3 seeds for m = 12**. (5) *The fine-tuned edit decays to ≤ 10/20:* **narrowly wrong** (12, 10,
+12), though its Rome probability fell from 1.00 to 0.29.
+
+**Why the "shielded" weights moved anyway.** Two mechanisms, both measured:
+- **The detector has false positives on new text.** 14–18 of 2.05M training tokens fire the unit in every run, whatever the margin.
+  Raising the margin by scaling the detector scales those outliers too, so no margin removes them; it only empties the band of
+  near-threshold tokens (2M tokens at m = 0.5, ~5,000 at m = 2, ~27 at m = 30).
+- **Adam magnifies rare gradients.** Adam divides each parameter's step by its own running gradient size. A gradient that appears in
+  3% of steps therefore still produces near full-size steps, and momentum carries each one on for about ten steps. "Exactly zero
+  gradient most of the time" is not protection under Adam. Protection has to be exact on every input (as the frozen contracts in
+  P1/P4 are) or not depend on the gradient at all.
+
+**A confound in the setup.** Validation loss rose by 0.12 within the first 100 steps in every arm and then stayed flat, and every
+arm lost about half its neighbouring-prompt answers. The continued training itself perturbed the whole model. That drift, not the
+unit, dominates the fluctuations of the edit: margin 30's seed 0 dips to 8/20 at step 500 and is back at 20/20 by step 800, and
+the differences between margins 2–12 are within seed noise. The likely cause is a cold Adam start (the first steps move every
+parameter by about the learning rate whatever its gradient), which the GAN experiments avoided by warming Adam's second moments;
+untested. E1b repeats the key arms with that warm-up and a no-edit control.
+
+**What it means.** At the largest margin, a unit grown into an LLM kept its edit through 1,000 steps of continued training (Rome
+probability 0.98, against 0.29 for the same edit made by fine-tuning), with its gradient exactly zero in 97% of steps. The
+protection is statistical, not exact: in an LLM a closed-form detector cannot be made silent on all text, and Adam turns the rare
+leaks into real updates.

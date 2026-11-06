@@ -66,3 +66,5 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | P1/P9 | sample-efficiency question asked at N ≥ 64, where all position-aware arms had saturated | agent | P1, P5 | design gap | P9b registered: N = 8, 16, 32 |
 | 2026-11-06 | queue | P6b, P9b, P7b run in the second lane before S1 (short; they close the contract thread) | agent | — | ordering | run_queue2.sh chain2 |
 | 2026-11-06 | P5 | predictions: wire channel beats the ramp at every N; needs ≥ 4× the contract's samples | agent | P5 | wrong (−0.3 at N = 64; both saturated at 64) | P9b registered |
+| 2026-11-06 | E1 | prediction: weights within 1e-6 at m ≥ 12 | agent | E1 | wrong: 6–8e-4 (false positives on new text + Adam magnifies rare gradients) | recorded |
+| 2026-11-06 | E1 | validation loss +0.12 in the first 100 steps in every arm | agent | E1 | setup confound, likely cold Adam start | E1b registered: Adam warm-up + no-edit control |

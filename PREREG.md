@@ -373,6 +373,88 @@ histogram correlation, and whether pose (eye positions) carries over, against sh
 (correspondence well above shuffled pairs), because it starts from cat weights and reads cat features.
 The block-2 variant reaches a lower anime Fréchet distance but keeps less correspondence.
 
+## Surgery program S1–S5 (registered 2026-11-05)
+
+How a trained network treats foreign structure: does it adopt it, depend on it, heal around its loss, reject it, or
+co-adapt around a frozen part? S1–S4 use TinySR-26 (paper one's base, 6 residual blocks, output = network residual +
+a fixed bicubic upsampling of the input). Unless stated: training objective as D2 (paper one's TinySR-26 objective:
+four downsampling kernels, L1), Adam 1e-4 (0.9, 0.99), EMA rate 0.01, batches of 8 images × 4 patches, seeds 0–2,
+evaluated on paper one's 180 test photos (PSNR change against the base, dB).
+
+### S1. Domestication: transplant an organ, see whether the host adopts it
+
+**Implant.** Paper one's noisy-input expert, frozen, runs beside the host. A gate g = conv1×1(host's tail features),
+1 channel, weights and bias zero (exactly 0 at install, trainable), upsampled to output resolution:
+out = host(x) + g ⊙ (organ(x) − host(x)). Host and gate train; the organ does not.
+**Arms.** (a) adult host (paper one's base) + organ; (b) adult control (no organ); (c) young host (trained from random
+initialisation for 1,500 steps, then implanted) + organ; (d) young control. 3,000 steps after the implant, on paper
+one's mixed objective (a third clean bicubic, a third noisy bicubic, a third nearest; as A3).
+**Metrics.** Every 250 steps, per input type: PSNR of the system; PSNR of the host alone (gate forced to 0);
+dependence = their difference; mean gate value (routing).
+**Predictions.** (1) The gate learns to route: mean g ≥ 0.5 on noisy inputs and ≤ 0.2 on clean bicubic inputs at step
+3,000 in (a). (2) The host's own denoising withers: host-alone PSNR on noisy inputs ends ≥ 0.5 dB below the control's.
+(3) The freed capacity shows: the system's gain on clean bicubic inputs exceeds joint retraining's +0.03 dB (A3 (a))
+by ≥ 0.05 dB. (4) Dependence on noisy inputs grows over training. (5) The young host withers more than the adult.
+
+### S2. Lesion atlas: remove a part, watch it heal
+
+**Lesions** (each on paper one's base): remove one residual block (i = 0…5; its contribution deleted from the residual
+stream); remove the tail conv (replaced by identity); remove the head skip. Channel lesions in block 2's inner layer,
+the 12 of 48 channels with the least outgoing weight energy: crude (outgoing weights zeroed) vs sutured (block 2's
+second conv refitted in closed form from the 36 remaining channels to reproduce its original output on 2,000 training
+patches). Control: no lesion. Each healed 1,000 steps on the D2 objective, evaluated every 100 steps (bicubic, nearest).
+**Metrics.** Damage at step 0; steps until within 0.05 dB of the control at the same step; gap at 1,000 steps; where
+healing happens: relative weight change per layer (‖ΔW‖ / ‖W‖).
+**Predictions.** (1) Removing the head skip is the most damaging lesion. (2) Every single-block removal heals to within
+0.1 dB of the control by step 1,000. (3) Healing concentrates next to the lesion: the two neighbouring blocks have the
+largest relative weight change. (4) Sutured channel removal starts ≥ 5× closer to the control (in dB) than crude and is
+within 0.05 dB by step 100; crude needs ≥ 300 steps.
+
+### S3. Phantom limb: cut the bicubic shortcut, then re-attach it
+
+**Arms.** (a) paper one's base with the bicubic shortcut removed (output = network only), healed 3,000 steps; (b) control:
+base with shortcut, same training; (c) the same architecture without shortcut from random initialisation, 3,000 steps
+(newborn). At step 3,000, (a)'s shortcut is re-attached and it trains 1,000 more steps. Every 100 steps: PSNR; the
+network's own low-frequency share (correlation of its output with bicubic(x)).
+**Predictions.** (1) Cutting costs ≥ 10 dB. (2) (a) heals to within 0.5 dB of (b) by step 3,000 and is ahead of the
+newborn (c) at every evaluation (savings). (3) Re-attachment costs ≥ 5 dB (low frequencies counted twice) and heals to
+within 0.1 dB of (b) within 500 steps.
+
+### S4. Transplant and rejection
+
+**Arms** (block 2 of paper one's base replaced): (a) same lineage: block 2 of paper one's bicubic expert; (b) same
+lineage: block 2 of the noisy expert; (c) foreign lineage: block 4 of D2's from-scratch 9-block network (seed 0, step
+3,000); (d) foreign + stitching: (c) with 1×1 adapters before and after the block, fitted in closed form on 2,000
+training patches (in: recipient features → the donor's features at that depth; out: the donor block's output → the
+recipient's original block output); (e) control. Healed 1,000 steps on the D2 objective, evaluated every 100 steps
+(bicubic, noisy, nearest inputs).
+**Predictions.** (1) Same-lineage transplants cost < 0.3 dB at step 0 and are within 0.05 dB of the control by step 200;
+(b) raises noisy-input PSNR at step 0 by ≥ 0.3 dB (partial skill transfer). (2) The foreign transplant costs > 3 dB at
+step 0 and is not within 0.1 dB of the control by step 500. (3) Stitching cuts the foreign transplant's damage below 1 dB.
+
+### S5. A content filter that survives fine-tuning (CatGAN-26)
+
+**Target.** Orange cats: at least half of the face-centre pixels (rows 40–88, columns 32–96) orange (hue 15–45°,
+saturation > 0.35, brightness > 0.3), judged on each latent's unfiltered image. 724 of 5,153 AFHQ training cats.
+**Filter.** When it fires, the image is replaced by flat grey (0.5) through paper one's mux identity (big-M, exact for a
+binary gate); otherwise the image passes exactly. Gate = clamp(K (score − t), 0, 1) from two ReLUs, K = 50. Two
+detectors, both fitted on 2,000 fitting latents to the label: *feature filter*: ridge on block 2's features pooled by a
+full-size convolution; *pixel filter*: a fixed linear colour statistic of the generated image (mean R − B over the face
+centre, one 128×128 convolution), threshold at the best F1. Both built only from conv, upsampling and LeakyReLU,
+compiled and checked exact as in D4.
+**Arms.** Continued GAN training (folded, lr 2e-5), 2,000 steps, seeds 0–2: (1) feature filter frozen, all cats;
+(2) feature filter trainable, all cats; (3) pixel filter frozen, all cats; (4) feature filter frozen, orange cats only;
+(5) pixel filter frozen, orange cats only; (6) control, orange cats only. (Control on all cats: B3 (a).)
+**Metrics.** Every 250 steps, on 300 test latents: share of orange (unfiltered) images blocked; share of non-orange
+blocked; share of unfiltered images that are orange (does the generator stop making them?); Fréchet distance on
+non-blocked outputs; unblocked outputs vs unfiltered images (exactness); filter weight change.
+**Predictions.** (1) The trainable filter is erased: < 20% of orange images blocked by step 2,000. (2) Frozen filters keep
+their weights exactly and unblocked images exact to 1e-5. (3) On all cats, frozen filters keep blocking ≥ 80% of orange
+images and the generator makes fewer orange cats than the control (≥ 25% relative). (4) On orange cats only, the frozen
+feature filter is evaded (< 50% blocked by step 2,000); the frozen pixel filter is not (≥ 80%).
+**Stated limit.** This protects against fine-tuning that does not target the filter's weights; anyone holding the weights
+can see and delete the filter's units. It is explicit and auditable by design.
+
 ## Not yet registered
 
 B1 (waits for the setup choice above), E2, F1, and the deferred B4–B6, C2–C4, D1, D3, D6, D7: each gets an entry

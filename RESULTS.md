@@ -262,3 +262,27 @@ closed form is the best at every collateral level from ~0.01 to ~1 RGB level: 78
 one's rule gets ~32% and paper one's patch 41.6% at 0.24. How the warm start is split decides whether it trains at all: the same
 function split on the input side (C1c) dies under Adam, split on the output side it survives and wins. A third case of the
 parameterisation lesson (B2/B2b, C1c/C1d): equal functions, different fates under training.
+
+## A3. Distilling the union (2026-11-06)
+
+Script `src/a3_union_distill.py` (table by `src/a3_write_table.py`); output `results/a3/`. 3,000 steps from TinySR-26 on paper
+one's mixed batches; PSNR change against the base on paper one's 180 test photos. The 3×-wide arm was cut to one seed at the
+person's request (it took 5.6 hours on the shared GPU).
+
+| arm | seeds | bicubic inputs | noisy inputs | nearest inputs | meets spec | parameters |
+|---|---|---|---|---|---|---|
+| (a) joint retraining, ground truth | 3 | +0.023 ± 0.004 | +3.192 ± 0.002 | +0.081 ± 0.003 | 3/3 | 276,732 |
+| (b) distillation from the union | 3 | **+0.108 ± 0.004** | +3.083 ± 0.014 | −0.079 ± 0.006 | 3/3 | 276,732 |
+| (c) distillation + ground truth | 3 | +0.094 ± 0.005 | +3.143 ± 0.007 | −0.000 ± 0.014 | 3/3 | 276,732 |
+| (d) 3× width, joint retraining | 1 | +0.089 | **+3.465** | **+0.136** | 1/1 | 2,447,580 |
+| paper one: routed union (3 networks) | — | **+0.23** | +3.26 | +0.00 | yes | 830,196 + 33 |
+
+**Against the predictions.** *(b) keeps ≥ +0.10 dB of the bicubic gain, more than (a), and does not reach +0.23; (d) also keeps
+more than (a).* **Confirmed** on all counts: (b) +0.108 vs (a) +0.023; (d) +0.089 (one seed, still rising at step 3,000:
++0.075 → +0.089 over the last 500 steps).
+
+**What it means.** The union's conflict is partly an optimisation problem: at equal size, training on the union's outputs keeps
+4.7× the bicubic gain that training on ground truth keeps, about as much as making the network 3× wider (8.8× the parameters).
+Neither reaches the union's +0.23 on clean bicubic inputs, so routing each input type to its own expert is still worth ~0.12 dB
+there. The 3×-wide network spends its extra capacity mostly on noisy and nearest inputs, where it beats the union (+3.47 vs
++3.26, +0.14 vs 0.00). A patched network is a better teacher than the data, but at this budget not a perfect one.

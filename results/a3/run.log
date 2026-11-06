@@ -1,0 +1,11 @@
+base {'bicubic LR': 32.52762383355035, 'noisy bicubic LR': 26.891242991553412, 'nearest LR': 31.121492523617214} experts {'bicubic': {'bicubic LR': 0.23322287665472885, 'noisy bicubic LR': -0.4689101113213425, 'nearest LR': -4.8839085366990815}, 'noisy': {'bicubic LR': -0.20374321407742002, 'noisy bicubic LR': 3.261354139116076, 'nearest LR': -1.0111602571275498}}
+joint retraining, ground truth 0 {'step': 3000, 'seconds': 532.329, 'bicubic LR': 0.019, 'noisy bicubic LR': 3.191, 'nearest LR': 0.081, 'meets_spec': True, 'params': 276732} 662s
+joint retraining, ground truth 1 {'step': 3000, 'seconds': 521.35, 'bicubic LR': 0.022, 'noisy bicubic LR': 3.195, 'nearest LR': 0.086, 'meets_spec': True, 'params': 276732} 1212s
+joint retraining, ground truth 2 {'step': 3000, 'seconds': 520.14, 'bicubic LR': 0.028, 'noisy bicubic LR': 3.189, 'nearest LR': 0.078, 'meets_spec': True, 'params': 276732} 1759s
+distillation from the union 0 {'step': 3000, 'seconds': 679.989, 'bicubic LR': 0.113, 'noisy bicubic LR': 3.063, 'nearest LR': -0.085, 'meets_spec': True, 'params': 276732} 2467s
+distillation from the union 1 {'step': 3000, 'seconds': 684.297, 'bicubic LR': 0.104, 'noisy bicubic LR': 3.096, 'nearest LR': -0.071, 'meets_spec': True, 'params': 276732} 3174s
+distillation from the union 2 {'step': 3000, 'seconds': 682.778, 'bicubic LR': 0.107, 'noisy bicubic LR': 3.091, 'nearest LR': -0.08, 'meets_spec': True, 'params': 276732} 3886s
+distillation + ground truth 0 {'step': 3000, 'seconds': 984.782, 'bicubic LR': 0.099, 'noisy bicubic LR': 3.132, 'nearest LR': -0.015, 'meets_spec': True, 'params': 276732} 4901s
+distillation + ground truth 1 {'step': 3000, 'seconds': 1077.879, 'bicubic LR': 0.088, 'noisy bicubic LR': 3.149, 'nearest LR': 0.018, 'meets_spec': True, 'params': 276732} 6068s
+distillation + ground truth 2 {'step': 3000, 'seconds': 1518.2, 'bicubic LR': 0.094, 'noisy bicubic LR': 3.147, 'nearest LR': -0.003, 'meets_spec': True, 'params': 276732} 7647s
+3x width, joint retraining, ground truth 0 {'step': 3000, 'seconds': 20211.232, 'bicubic LR': 0.089, 'noisy bicubic LR': 3.465, 'nearest LR': 0.136, 'meets_spec': True, 'params': 2447580} 30626s

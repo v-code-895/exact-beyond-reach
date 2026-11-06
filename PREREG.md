@@ -737,7 +737,7 @@ shortcut: S3's newborn arm, seeds 0–1, reused). **Predictions.** (1) The short
 as width grows. (2) At this budget, 96 channels without the shortcut stay below 48 with it: the shortcut is worth more than
 doubling the width (about 4× the parameters).
 
-### L6. Renegotiation is set by what the trainable part can reliably see (registered 2026-11-06 15:20, after L1–L5, before running)
+### L6. Renegotiation is set by what the trainable part can reliably see (registered 2026-11-06 15:17, after L1–L5, before running)
 **Why.** L1 (clean backgrounds, r = 4, σ = 2): training moved a misplaced boundary back by 7.5 columns. L2 (cat fur): only ~3, below the
 reach. Hypothesis: the renegotiable band shrinks with clutter that looks like the object, because a detector that leans its response
 toward the gate also leans into false alarms; the guarantee does not change. **Arms.** L1's task and contract (r = 4, σ = 2), plus

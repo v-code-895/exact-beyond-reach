@@ -1,0 +1,121 @@
+{
+ "foldedG_vs_catgan_torch_max_abs": 0.0,
+ "odd_eye": {
+  "wire: dense kernel column": {
+   "entries": 2048,
+   "zero_share_mean": 0.0,
+   "zero_share_min": 0.0,
+   "batches_all_zero": 0,
+   "rms_rel_existing": 0.005159983625360921
+  },
+  "wire: dense bias (RIGHT pattern)": {
+   "entries": 16,
+   "zero_share_mean": 0.0,
+   "zero_share_min": 0.0,
+   "batches_all_zero": 0,
+   "rms_rel_existing": 0.006099306748723934
+  },
+  "wire: conv incoming kernel": {
+   "entries": 21969,
+   "zero_share_mean": 0.0,
+   "zero_share_min": 0.0,
+   "batches_all_zero": 0,
+   "rms_rel_existing": 62.99865337616994
+  },
+  "wire: conv bias": {
+   "entries": 9,
+   "zero_share_mean": 0.0,
+   "zero_share_min": 0.0,
+   "batches_all_zero": 0,
+   "rms_rel_existing": 161.562750812565
+  },
+  "wire-out: wire -> existing channels (zero)": {
+   "entries": 17856,
+   "zero_share_mean": 0.0,
+   "zero_share_min": 0.0,
+   "batches_all_zero": 0,
+   "rms_rel_existing": 1.3346523727571267
+  },
+  "gate-in: detector over b5c1": {
+   "entries": 576,
+   "zero_share_mean": 0.0,
+   "zero_share_min": 0.0,
+   "batches_all_zero": 0,
+   "rms_rel_existing": 41.020124315821235
+  },
+  "gate-in: wire weight (-M)": {
+   "entries": 18,
+   "zero_share_mean": 0.0,
+   "zero_share_min": 0.0,
+   "batches_all_zero": 0,
+   "rms_rel_existing": 33.78338109838748
+  },
+  "gate-in: bias": {
+   "entries": 2,
+   "zero_share_mean": 0.0,
+   "zero_share_min": 0.0,
+   "batches_all_zero": 0,
+   "rms_rel_existing": 43.8243216412448
+  },
+  "gate-out: into the output layer": {
+   "entries": 54,
+   "zero_share_mean": 0.0,
+   "zero_share_min": 0.0,
+   "batches_all_zero": 0,
+   "rms_rel_existing": 1176.843492361039
+  },
+  "existing weights": {
+   "entries": 8128291,
+   "zero_share_mean": 2.2144876652419042e-08,
+   "zero_share_min": 0.0,
+   "batches_all_zero": 0,
+   "rms_rel_existing": 1.0
+  }
+ },
+ "odd_eye_gate_fired": {
+  "batches_with_left_firing": 50,
+  "batches_with_right_firing": 0,
+  "right_px_total": 0,
+  "left_px_total": 400392
+ },
+ "control_unwired": {
+  "unwired grown: incoming": {
+   "entries": 411040,
+   "zero_share_mean": 1.0,
+   "zero_share_min": 1.0,
+   "batches_all_zero": 50,
+   "rms_rel_existing": 0.0
+  },
+  "unwired grown: outgoing": {
+   "entries": 309168,
+   "zero_share_mean": 1.0,
+   "zero_share_min": 1.0,
+   "batches_all_zero": 50,
+   "rms_rel_existing": 0.0
+  },
+  "existing weights": {
+   "entries": 8128291,
+   "zero_share_mean": 2.4605418502687824e-08,
+   "zero_share_min": 0.0,
+   "batches_all_zero": 0,
+   "rms_rel_existing": 1.0
+  }
+ },
+ "exception_unit": {
+  "examples": 1800,
+  "unit_off": 1199,
+  "zero_gradient": 1199,
+  "mismatches": 0,
+  "off_by_class": {
+   "cat": 0,
+   "dog": 600,
+   "wild": 599
+  },
+  "of_by_class": {
+   "cat": 600,
+   "dog": 600,
+   "wild": 600
+  }
+ },
+ "seconds": 80.1727888584137
+}

@@ -1,0 +1,12 @@
+# datasets (anime faces, LLM corpora) and downloaded models
+data/
+models/
+
+# caches, checkpoints and other regenerable outputs
+results/cache/
+results/**/ckpt/
+*.pt
+*.safetensors
+
+__pycache__/
+*.pyc

@@ -1,0 +1,25 @@
+{'(a) closed form, 300 cats (paper one)': {'left_share_in_band': 0.41605839416058393, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.24003594007808715, 'right_half_max_change_float64': 1.5906823391809155e-07}}
+(b) {'left_share_in_band': 0.5182481751824818, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 0.33756955177523196, 'right_half_max_change_float64': 1.5804539788000227e-07}
+C:\Users\starb\Downloads\Weight Space Programming\followup\src\c1_trained_detector.py:101: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:836.)
+  if step % 500 == 0: log.append({"step": step, "iris": float(l_iris), "outside": float(l_out)})
+(c) Adam from (b) 0 {'left_share_in_band': 1.0, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 6.32186422124505, 'right_half_max_change_float64': 1.506725055833158e-07}
+(c) Adam from (b) 1 {'left_share_in_band': 0.9963503649635036, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 5.540277035906911, 'right_half_max_change_float64': 1.507092453056913e-07}
+(c) Adam from (b) 2 {'left_share_in_band': 1.0, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 6.074734507128596, 'right_half_max_change_float64': 1.5052218282907148e-07}
+(d) Adam, random init 0 {'left_share_in_band': 1.0, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 6.726667899638414, 'right_half_max_change_float64': 1.510719846997688e-07}
+(d) Adam, random init 1 {'left_share_in_band': 0.9927007299270073, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 5.549824023619294, 'right_half_max_change_float64': 1.5121300922515957e-07}
+(d) Adam, random init 2 {'left_share_in_band': 1.0, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 6.256376160308719, 'right_half_max_change_float64': 1.506839708564911e-07}
+(e) Adam, 8 units, random init 0 {'left_share_in_band': 0.9927007299270073, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 4.390371814370155, 'right_half_max_change_float64': 1.1884509092952023e-06}
+(e) Adam, 8 units, random init 1 {'left_share_in_band': 0.9854014598540146, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 3.796981880441308, 'right_half_max_change_float64': 1.2177316237593772e-06}
+(e) Adam, 8 units, random init 2 {'left_share_in_band': 0.9890510948905109, 'right_share_in_band': 0.0, 'rest_mae_rgb_levels': 4.757232628762722, 'right_half_max_change_float64': 1.2048957828136864e-06}
+# C1: frozen skeleton, trained detector
+
+M = 11.7; closed form on 2,000 cats chose quantile 0.97. Rebuilt (a) vs paper one: 0.0e+00.
+
+| arm | left irises in band | right irises in band | change outside the eyes (RGB levels) | right half, max change (float64) |
+|---|---|---|---|---|
+| (a) closed form, 300 cats (paper one) | 0.416 | 0.000 | 0.240 | 1.6e-07 |
+| (b) closed form, 2,000 cats | 0.518 | 0.000 | 0.338 | 1.6e-07 |
+| (c) Adam from (b) | 0.999 ± 0.002 | 0.000 ± 0.000 | 5.979 ± 0.326 | 1.5e-07 |
+| (d) Adam, random init | 0.998 ± 0.003 | 0.000 ± 0.000 | 6.178 ± 0.484 | 1.5e-07 |
+| (e) Adam, 8 units, random init | 0.989 ± 0.003 | 0.000 ± 0.000 | 4.315 ± 0.396 | 1.2e-06 |

@@ -1,0 +1,82 @@
+{
+ "log": [
+  {
+   "step": 0,
+   "right_half_gate_leak_max": 1.3709068298339844e-06,
+   "left_share_in_band": 0.41605839416058393,
+   "wire_purity_max_dev": 4.76837158203125e-07,
+   "mean_change_vs_base": 0.0021385245490819216
+  },
+  {
+   "step": 1,
+   "right_half_gate_leak_max": 0.10013094544410706,
+   "left_share_in_band": 0.0036496350364963502,
+   "wire_purity_max_dev": 1.6688637733459473,
+   "mean_change_vs_base": 0.1176275983452797
+  },
+  {
+   "step": 2,
+   "right_half_gate_leak_max": 0.220231831073761,
+   "left_share_in_band": 0.0,
+   "wire_purity_max_dev": 1.816504716873169,
+   "mean_change_vs_base": 0.18086765706539154
+  },
+  {
+   "step": 5,
+   "right_half_gate_leak_max": 0.5822351574897766,
+   "left_share_in_band": 0.0,
+   "wire_purity_max_dev": 3.9642627239227295,
+   "mean_change_vs_base": 0.2839294373989105
+  },
+  {
+   "step": 10,
+   "right_half_gate_leak_max": 0.9491819739341736,
+   "left_share_in_band": 0.0,
+   "wire_purity_max_dev": 5.934874057769775,
+   "mean_change_vs_base": 0.4077986776828766
+  },
+  {
+   "step": 20,
+   "right_half_gate_leak_max": 1.4742878675460815,
+   "left_share_in_band": 0.0,
+   "wire_purity_max_dev": 7.891514778137207,
+   "mean_change_vs_base": 0.6331129670143127
+  },
+  {
+   "step": 50,
+   "right_half_gate_leak_max": 2.1289472579956055,
+   "left_share_in_band": 0.0,
+   "wire_purity_max_dev": 10.021334648132324,
+   "mean_change_vs_base": 0.9661598205566406
+  },
+  {
+   "step": 100,
+   "right_half_gate_leak_max": 2.5216305255889893,
+   "left_share_in_band": 0.0,
+   "wire_purity_max_dev": 11.192912101745605,
+   "mean_change_vs_base": 1.247774600982666
+  },
+  {
+   "step": 200,
+   "right_half_gate_leak_max": 3.3390285968780518,
+   "left_share_in_band": 0.0,
+   "wire_purity_max_dev": 13.431449890136719,
+   "mean_change_vs_base": 1.7238637208938599
+  },
+  {
+   "step": 500,
+   "right_half_gate_leak_max": 5.794125556945801,
+   "left_share_in_band": 0.0,
+   "wire_purity_max_dev": 18.745258331298828,
+   "mean_change_vs_base": 3.4836058616638184
+  },
+  {
+   "step": 1000,
+   "right_half_gate_leak_max": 7.526760101318359,
+   "left_share_in_band": 0.0,
+   "wire_purity_max_dev": 22.086565017700195,
+   "mean_change_vs_base": 5.1387553215026855
+  }
+ ],
+ "seconds": 323.1143114566803
+}

@@ -1,0 +1,39 @@
+{
+ "model": "base",
+ "lr": 2e-05,
+ "log": [
+  {
+   "step": 0,
+   "mean_change_vs_base": 0.0
+  },
+  {
+   "step": 1,
+   "mean_change_vs_base": 0.015130339190363884
+  },
+  {
+   "step": 2,
+   "mean_change_vs_base": 0.02233019657433033
+  },
+  {
+   "step": 5,
+   "mean_change_vs_base": 0.057419613003730774
+  },
+  {
+   "step": 10,
+   "mean_change_vs_base": 0.08881722390651703
+  },
+  {
+   "step": 20,
+   "mean_change_vs_base": 0.13943280279636383
+  },
+  {
+   "step": 50,
+   "mean_change_vs_base": 0.2319084256887436
+  },
+  {
+   "step": 100,
+   "mean_change_vs_base": 0.351674884557724
+  }
+ ],
+ "seconds": 28.81773018836975
+}

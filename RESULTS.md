@@ -657,3 +657,32 @@ discriminator can treat orange as a mark of a real image, and the generator, rew
 filter. The feature filter can be satisfied without stopping (seed 1: orange cats that no longer trigger its features); the pixel
 filter cannot, so its runs drift or collapse. The safety reading is narrow but concrete: a hard output filter must not sit inside a
 fine-tuning loss in this form; whether filtering the real images the same way removes the pull is S5b's test.
+
+## A2. Distilling a guarantee (2026-11-06)
+
+Script `src/a2_guard_distill.py`; output `results/a2/` (`a2_results.md` has every seed). Teacher: paper one's "colour fold + guard"
+TinySR-18A, whose output is bounded by construction (out ≤ R + 1/255, R a smoothed copy of the input). Students: TinySR-18A's
+original architecture, 4,000 Adam steps. Largest violation of the bound over 100 attack starts, in RGB levels, mean over seeds
+0–2; in brackets, the share of starts with a violation above 1 level ("black regions": pixels whose reference is black).
+
+| model | regression gate (PSNR, dB) | whole image, no attack | whole image, ε = 16/255 | black regions, no attack | black regions, ε = 16/255 |
+|---|---|---|---|---|---|
+| teacher: colour fold + guard | PASS (25.1) | **0.00 (0%)** | **0.00 (0%)** | **0.00 (0%)** | **0.00 (0%)** |
+| (a) distilled on the 9 calibration images | PASS (24.8) | 112 (100%) | 215 (100%) | 40.5 (100%) | 56.6 (100%) |
+| (b) distilled on a broad set (+2,000 crops, 500 noise images) | PASS (25.1) | 117 (100%) | 199 (100%) | 40.4 (100%) | 60.2 (100%) |
+| (c) ground-truth fine-tune (paper one) | PASS (27.1) | 493 (100%) | 561 (100%) | 59.8 (100%) | 73.9 (100%) |
+| base model (reference) | 21.8 | 272 (100%) | 384 (100%) | 85.5 (100%) | 133 (100%) |
+
+**Against the predictions.** (1) *The teacher shows no violation above 10⁻⁶ under any attack:* **confirmed** (exactly 0.00 everywhere,
+including unconstrained attacks). (2) *Every student violates by more than 1/255 from at least half the starts at ε = 16/255:*
+**confirmed** (100% of starts, every student, every seed). (3) *(b) is harder to break than (a) but not unbreakable:* **not clearly**: over the
+whole image its violations are 7% smaller at ε = 16/255, in black regions 6% larger; 100% of starts broken either way. Amendment: *without attack, students stay within 2 levels of
+the bound in black regions on most starts:* **wrong**: they exceed it by about 40 levels on every start, attack or not.
+*At ε = 16/255 the attack lifts black regions more than 4 levels above the bound in every student:* **confirmed** (55–78 levels).
+
+**What it means.** Distillation copies behaviour, not guarantees. The distilled students match the teacher on the data (same
+regression score, gate PASS), yet violate its bound on every single start, by 40 levels in black regions before any attack, while
+the teacher's violation is exactly zero under every attack. Training on a much broader set (b), including noise images, barely
+changes the violations (7% smaller over the whole image, 6% larger in black regions). A guarantee is a property of the structure that produces it, not of the outputs it produces on the
+data; this is the converse of P4 (a contract is a certificate because of its structure) and fits E1 (a learned shield is only
+statistical). For the teacher thread: a patched teacher can pass on skill (A3) but not a guarantee.

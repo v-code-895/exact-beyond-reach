@@ -373,6 +373,24 @@ histogram correlation, and whether pose (eye positions) carries over, against sh
 (correspondence well above shuffled pairs), because it starts from cat weights and reads cat features.
 The block-2 variant reaches a lower anime Fréchet distance but keeps less correspondence.
 
+## C1c. Eight units, warm-started from the closed form (registered 2026-11-06, after C1b, before running)
+
+**Why.** In C1b, 8 randomly initialised units beat 1 unit at λ ≤ 100 but lost at λ = 1,000, where most of them died (no
+pixel above zero, so no gradient). Does starting every unit from the closed form keep them alive and make the wider
+detector dominate at every λ?
+
+**Arm.** 8 units, each the closed-form detector (C1b, q = 0.97) scaled by 1/8: since relu is positively homogeneous, the
+8 units sum exactly to the 1-unit closed form at install. Each unit's kernel gets independent noise (std 0.05 × the
+kernel's own std) to break the symmetry. Everything else as C1b (cached features, matched preservation region, Adam
+1e-3, 2,000 steps, batch 32), λ ∈ {1, 10, 100, 1,000, 10,000}, seeds 0–2. Compared against C1b's three detector types.
+
+**Metrics.** C1b's, plus dead units at the end: units with no positive pre-activation on the left half of 64 fitting
+latents.
+
+**Predictions.** (1) No unit dies at λ ≤ 1,000. (2) At λ = 1,000, ≥ 17.5% of left irises in band (the 1-unit warm start)
+at ≤ 0.006 RGB levels. (3) At λ ≤ 100, at least as many irises in band as 8 random units at no more collateral.
+(4) Right-half margin negative in every run; float64 right-half change ≤ 8 × 2 × 10⁻⁷.
+
 ## Surgery program S1–S5 (registered 2026-11-05)
 
 How a trained network treats foreign structure: does it adopt it, depend on it, heal around its loss, reject it, or

@@ -200,5 +200,8 @@ detector firing elsewhere on the left half. The trade-off is detection precision
 **What it means.** With position supplied by a frozen wire and the left/right guarantee by a frozen AND, gradient
 descent fills in the detector better than the hand-fitted rule at every collateral level measured (0.004 to ~1 RGB
 levels), from random initialisation too, and more units help except where they die. The guarantee never moves: the
-right half is unchanged to rounding in all 51 detectors. Scaffold from the patch, content from gradient descent,
-beats either alone.
+right half is unchanged to rounding in all 51 detectors. Scaffold from the patch plus content from gradient descent beats
+the hand-fitted content. Whether gradient descent alone (no scaffold) can produce the behaviour is A1's and D5's question,
+not C1b's. Caveat: Adam optimised the evaluation's own objective (iris colour plus collateral), while the closed form fits
+a classification proxy (ridge on iris vs background pixels) and a threshold; part of the gap may be the objective, not the
+optimiser.

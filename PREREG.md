@@ -658,7 +658,7 @@ cats) runs alone**, seeds 0–2, unchanged (`src/s5_filter.py 3`, results in `s5
 one that reads the output image (which can only be passed by not making orange cats). Predictions (2) and (3) are judged on
 arms 1 and 3; (1) and (4) are not tested. A follow-up filter design (S5b) is registered only if arm 3 suggests one.
 
-## L-series. The reach law: what a frozen module fixes and what training renegotiates (registered 2026-11-06 09:20, after P6b, before running)
+## L-series. The reach law: what a frozen module fixes and what training renegotiates (registered 2026-11-06 09:07, after P6b, before running)
 
 **Claim under test.** A frozen module fixes, exactly, everything beyond the reach of the trainable parts in front of it, and
 lets training renegotiate everything within that reach. Numbered by importance (the person asked for depth over breadth);

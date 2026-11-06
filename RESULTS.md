@@ -745,3 +745,33 @@ pulls a misplaced boundary back by roughly the reach plus 1.4 blob widths, i.e. 
 It follows the bound closely for networks with reach ≥ 4 and falls short for the smallest one. So the design rule is: a contract is
 exact beyond the reach of what is trainable in front of it, and anything inside that band, its boundary included, is open to
 renegotiation by training, about as far as the trainable part can see.
+
+## L2. The reach law on natural images (2026-11-06)
+
+Script `src/l_series.py l2`; output `results/l2/`. AFHQ cats at 64×64, each cyclically shifted at random, with a red disc (σ = 2);
+label = disc in the left half; trunk reach 4. Training backgrounds: 4,096 cats; test: 2,000 images on the other 1,057 cats.
+Per seed (0, 1, 2): accuracy, and the correction measured with lone-disc probes ("failed": the network output a constant). The last column
+is the accuracy ceiling 1 − (shift − 3)/64 if training moves the boundary back by 3 columns.
+
+| shift | gate boundary | accuracy (%) | correction (columns) | ceiling at a correction of 3 (%) |
+|---|---|---|---|---|
+| 0 | 32 | 96.9, 97.4, 96.7 | 0, 0, -32 |  |
+| 4 | 28 | 94.0, 95.9, 95.0 | 2, 2, 1 | 98.4 |
+| 8 | 24 | 90.1, 89.0, 74.2 | 4, 2, -2 | 92.2 |
+| 12 | 20 | 82.9, 51.2, 84.6 | 3, failed, 3 | 85.9 |
+| 16 | 16 | 80.1, 75.7, 79.5 | 4, 2, 3 | 79.7 |
+
+The circular network without a contract: 51.1%. Guarantee check (boundary at 32): an attacker repainting one input
+column moved the output by 0.37–11 logits at distances 0–3 and by **exactly 0.0 at distances 4 and 5**, in all three models.
+
+**Against the predictions.** (1) *The circular network without a contract is at chance:* **confirmed** (51.1%): the impossibility carries
+over to natural images once they are cyclically shifted. (2) *The proposition holds exactly on natural images:* **confirmed** (3 of 3).
+(3) *L1's law transfers: a correction within 1.5 columns of r + 1.42σ = 6.8, or below it but at least the reach (4):* **wrong**: training
+moved the boundary back by only about 3 columns (2–4 per run at shifts 12–16), less than the reach. The accuracies agree: within a
+point or two of the ceiling that a 3-column correction allows (after the ~3% error at the correct boundary). Two of 15 runs went wrong
+(shift 12, seed 1: constant output; shift 8, seed 2: 74%, a boundary pulled the wrong way).
+
+**What it means.** On natural images the two halves of the law separate further. The guarantee is untouched: exact beyond the reach, as on
+synthetic data. Renegotiation shrinks from about 7.5 columns on clean backgrounds (L1, r = 4, σ = 2) to about 3 on cat fur: with clutter
+around it, a detector that leans its response toward the gate also leans into false alarms, so training can use less of its reach. The
+renegotiable band is set by what the trainable part can reliably see, not only by what it can reach; the guarantee depends on reach alone.

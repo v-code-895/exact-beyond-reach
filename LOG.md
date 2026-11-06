@@ -68,3 +68,4 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | P5 | predictions: wire channel beats the ramp at every N; needs ≥ 4× the contract's samples | agent | P5 | wrong (−0.3 at N = 64; both saturated at 64) | P9b registered |
 | 2026-11-06 | E1 | prediction: weights within 1e-6 at m ≥ 12 | agent | E1 | wrong: 6–8e-4 (false positives on new text + Adam magnifies rare gradients) | recorded |
 | 2026-11-06 | E1 | validation loss +0.12 in the first 100 steps in every arm | agent | E1 | setup confound, likely cold Adam start | E1b registered: Adam warm-up + no-edit control |
+| 2026-11-06 | D2 | predictions: exact growth ends ≥ duplication; inserted blocks stay near identity | agent | D2 | both wrong (narrowly; 0.13–0.17) | recorded (written up late: finished 11-05 20:17) |

@@ -1,0 +1,25 @@
+C:\Users\starb\Downloads\Weight Space Programming\followup\src\d2_depth_growth.py:58: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:836.)
+  r["inserted_b_norm_rel"] = [float(mm.body[i][2].weight.norm()) / ref_norm for i in inserted]
+(a) exact: 3 zero-output blocks inserted 0 step 0: {'step': 0, 'bicubic LR': 0.0, 'nearest LR': 0.0, 'inserted_b_norm_rel': [0.0, 0.0, 0.0]} final: {'step': 3000, 'bicubic LR': 0.0377, 'nearest LR': 0.1144, 'inserted_b_norm_rel': [0.12523744583213053, 0.1455139848454156, 0.1707200345636682]} 811s
+(a) exact: 3 zero-output blocks inserted 1 step 0: {'step': 0, 'bicubic LR': 0.0, 'nearest LR': 0.0, 'inserted_b_norm_rel': [0.0, 0.0, 0.0]} final: {'step': 3000, 'bicubic LR': 0.0306, 'nearest LR': 0.1145, 'inserted_b_norm_rel': [0.1273015738694915, 0.14699163064674683, 0.1681217396475963]} 1599s
+(a) exact: 3 zero-output blocks inserted 2 step 0: {'step': 0, 'bicubic LR': 0.0, 'nearest LR': 0.0, 'inserted_b_norm_rel': [0.0, 0.0, 0.0]} final: {'step': 3000, 'bicubic LR': 0.0297, 'nearest LR': 0.1323, 'inserted_b_norm_rel': [0.12795049645945944, 0.1466034655293369, 0.17489208512972967]} 2369s
+(b) duplicate blocks 2-4 0 step 0: {'step': 0, 'bicubic LR': -4.6883, 'nearest LR': -4.4905, 'inserted_b_norm_rel': [0.9830239511538426, 1.055331191916672, 1.0560826839996489]} final: {'step': 3000, 'bicubic LR': 0.0431, 'nearest LR': 0.112, 'inserted_b_norm_rel': [0.9635996194795138, 1.0259009487622046, 1.0137170073449175]} 3134s
+(b) duplicate blocks 2-4 1 step 0: {'step': 0, 'bicubic LR': -4.6883, 'nearest LR': -4.4905, 'inserted_b_norm_rel': [0.9830239511538426, 1.055331191916672, 1.0560826839996489]} final: {'step': 3000, 'bicubic LR': 0.0401, 'nearest LR': 0.1271, 'inserted_b_norm_rel': [0.9631005796120722, 1.0260411463303838, 1.0147246083713404]} 3893s
+(b) duplicate blocks 2-4 2 step 0: {'step': 0, 'bicubic LR': -4.6883, 'nearest LR': -4.4905, 'inserted_b_norm_rel': [0.9830239511538426, 1.055331191916672, 1.0560826839996489]} final: {'step': 3000, 'bicubic LR': 0.0373, 'nearest LR': 0.1326, 'inserted_b_norm_rel': [0.9639939941348844, 1.026043561150702, 1.0141478112896576]} 4824s
+(c) control: 6 blocks 0 step 0: {'step': 0, 'bicubic LR': 0.0, 'nearest LR': 0.0} final: {'step': 3000, 'bicubic LR': 0.0063, 'nearest LR': 0.0042} 5468s
+(c) control: 6 blocks 1 step 0: {'step': 0, 'bicubic LR': 0.0, 'nearest LR': 0.0} final: {'step': 3000, 'bicubic LR': -0.0016, 'nearest LR': 0.0244} 6082s
+(c) control: 6 blocks 2 step 0: {'step': 0, 'bicubic LR': 0.0, 'nearest LR': 0.0} final: {'step': 3000, 'bicubic LR': -0.0012, 'nearest LR': 0.0358} 6669s
+(d) from scratch: 9 blocks 0 step 0: {'step': 0, 'bicubic LR': -18.4392, 'nearest LR': -17.1592} final: {'step': 3000, 'bicubic LR': -0.6962, 'nearest LR': -1.7683} 7433s
+(d) from scratch: 9 blocks 1 step 0: {'step': 0, 'bicubic LR': -16.0363, 'nearest LR': -14.8407} final: {'step': 3000, 'bicubic LR': -0.6748, 'nearest LR': -1.8437} 8337s
+(d) from scratch: 9 blocks 2 step 0: {'step': 0, 'bicubic LR': -17.7266, 'nearest LR': -16.4832} final: {'step': 3000, 'bicubic LR': -0.6606, 'nearest LR': -1.7264} 9401s
+# D2: exact vs approximate depth growth (TinySR-26)
+
+PSNR change against the 6-block base (dB), mean ± sd over seeds; base: {'bicubic LR': 32.52762383355035, 'nearest LR': 31.121492523617214}.
+
+| arm | step 0: bicubic / nearest | step 1,000 | step 3,000 | inserted blocks' output conv, norm relative to base blocks (final) |
+|---|---|---|---|---|
+| (a) exact: 3 zero-output blocks inserted | +0.000 ± 0.000 / +0.000 ± 0.000 | +0.017 ± 0.002 / +0.088 ± 0.010 | +0.033 ± 0.004 / +0.120 ± 0.008 | 0.127, 0.146, 0.171 |
+| (b) duplicate blocks 2-4 | -4.688 ± 0.000 / -4.491 ± 0.000 | +0.014 ± 0.002 / +0.093 ± 0.012 | +0.040 ± 0.002 / +0.124 ± 0.009 | 0.964, 1.026, 1.014 |
+| (c) control: 6 blocks | +0.000 ± 0.000 / +0.000 ± 0.000 | -0.004 ± 0.003 / +0.017 ± 0.007 | +0.001 ± 0.004 / +0.021 ± 0.013 | - |
+| (d) from scratch: 9 blocks | -17.401 ± 1.008 / -16.161 ± 0.974 | -1.162 ± 0.012 / -2.291 ± 0.046 | -0.677 ± 0.015 / -1.779 ± 0.049 | - |

@@ -1,0 +1,8 @@
+p6 boundary at column 14 256 [0.976, 0.953, 0.972] 207s
+p6 boundary at column 14 4096 [0.991, 0.985, 0.986] 410s
+p6 boundary at column 12 256 [0.982, 0.959, 0.981] 601s
+p6 boundary at column 12 4096 [0.992, 0.985, 0.988] 804s
+p6 inverted halves 256 [0.979, 0.978, 0.977] 1004s
+p6 inverted halves 4096 [0.995, 0.993, 0.992] 1197s
+p6 correct (column 16) 256 [0.979, 0.953, 0.979] 1398s
+p6 correct (column 16) 4096 [0.991, 0.977, 0.987] 1601s

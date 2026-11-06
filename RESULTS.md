@@ -159,6 +159,29 @@ learning rate degrades the generator within 500 steps; a tenth of it keeps quali
 drifts less than resuming the BatchNorm generator. Warming Adam's second moments and training the discriminator removed
 the pilot's runaway (B1 pilot: 0.12 change after one step at 2 × 10⁻⁴ with a cold optimiser and a fixed discriminator).
 
+## D2. Exact vs approximate depth growth (2026-11-05; written up 2026-11-06)
+
+Script `src/d2_depth_growth.py`; output `results/d2/`. TinySR-26 grown from 6 to 9 residual blocks, 3,000 steps, seeds 0–2. PSNR
+change against the 6-block base (dB), bicubic / nearest-LR inputs, mean over seeds:
+
+| arm | step 0 | step 1,000 | step 3,000 | inserted blocks' output conv, norm relative to the base blocks |
+|---|---|---|---|---|
+| (a) exact: three zero-output blocks inserted | 0.000 / 0.000 | +0.017 / +0.088 | +0.033 / +0.120 | 0.13, 0.15, 0.17 |
+| (b) duplicate blocks 2–4 | −4.69 / −4.49 | +0.014 / +0.093 | **+0.040 / +0.124** | 0.96, 1.03, 1.01 |
+| (c) control: keep training the 6-block base | 0.000 / 0.000 | −0.004 / +0.017 | +0.001 / +0.021 | — |
+| (d) 9 blocks from scratch (reference) | −17.4 / −16.2 | −1.16 / −2.29 | −0.68 / −1.78 | — |
+
+**Against the predictions.** (1) *(a) starts exactly at the base:* **confirmed** (0.000). *…and ends ≥ (b):* **wrong, narrowly**
+(+0.033 vs +0.040 on bicubic, +0.120 vs +0.124 on nearest; differences of 1–3 standard deviations of the seed spread). (2) *(b)
+loses PSNR at step 0 and recovers within 1,000 steps:* **confirmed** (−4.7 dB; within 0.05 dB of the base by step 250–500).
+(3) *Neither ends more than 0.1 dB above the control:* **confirmed on bicubic** (+0.03, +0.04), **wrong on nearest** (+0.10 and
++0.10 above the control's +0.02, at the limit). (4) *(a)'s inserted blocks stay close to identity (relative norm < 0.1):* **wrong**:
+they grow to 0.13–0.17 of a base block, so training does use the new depth.
+
+**What it means.** Exact growth buys a damage-free start (the network never gets worse), but not a better endpoint: within 500
+steps the crude duplicate has recovered, and after 3,000 they are equal. For depth, exactness matters for continuity, not for
+where training ends. Both deeper networks gain a little over the control, mostly on nearest-LR inputs, so the extra depth is used.
+
 ## C1b. The detector's trade-off curve (2026-11-06)
 
 Script `src/c1b_tradeoff.py`; output `results/c1b/` (table, every detector, figure `fig_c1b_tradeoff.png`); 45 Adam runs

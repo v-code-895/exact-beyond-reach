@@ -1,0 +1,4 @@
+p5 (f) binary wire as an input channel 64 [0.978, 0.975, 0.976] 201s
+p5 (f) binary wire as an input channel 256 [0.989, 0.991, 0.991] 402s
+p5 (f) binary wire as an input channel 1024 [0.992, 0.98, 0.995] 603s
+p5 (f) binary wire as an input channel 4096 [0.992, 0.99, 0.996] 793s

@@ -1,0 +1,18 @@
+P6b boundary 16 seed 0 {'acc': 0.992, 'columns_called_left': 16, 'columns_wrong': [], 'extent_left': 4, 'extent_right': 4, 'centroid': -0.034} 51s
+P6b boundary 16 seed 1 {'acc': 0.972, 'columns_called_left': 16, 'columns_wrong': [], 'extent_left': 4, 'extent_right': 4, 'centroid': 0.026} 76s
+P6b boundary 16 seed 2 {'acc': 0.986, 'columns_called_left': 16, 'columns_wrong': [], 'extent_left': 5, 'extent_right': 5, 'centroid': -0.053} 100s
+P6b boundary 14 seed 0 {'acc': 0.99, 'columns_called_left': 16, 'columns_wrong': [], 'extent_left': 5, 'extent_right': 4, 'centroid': -0.987} 124s
+P6b boundary 14 seed 1 {'acc': 0.974, 'columns_called_left': 16, 'columns_wrong': [], 'extent_left': 5, 'extent_right': 3, 'centroid': -0.954} 157s
+P6b boundary 14 seed 2 {'acc': 0.991, 'columns_called_left': 16, 'columns_wrong': [], 'extent_left': 6, 'extent_right': 3, 'centroid': -1.149} 218s
+P6b boundary 12 seed 0 {'acc': 0.982, 'columns_called_left': 16, 'columns_wrong': [], 'extent_left': 6, 'extent_right': 2, 'centroid': -2.234} 254s
+P6b boundary 12 seed 1 {'acc': 0.982, 'columns_called_left': 16, 'columns_wrong': [], 'extent_left': 6, 'extent_right': 3, 'centroid': -1.919} 281s
+P6b boundary 12 seed 2 {'acc': 0.991, 'columns_called_left': 16, 'columns_wrong': [], 'extent_left': 7, 'extent_right': 3, 'centroid': -2.037} 308s
+P6b boundary 10 seed 0 {'acc': 0.979, 'columns_called_left': 16, 'columns_wrong': [], 'extent_left': 7, 'extent_right': 3, 'centroid': -2.747} 334s
+P6b boundary 10 seed 1 {'acc': 0.978, 'columns_called_left': 15, 'columns_wrong': [15], 'extent_left': 7, 'extent_right': 1, 'centroid': -2.7} 361s
+P6b boundary 10 seed 2 {'acc': 0.988, 'columns_called_left': 16, 'columns_wrong': [], 'extent_left': 7, 'extent_right': 3, 'centroid': -2.803} 392s
+P6b boundary 8 seed 0 {'acc': 0.933, 'columns_called_left': 14, 'columns_wrong': [14, 15], 'extent_left': 7, 'extent_right': 4, 'centroid': -2.381} 453s
+P6b boundary 8 seed 1 {'acc': 0.944, 'columns_called_left': 15, 'columns_wrong': [15], 'extent_left': 7, 'extent_right': 5, 'centroid': -2.132} 490s
+P6b boundary 8 seed 2 {'acc': 0.949, 'columns_called_left': 15, 'columns_wrong': [15], 'extent_left': 7, 'extent_right': 5, 'centroid': -2.17} 517s
+P6b boundary 4 seed 0 {'acc': 0.819, 'columns_called_left': 11, 'columns_wrong': [11, 12, 13, 14, 15], 'extent_left': 8, 'extent_right': 8, 'centroid': 0.103} 544s
+P6b boundary 4 seed 1 {'acc': 0.822, 'columns_called_left': 11, 'columns_wrong': [11, 12, 13, 14, 15], 'extent_left': 7, 'extent_right': 7, 'centroid': -0.071} 570s
+P6b boundary 4 seed 2 {'acc': 0.828, 'columns_called_left': 12, 'columns_wrong': [12, 13, 14, 15], 'extent_left': 7, 'extent_right': 8, 'centroid': 0.172} 597s

@@ -507,6 +507,39 @@ contract's sample cost of the second rule is small (d2 at N = 1,024 within 3 poi
 Fit test error ≈ a · N^(−b) per arm on P1's N grid (and P5's). **Prediction.** The contract changes the constant a by ≥ 10×
 at the smallest N; whether it also changes the exponent b is open (no prediction).
 
+## P6b, P7b, P9b. Follow-ups to P5–P7 (registered 2026-11-06 07:10, after P5–P7, before running)
+
+Script `src/p_ext.py`. Initialisation now seeded per run (P2–P7 seeded only the batches).
+
+### P6b. How far can training move a frozen boundary?
+**Why.** P6: contracts with the boundary at column 14 or 12 were as accurate as the correct one (98.7–98.8% at N = 4,096), not
+capped at 93.75% / 87.5%. Hypothesis: the gate is frozen but the detector feeding it is not; a shift-equivariant detector can
+still place its response off-centre (up to its receptive-field radius, 4, plus the blob's own extent), so the *effective*
+boundary of gate ∘ detector can move back to 16. **Arms.** (d) with the boundary at columns 16, 14, 12, 10, 8, 4; N = 4,096;
+seeds 0–2. **Probe.** A lone red blob (no distractors) centred at every column c + 0.5, four rows, two noise draws: the share
+called "left" per column; the number of columns called left; the detector's response profile around the blob (|change in the
+clamped score| that the blob causes, rows within 3 of its centre, aligned on its column): extent left and right (> 10% of the
+peak) and centroid. **Predictions.** (1) Accuracy is non-increasing in the shift 16 − b; b = 10 within 2 points of b = 16;
+b = 4 below 90%. (2) For b ∈ {16, 14, 12}, 16 ± 1 columns are called left (training moves the boundary back). (3) The response
+leans left when the boundary does: centroid for b = 12 at least 1 column further left than for b = 16, and extent_left −
+extent_right at least 2 larger.
+
+### P7b. Composing contracts: is the linear readout the bottleneck?
+**Why.** P7: two contracts with a linear readout of the two evidences reached 91–93% balanced accuracy, below the coordinate
+ramps (97–98%) and below the 95% predicted. Hypothesis: AND of two graded evidences (a blob straddling a boundary gives partial
+evidence) needs a threshold on each before combining, which a linear readout cannot do. **Arms.** (d2) as in P7 (re-run with
+seeded initialisation); (d2m) the same with an MLP readout (2 → 16 → 1, ReLU). N ∈ {256, 1,024, 4,096}; seeds 0–2.
+Also recorded: share of errors with the red blob's column or the blue blob's row within 1.5 of a boundary (base rate in the test
+set reported alongside). **Predictions.** (1) (d2m) ≥ 95% at N = 1,024. (2) (d2m) beats (d2) by ≥ 2 points at every N.
+
+### P9b. Small-N learning curves
+**Why.** P1's grid started at N = 64, where the coordinate channel (c), the contract (d) and (P5) the wire as an input channel (f)
+were all already at 97–99%: the "fewest samples" question was asked too late. **Arms.** (c), (d), (f); N ∈ {8, 16, 32};
+seeds 0–4. Then P9's fit (test error ≈ a · N^(−b), N from 8 to 4,096, means over seeds). **Predictions.** (1) (d) beats (c) by
+≥ 5 points at N = 8 and at N = 16 (the contract only has to learn what red is; (c) must also learn where). (2) (f) lies between
+(c) and (d) at N = 8. (3) P9's: the contract's constant a is ≥ 10× smaller than zero padding's (b) at the smallest common N;
+no prediction about the exponent.
+
 ## C1d. Eight units, split on the output side (registered 2026-11-06, after C1c, before running)
 
 **Why.** C1c split the closed-form unit on the input side (kernel and bias × 1/8); Adam's roughly fixed step per parameter is

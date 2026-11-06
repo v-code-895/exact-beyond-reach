@@ -23,4 +23,12 @@ case "$1" in
     run small 2500 S4 results/s4/run.log src/s4_transplant.py
     run small 2500 S2 results/s2/run.log src/s2_lesion_atlas.py
     run small 2500 A2 results/a2/run.log src/a2_guard_distill.py ;;
+  chain2)   # 07:10: P-series follow-ups first (short), then the surgery jobs
+    run small 1200 P6b results/p6b/run.log src/p_ext.py p6b
+    run small 1200 P9b results/p9b/run.log src/p_ext.py p9b
+    run small 1200 P7b results/p7b/run.log src/p_ext.py p7b
+    run small 2500 S1 results/s1/run.log src/s1_domestication.py
+    run small 2500 S4 results/s4/run.log src/s4_transplant.py
+    run small 2500 S2 results/s2/run.log src/s2_lesion_atlas.py
+    run small 2500 A2 results/a2/run.log src/a2_guard_distill.py ;;
 esac

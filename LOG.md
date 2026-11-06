@@ -61,3 +61,7 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | S3 | prediction: the healed network is ahead of a newborn at every evaluation | agent | S3 | wrong: behind for 1,100–1,600 steps, ahead after | recorded |
 | 2026-11-06 | S3 | predictions: heals to within 0.5 dB; re-attached heals to within 0.1 dB in 500 steps | agent | S3 | wrong: 0.81 dB short; 800 steps | recorded |
 | 2026-11-06 | P4 | prediction: the coordinate-channel network loses ≥ 30 points at ε = 32/255 | agent | P4 | wrong: 13 on average (0.3 to 22 by seed) | recorded |
+| 2026-11-06 | P6 | wrong contracts (boundary at 14 or 12) as accurate as the correct one | agent | P6 | prediction wrong: no cap | P6b registered: how far training moves a frozen boundary |
+| 2026-11-06 | P7 | composed contracts below prediction (91–93%) | agent | P7 | prediction wrong | P7b registered: MLP readout |
+| 2026-11-06 | P1/P9 | sample-efficiency question asked at N ≥ 64, where all position-aware arms had saturated | agent | P1, P5 | design gap | P9b registered: N = 8, 16, 32 |
+| 2026-11-06 | queue | P6b, P9b, P7b run in the second lane before S1 (short; they close the contract thread) | agent | — | ordering | run_queue2.sh chain2 |

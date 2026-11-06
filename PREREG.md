@@ -222,6 +222,14 @@ the students' scores on paper one's regression gate.
 its bound by more than 1/255 from at least half of the starts at ε = 16/255. (b) is harder to break
 than (a) but not unbreakable.
 
+**Amendment (2026-11-05, before any A2 run).** A smoke test showed that the unguarded base exceeds
+R + 1/255 by up to 168 RGB levels on random noise: any sharpening overshoots a smoothed copy of the
+input at highlights, so the whole-image prediction above is close to trivial. The guard exists so that
+black neighbourhoods stay black. Added: a second attack and metric restricted to pixels whose
+reference is black (R < 0.02 in every channel), with these predictions. Without attack, students (a)–(c)
+stay within 2 levels of the bound in black regions on most starts. At ε = 16/255, the attack lifts
+black regions more than 4 levels above the bound in every student. The teacher stays within 10⁻⁶.
+
 ## A4. Mode connectivity (registered 2026-11-05; analysis only, after A1)
 
 **Question.** Is the hand-wired solution in the same basin as solutions gradient descent finds?

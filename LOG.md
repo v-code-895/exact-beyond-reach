@@ -19,3 +19,4 @@ Same practice as paper one's Table 11.
 | 2026-11-05 | E1 | models: Pythia-160M (GELU MLP) and SmolLM2-135M (SwiGLU MLP); corpus: pile-10k | agent | person allowed ~40 GB, "smaller LLMs" | adopted | revisions in results/e1_downloads.json |
 | 2026-11-05 | E1 | upgrade Pillow so transformers imports | agent | paper one pins pillow 9.0.1 (rasterisation differs across versions) | rejected | alias PIL.Image.Resampling in llm_common.py instead |
 | 2026-11-05 | D4 | anime faces dataset supplied by the person (63,565 images, ~80–100 px) | person | it is not the 21,551-image 64×64 set the anime generator was trained on | noted | D4 entry must state which set it trains on |
+| 2026-11-05 | A2 | whole-image bound violation as the attack target | agent | smoke test: the unguarded base exceeds R + 1/255 by 168 levels on noise (sharpening overshoot), so the prediction is near-trivial | amended before running | added a black-region attack and metric (R < 0.02), with predictions |

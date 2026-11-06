@@ -79,3 +79,4 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | S5 | prediction: the generator makes fewer orange cats behind a frozen filter | agent | S5 arms 1, 3 | wrong, opposite direction: more orange in all six runs, then collapse or evasion | S5b registered: filter real images too (mechanism test), queued last |
 | 2026-11-06 | A2 | amendment prediction: students stay within 2 levels in black regions without attack | agent | A2 | wrong: ~40 levels on every start | recorded |
 | 2026-11-06 | L5 | prediction: the shortcut is worth more than doubling the width | agent | L5 | wrong: about 1.7x at 48 channels | recorded |
+| 2026-11-06 | L1 | predictions: one-constant law within 1.5 columns everywhere; accuracy cap formula within 3 points | agent | L1 | wrong as stated (r=2,σ=1 −1.9; wide blobs at r=4 ≥ +3.3; cap formula ignores base error) | recorded; the guarantee half confirmed exactly |

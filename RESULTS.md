@@ -708,3 +708,40 @@ worth about 1.7× the width at 48 channels (about 2.9× the parameters), not mor
 24-channel network, 1.7× to a 48-channel one, and roughly 1.4× (extrapolated) to a 96-channel one. Small networks lean on installed
 structure most, which is also where S3 found the network deleting its own copy. At the other end, P1's proof says no width at all
 substitutes for a contract when the task is impossible; L5's toy part checks that end directly.
+
+## L1. The reach law on P1's task (2026-11-06)
+
+Script `src/l_series.py l1`; output `results/l1/` (analysis `l1_analysis.json`, figure `fig_l1_reach_law.png`). 72 runs: trunk reach r ∈ {2, 4, 6}
+(conv layers) × blob width σ ∈ {1, 2, 3} × gate boundary b ∈ {16, 12, 8, 4} × seeds 0–1.
+
+**Guarantee side (the proposition).** On all 18 models with the boundary at 16, an attacker who may repaint one input column freely
+moved the output by up to 45 logits at the boundary, by 0.014–8 logits at distance r − 1, and by **exactly 0.0 at every distance ≥ r**.
+The edge of the guarantee is sharp and sits exactly at the trainable trunk's reach, as the proposition says it must.
+
+**Renegotiation side.** How far training moved a misplaced boundary back (k*, columns; the largest correction over b = 12, 8, 4, mean of
+seeds; "≥" where it came within one column of the shift itself, so the true reach may be larger):
+
+| reach r | σ = 1 | σ = 2 | σ = 3 |
+|---|---|---|---|
+| 2 | 1.5 | 4.5 | 6.5 |
+| 4 | 5.0 | 7.5 | ≥ 11.5 |
+| 6 | 7.0 | 9.5 | ≥ 11.0 |
+
+Fit k* = r + a·σ over the seven uncensored cells: a = 1.42; residuals −0.4 to +0.7 columns in six cells, −1.9 for r = 2, σ = 1.
+Two of 72 runs failed outright (r = 6 with a large shift; the network output a constant, 49.7%) and are excluded.
+
+**Against the predictions.** (1) *Exactly 0.0 at d ≥ r and > 10⁻³ at d = r − 1, every model:* **confirmed** (18 of 18). (2) *k* increases
+with r at each σ and does not decrease with σ:* **confirmed** where measurable (σ = 3 reaches the cap at r ≥ 4). (3) *k* = r + a·σ with one
+constant, every residual ≤ 1.5 columns, 1 ≤ a ≤ 2.5:* **wrong as stated**: a = 1.42 fits six of seven cells within 0.7 columns, but the
+smallest network with the smallest blob falls 1.9 short, and wide blobs at r = 4 reach at least 3.3 further than the line. (4) *Where the
+correction falls short, accuracy = 1 − (16 − b − k*)/32 within 3 points:* **wrong as stated**: 9 of 16 cells; the formula ignores the
+2–5% error that remains even at the correct boundary, and accuracy sits on average 2.9 points below it. (5) *At b = 16, accuracy ≥ 93%:*
+**confirmed** (95.0–98.9%).
+
+**What it means.** The two halves of the law are different kinds of statement. The guarantee is a theorem: whatever training does,
+nothing beyond the trainable parts' reach can move the output, and the experiment finds the edge exactly there, a drop from
+logit changes of up to 45 to exactly zero within one column. Renegotiation is an empirical quantity bounded by the same reach: training
+pulls a misplaced boundary back by roughly the reach plus 1.4 blob widths, i.e. by as far as the detector can still see the object.
+It follows the bound closely for networks with reach ≥ 4 and falls short for the smallest one. So the design rule is: a contract is
+exact beyond the reach of what is trainable in front of it, and anything inside that band, its boundary included, is open to
+renegotiation by training, about as far as the trainable part can see.

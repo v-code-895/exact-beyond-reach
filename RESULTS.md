@@ -205,3 +205,30 @@ the hand-fitted content. Whether gradient descent alone (no scaffold) can produc
 not C1b's. Caveat: Adam optimised the evaluation's own objective (iris colour plus collateral), while the closed form fits
 a classification proxy (ridge on iris vs background pixels) and a threshold; part of the gap may be the objective, not the
 optimiser.
+
+## C1c. Eight units, warm-started from the closed form (2026-11-06)
+
+Script `src/c1c_warm_units.py`; output `results/c1c/`. 8 units, each the closed-form detector scaled by 1/8 (exactly the
+closed form at install, checked to 2.4 × 10⁻⁷) plus symmetry-breaking noise; otherwise as C1b. Seeds 0–2.
+
+| λ | left irises in band | change outside the eyes (RGB levels) | dead units of 8 (per seed) | C1b, 8 random units | C1b, 1 warm unit |
+|---|---|---|---|---|---|
+| 1 | 98.1 ± 0.6% | 3.16 | 4, 5, 3 | 97.6% at 2.78 | 99.3% at 4.54 |
+| 10 | 90.5 ± 0.5% | 0.87 | 5, 4, 3 | 92.8% at 0.86 | 87.1% at 1.06 |
+| 100 | **72.9 ± 2.7%** | 0.12 | 4, 4, 6 | 66.3% at 0.12 | 57.2% at 0.09 |
+| 1,000 | **0%** | 0.00 | **8, 8, 8** | 7.8% at 0.006 | 17.5% at 0.004 |
+| 10,000 | 0% | 0.00 | 8, 8, 8 | 0% | 0.7% |
+
+**Against the predictions.**
+1. *No unit dies at λ ≤ 1,000.* **Wrong**: 3–6 of 8 die even at λ ≤ 100; all 8 die at λ = 1,000 in every seed.
+2. *≥ 17.5% at λ = 1,000.* **Wrong**: 0%.
+3. *At λ ≤ 100, at least as many irises as 8 random units at no more collateral.* **Mixed**: confirmed at λ = 100 (72.9% vs
+   66.3% at the same collateral, the best point on any curve at ~0.12 levels); wrong at λ = 10 (90.5% vs 92.8%); undecided
+   at λ = 1 (more irises, more collateral).
+4. *Right-half margin negative; float64 change ≤ 8 × 2 × 10⁻⁷.* **Confirmed** (≥ 10.9 below; ≤ 1.3 × 10⁻⁶).
+
+**Why the warm units die.** The split scaled each unit's inputs (kernel and bias) by 1/8. Adam moves every parameter by about
+the learning rate whatever its scale, so each copy's bias steps are 8× larger relative to its own pre-activation than the
+single unit's; and the copies are nearly identical, so the preservation penalty pushes them down together and they die
+together. The same split can be made on the output side instead (each unit keeps the full detector, output weight 1/8), also
+exactly the closed form at install but with the single unit's scale: C1d.

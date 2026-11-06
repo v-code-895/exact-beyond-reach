@@ -501,6 +501,16 @@ contract's sample cost of the second rule is small (d2 at N = 1,024 within 3 poi
 Fit test error ≈ a · N^(−b) per arm on P1's N grid (and P5's). **Prediction.** The contract changes the constant a by ≥ 10×
 at the smallest N; whether it also changes the exponent b is open (no prediction).
 
+## C1d. Eight units, split on the output side (registered 2026-11-06, after C1c, before running)
+
+**Why.** C1c split the closed-form unit on the input side (kernel and bias × 1/8); Adam's roughly fixed step per parameter is
+then 8× larger relative to each copy, and the copies died together. **Arm.** 8 units, each the full closed-form kernel and bias
+(C1b, q = 0.97) plus independent noise (std 0.05 × the kernel's std), with fixed output weights c_k = 1/8: exactly the closed
+form at install (the units' relu outputs average). Everything else as C1b/C1c; λ ∈ {1, 10, 100, 1,000, 10,000}; seeds 0–2.
+**Predictions.** (1) Fewer than 8 units die at λ = 1,000 in every seed, and none die at λ ≤ 100. (2) At λ = 1,000, ≥ 17.5% of
+left irises in band (the 1-unit warm start). (3) At λ = 100, ≥ 66.3% (C1b's 8 random units) at ≤ 0.12 RGB levels.
+(4) Right-half margin negative; float64 right-half change ≤ 8 × 2 × 10⁻⁷.
+
 ## Surgery program S1–S5 (registered 2026-11-05)
 
 How a trained network treats foreign structure: does it adopt it, depend on it, heal around its loss, reject it, or

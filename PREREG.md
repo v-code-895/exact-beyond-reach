@@ -658,6 +658,70 @@ cats) runs alone**, seeds 0–2, unchanged (`src/s5_filter.py 3`, results in `s5
 one that reads the output image (which can only be passed by not making orange cats). Predictions (2) and (3) are judged on
 arms 1 and 3; (1) and (4) are not tested. A follow-up filter design (S5b) is registered only if arm 3 suggests one.
 
+## L-series. The reach law: what a frozen module fixes and what training renegotiates (registered 2026-11-06 09:20, after P6b, before running)
+
+**Claim under test.** A frozen module fixes, exactly, everything beyond the reach of the trainable parts in front of it, and
+lets training renegotiate everything within that reach. Numbered by importance (the person asked for depth over breadth);
+the queue runs them in this order. Script `src/l_series.py` (L1–L4, L5's toy part) and `src/l5_exchange.py` (L5's TinySR part).
+
+**Proposition (guarantee side; holds for all weights).** In P1's contract, each score pixel depends only on input pixels within
+the trunk's receptive-field radius r (D conv 3×3 layers: r = D), and the gate passes score columns 0–15 only (|u| ≤ B < M after
+the clamp). So input column c can change the output only if its cyclic distance to columns 0–15 is < r + 1, i.e. c ∈ [16, 15 + r]
+or c ∈ [32 − r, 31]. Columns 16 + r … 31 − r cannot change it, for any weights.
+**Bound (renegotiation side).** A blob centred at column x changes input pixels appreciably only within about e(σ) columns of x,
+so the detector's response to it can appear at most r + e(σ) columns away: training can move the effective boundary by at most
+r + e(σ). Whether training actually reaches this bound is the empirical question (P6b: r = 4, σ = 2, moved 7.3 columns).
+
+### L1. The reach law on P1's task (synthetic)
+**Grid.** Trunk depth D ∈ {2, 4, 6} (r = D, 32 channels, circular padding); blob width σ ∈ {1, 2, 3} (all three blobs; data as P1
+otherwise); gate boundary b ∈ {16, 12, 8, 4}; N = 4,096, 2,000 steps, Adam 10⁻³; seeds 0–1 (72 runs; initialisation seeded).
+**Measures.** Accuracy (4,000 test images). Effective boundary: probes with a lone red blob (width σ) centred at every column,
+4 rows × 2 noise draws; the effective boundary is the first column (from 0) called "left" in fewer than half the probes; the
+correction is effective boundary − b, and k*(r, σ) is the largest correction over b < 16 (mean over seeds). Guarantee check on the
+b = 16 models: PGD (ε = 1, i.e. the column may be repainted freely, 50 steps, 250 test images) confined to one input column
+c = 16 + d, d = 0 … r + 1; largest logit change.
+**Predictions.** (1) *Proposition:* the largest logit change is exactly 0.0 for every model at every d ≥ r, and > 10⁻³ at d = r − 1
+for every model (the trained detector reads its full reach). (2) k* increases with r at each σ and does not decrease with σ at
+each r. (3) *The law:* k*(r, σ) = r + a·σ with a single constant a fitted over the 9 cells, every residual ≤ 1.5 columns, and
+1 ≤ a ≤ 2.5. (4) Where b + k* < 16, accuracy = 1 − (16 − b − k*)/32 within 3 points. (5) At b = 16, accuracy ≥ 93% in every cell.
+
+### L2. The reach law on natural images
+**Task.** AFHQ training cats at 64×64, each cyclically shifted by a uniform random offset (so the distribution is invariant to
+cyclic shifts, and the circular network's impossibility proof applies), with a red Gaussian disc (σ = 2) at a uniform random
+centre; label = disc centre in the left half. The cats themselves are the distractors (orange fur is close to red).
+Training backgrounds: cats 0–4,095; test: the remaining cats, fresh shifts and discs (2,000 images).
+**Arms.** Contract (trunk depth 4, r = 4, circular), boundary b = 32 − shift, shift ∈ {0, 4, 8, 12, 16}; N = 4,096, 2,000
+steps, seeds 0–2. Check arm: the circular network without a contract (b = 32 only), seed 0. Same probes (a lone disc on test
+backgrounds, every column) and the same guarantee check (columns 32 + d).
+**Predictions.** (1) The circular network without a contract is at chance (50 ± 2%). (2) The proposition holds exactly on natural
+images (0.0 for d ≥ 4). (3) L1's law transfers: k* on natural images is within 1.5 columns of r + a·σ with a from L1 (or below
+it, if clutter hides the disc's tail, but ≥ r).
+
+### L3. Does the network's own approximate solution wither once a contract supplies the exact one?
+**Arms.** Pretrain P1's zero-padding network (b) on N = 4,096 for 2,000 steps (it learns position from the borders, ~79%); seeds
+0–2. Then 2,000 more steps on the same data: (i) control, continued as is; (ii) the same network with P1's contract installed on
+its score map (gate on the left half, frozen clamp; zero padding kept). Checkpoints at steps 0, 100, 250, 500, 1,000, 2,000.
+**Measures.** Each arm's accuracy; the trunk's own position code: a logistic-regression probe from the globally pooled trunk
+features (32 numbers) to the label, fitted on 2,000 training images and tested on 2,000 test images; the probe's accuracy is what
+the network could still do without the contract.
+**Predictions.** (1) Control: probe ≥ 75% throughout. (2) Contract: task accuracy ≥ 95% by step 500. (3) Contract: the probe falls by
+≥ 10 points by step 2,000 (the unused position code withers). If (3) fails, unused copies persist, and S3's deletion needs the copy
+to be harmful (there it double-counted); either outcome is reported.
+
+### L4. Adding a skill without forgetting the old one
+**Arms.** As P3: circular networks pretrained on "is there a red blob?" (seeds 0–2). Add the "left" task from N = 32 labels,
+300 steps, keeping the original head (mean score > 0) and evaluating it after: (A) P3's contract on the shared score map, everything
+trainable; (B) an unconstrained new head: 1×1 conv on [trunk features, x-ramp] → ReLU (16) → 1×1 conv → mean; trunk trainable.
+**Predictions.** (1) A's left-task accuracy ≥ B's + 5 points. (2) A's original-task accuracy drops by ≤ 2 points, and less than B's.
+
+### L5. What a module is worth: the exchange rate between structure and width
+**Impossible end (toy).** P1's circular network (no contract) at 16, 64 and 256 channels, N = 4,096, seed 0: 50 ± 2% at every
+width (the proof: no width helps). **Finite end (TinySR).** TinySR-26's architecture from random initialisation at 24, 48 and 96
+channels, with and without the bicubic shortcut, 3,000 steps (S3's budget and objective), seeds 0–1 (48 channels without the
+shortcut: S3's newborn arm, seeds 0–1, reused). **Predictions.** (1) The shortcut's gain (dB, with − without, bicubic LR) shrinks
+as width grows. (2) At this budget, 96 channels without the shortcut stay below 48 with it: the shortcut is worth more than
+doubling the width (about 4× the parameters).
+
 ## Not yet registered
 
 B1 (waits for the setup choice above), E2, F1, and the deferred B4–B6, C2–C4, D1, D3, D6, D7: each gets an entry

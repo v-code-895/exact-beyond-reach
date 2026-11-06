@@ -335,7 +335,7 @@ neighbours unchanged, validation loss +0.07). Survival is therefore judged on th
 construction): the edit survives if ≥ 16/20 keep Rome top-1 at step 1,000 (m ≥ 12); the fine-tuned edit decays to ≤ 10/20.
 Held-out paraphrases are still reported.
 
-## E1b. The shielded edit under continued training that does not damage the model (registered 2026-11-06 08:10, after E1, before running)
+## E1b. The shielded edit under continued training that does not damage the model (registered 2026-11-06 07:55, after E1, before running)
 
 **Why.** In E1 the continued training itself damaged Pythia (validation loss +0.12 within 100 steps in every arm, about half the
 neighbouring prompts changed), so edit survival was confounded with general drift. A CPU check on identical batches (batch

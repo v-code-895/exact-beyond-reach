@@ -6,8 +6,9 @@ trainable parts in front of it, and training renegotiates everything within that
   l3     does the network's own (border-based) position code wither once a contract supplies position?
   l4     adding a skill through a contract without forgetting the old one
   l5toy  the impossible end of the exchange rate: the circular network at 16, 64, 256 channels
+  l6     renegotiation vs clutter: L1's task (r = 4, sigma = 2) with 0, 2 or 6 orange distractor blobs
 
-  <venv python> followup/src/l_series.py l1|l2|l3|l4|l5toy [--smoke]
+  <venv python> followup/src/l_series.py l1|l2|l3|l4|l5toy|l6 [--smoke]
 """
 import copy, sys, time
 import numpy as np
@@ -215,9 +216,33 @@ def l5toy(R, t0, out):
         m = fit(lambda: Plain(4, ch), Xtr, ytr, len(Xtr), 0); R[str(ch)] = {"test_acc": Q.acc(m, Xte, yte), "train_acc": Q.acc(m, Xtr, ytr)}
         print("L5 toy, circular, channels", ch, R[str(ch)], f"{time.time() - t0:.0f}s", flush=True); C.save_json(R, f"{out}/l5toy_results.json")
 
+# ---------------------------------------------------------------- L6
+ORANGE = np.array((0.9, 0.45, 0.1), np.float32)
+def make_clutter(n, seed, n_orange, sigma=2.0, size=32):
+    """L1's task plus n_orange orange distractor blobs (same width), drawn before the red blob."""
+    rng = np.random.default_rng(seed); X = 0.5 + 0.05 * rng.standard_normal((n, 3, size, size)).astype(np.float32); y = np.zeros(n, np.float32)
+    for i in range(n):
+        for name in ("green", "blue") + ("orange",) * n_orange + ("red",):
+            cx, cy = rng.uniform(0, size, 2); X[i] = blob(X[i], cx, cy, sigma, ORANGE if name == "orange" else np.array(P.COLS[name], np.float32), size)
+            if name == "red": y[i] = float(cx < size / 2)
+    return torch.from_numpy(X), torch.from_numpy(y)
+
+def l6(R, t0, out):
+    Xp, cols = probes_synthetic(2.0)
+    for no in ((0, 2, 6) if not SMOKE else (0, 6)):
+        Xtr, ytr = make_clutter(4096 if not SMOKE else 512, 1, no); Xte, yte = make_clutter(4000 if not SMOKE else 500, 2, no); R[str(no)] = {}
+        for b in ((16, 12, 8, 4) if not SMOKE else (16, 4)):
+            R[str(no)][str(b)] = []
+            for seed in ((0, 1) if not SMOKE else (0,)):
+                m = fit(lambda: Contract(4, b), Xtr, ytr, len(Xtr), seed); eff, share = effective_boundary(m, Xp, cols, 32)
+                r = {"seed": seed, "acc": Q.acc(m, Xte, yte), "effective_boundary": eff, "correction": eff - b, "left_share_by_column": share}
+                if b == 16: r["guarantee_max_logit_change_by_d"] = guarantee(m, Xte, yte, 4, 16)
+                R[str(no)][str(b)].append(r); print("L6 orange", no, "b", b, "seed", seed, {k: v for k, v in r.items() if k != "left_share_by_column"}, f"{time.time() - t0:.0f}s", flush=True)
+            C.save_json(R, f"{out}/l6_results.json")
+
 def main(which):
     t0 = time.time(); out = C.out_dir(which + ("_smoke" if SMOKE else "")); R = {"smoke": SMOKE}
-    {"l1": l1, "l2": l2, "l3": l3, "l4": l4, "l5toy": l5toy}[which](R, t0, out); R["seconds"] = time.time() - t0; C.save_json(R, f"{out}/{which}_results.json")
+    {"l1": l1, "l2": l2, "l3": l3, "l4": l4, "l5toy": l5toy, "l6": l6}[which](R, t0, out); R["seconds"] = time.time() - t0; C.save_json(R, f"{out}/{which}_results.json")
 
 if __name__ == "__main__":
     main(sys.argv[1])

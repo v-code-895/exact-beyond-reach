@@ -737,6 +737,15 @@ shortcut: S3's newborn arm, seeds 0–1, reused). **Predictions.** (1) The short
 as width grows. (2) At this budget, 96 channels without the shortcut stay below 48 with it: the shortcut is worth more than
 doubling the width (about 4× the parameters).
 
+### L6. Renegotiation is set by what the trainable part can reliably see (registered 2026-11-06 15:20, after L1–L5, before running)
+**Why.** L1 (clean backgrounds, r = 4, σ = 2): training moved a misplaced boundary back by 7.5 columns. L2 (cat fur): only ~3, below the
+reach. Hypothesis: the renegotiable band shrinks with clutter that looks like the object, because a detector that leans its response
+toward the gate also leans into false alarms; the guarantee does not change. **Arms.** L1's task and contract (r = 4, σ = 2), plus
+0, 2 or 6 orange distractor blobs (0.9, 0.45, 0.1; same width) per image; boundary b ∈ {16, 12, 8, 4}; N = 4,096; seeds 0–1
+(`src/l_series.py l6`). Same probes (a lone red blob, no clutter) and guarantee check as L1.
+**Predictions.** (1) k* decreases as the number of orange distractors grows. (2) With none, k* within 1.5 of L1's 7.5; with six,
+k* < 4 (below the reach). (3) The guarantee is exact at every clutter level (0.0 at distances ≥ 4, all models).
+
 ## Not yet registered
 
 B1 (waits for the setup choice above), E2, F1, and the deferred B4–B6, C2–C4, D1, D3, D6, D7: each gets an entry

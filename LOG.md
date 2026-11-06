@@ -54,3 +54,4 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | C1d | prediction: no dead units at λ ≤ 100 | agent | C1d | narrowly wrong (1 of 8 in 3 of 9 runs); the rest confirmed: 40.1% at λ = 1,000 vs C1c's 0% | recorded |
 | 2026-11-06 | P1 | prediction: the contract needs the fewest samples, (d) ≥ (c) | agent | P1 | wrong: a generic coordinate channel is as fast (97.9% at N = 64); the contract buys the guarantee, not sample efficiency, from scratch | recorded; framing revised |
 | 2026-11-06 | P3 | prediction: ≥ 95% from 32 labels | agent | P3 | narrowly wrong (94.6%); zero-shot 88% confirmed; coordinate fine-tuning fails in 1 of 3 seeds | recorded |
+| 2026-11-06 | queue | three GPU jobs at once (E1, S1, P4) made E1 page memory: 17 min per 100 steps; alone 45–95 s | agent | queue log timings | fixed | S1 and P4 stopped (≈ 45 min of their work lost) and requeued after E1 in one chain with P5–P7, S3, S4, S2, A2 (run_queue.sh after_e1); at most two jobs at once |

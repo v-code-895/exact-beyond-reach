@@ -29,6 +29,17 @@ case "$1" in
     [ "$LR" != "none" ] && run large 3500 B3 results/b3/run.log src/b3_position.py "$LR"
     run large 3500 "D4 block 3" results/d4/run_k3.log src/d4_switch.py 3 2e-4
     run large 3500 "D4 block 2" results/d4/run_k2.log src/d4_switch.py 2 2e-4 ;;
+  after_e1)   # 2026-11-06 03:05: E1 alone needs ~6 GB, so the small lane and the P-series wait for it and then share one chain
+    until grep -qF "end E1 (" results/queue.log 2>/dev/null; do sleep 60; done
+    run small 2500 S1 results/s1/run.log src/s1_domestication.py
+    run small 2000 P4 results/p4/run.log src/p2_p4_contracts.py p4
+    run small 2500 S3 results/s3/run.log src/s3_phantom_limb.py
+    run small 2500 S4 results/s4/run.log src/s4_transplant.py
+    run small 2000 P5 results/p5/run.log src/p5_p7_contracts.py p5
+    run small 2000 P6 results/p6/run.log src/p5_p7_contracts.py p6
+    run small 2000 P7 results/p7/run.log src/p5_p7_contracts.py p7
+    run small 2500 S2 results/s2/run.log src/s2_lesion_atlas.py
+    run small 2500 A2 results/a2/run.log src/a2_guard_distill.py ;;
   small)
     gates; until grep -q "start E1" results/queue.log 2>/dev/null; do sleep 60; done
     run small 2500 S1 results/s1/run.log src/s1_domestication.py

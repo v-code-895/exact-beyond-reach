@@ -363,3 +363,40 @@ else to fall back on. A contract adds no robustness along axes it does not const
 network that learned its own use of position. The informative position probe is horizontal (train with the red blob away from
 the edges, test near them), where the coordinate channel sees ramp values it never saw in training and the contract's binary wire
 does not change; P2b.
+
+## S3. Phantom limb: cut the bicubic shortcut, heal, re-attach (2026-11-06)
+
+Script `src/s3_phantom_limb.py`; output `results/s3/` (figure `fig_s3_phantom_limb.png`). PSNR change on bicubic-LR test images
+against paper one's TinySR-26 (32.53 dB), mean of seeds 0–2; the last column is the correlation of the network's own output (without
+the shortcut) with bicubic(x), its "own copy" of the low frequencies.
+
+| arm | step 0 | 300 | 1,000 | 2,000 | 3,000 | own copy at 3,000 |
+|---|---|---|---|---|---|---|
+| (a) shortcut cut, healing | −26.43 | −12.57 | −1.98 | −1.08 | −0.81 ± 0.04 | 0.998 |
+| (b) control, shortcut kept | 0.00 | −0.01 | 0.00 | 0.00 | 0.00 | 0.062 |
+| (c) newborn without shortcut | −25.23 | −6.18 | −1.78 | −1.34 | −1.19 ± 0.01 | 0.999 |
+
+Then (a)'s shortcut is re-attached (its own copy now counts twice) and it trains 1,000 more steps:
+
+| steps after re-attaching | 0 | 100 | 200 | 300 | 500 | 800 | 1,000 |
+|---|---|---|---|---|---|---|---|
+| PSNR change (dB) | −22.44 | −7.06 | −1.88 | −0.76 | −0.26 | −0.09 | −0.06 |
+| own copy (correlation with bicubic) | 0.998 | 0.71 | 0.40 | 0.22 | 0.10 | 0.07 | 0.07 |
+
+Nearest-LR inputs tell the same story, about twice as large: (a) −1.61, (c) −2.23 at 3,000; −0.12 after re-attaching.
+
+**Against the predictions.** (1) *Cutting costs ≥ 10 dB:* **confirmed** (26.4 dB). (2) *(a) heals to within 0.5 dB of the control
+by step 3,000 and is ahead of the newborn at every evaluation:* **both wrong.** It is 0.81 dB short (1.6 dB on nearest-LR), and it is
+*behind* the newborn for the first 1,100–1,600 steps (at step 300: −12.6 vs −6.2 dB); it overtakes after that and ends 0.38 dB ahead.
+(3) *Re-attaching costs ≥ 5 dB and heals to within 0.1 dB within 500 steps:* **first half confirmed** (21.6 dB below the healed
+network), **second wrong**: 0.26 dB short at 500 steps, within 0.1 dB at 800 in all three seeds.
+
+**What it means.**
+- **A fixed exact module is worth real capacity.** Without the shortcut, TinySR-26 has to spend capacity reproducing bicubic itself
+  (correlation 0.998), and after 3,000 steps it is still 0.8 dB worse. Give the module back and 300 steps beat 3,000 steps of healing.
+- **No phantom limb: gradient descent deletes the redundant copy.** Once the shortcut returns, the network's own bicubic copy is
+  gone within ~500 steps (0.998 → 0.10) and it settles at the control's 0.06. The network does not keep a skill that a fixed module
+  supplies; it hands the job over. This is the mechanism S1 (domestication) asks about from the other side.
+- **Prior training slows the early recovery.** The cut network recovers more slowly than a random one for ~1,000 steps, then overtakes
+  it (savings appear late). A guess, not tested: its weights are tuned to emit small residuals, and producing a whole image needs
+  the output scale to grow, which Adam's roughly fixed step size makes slow.

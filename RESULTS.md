@@ -804,3 +804,31 @@ edits survive. What separates them is aggressiveness and side effects. Under agg
 slides slowly (1.00 → 0.975). And the unit is clean from the start: it leaves all 8 neighbouring prompts and the validation loss as they
 were, where the fine-tune changes 6 of 8 neighbours and costs 0.07 in validation loss (which continued training then repairs).
 The shield remains statistical, not exact: its weights still move, in proportion to the learning rate.
+
+## L3. Does the network's own position code wither once a contract supplies position? (2026-11-06)
+
+Script `src/l_series.py l3`; output `results/l3/`. P1's zero-padding network, pretrained 2,000 steps (it learns position from the image
+borders), then 2,000 more steps either as is (control) or with P1's contract installed on its score map. "Probe": a linear read-out of
+left/right from the globally pooled trunk features, i.e. what the trunk still knows about position without the contract. Mean of seeds
+0–2 (%).
+
+| step after install | control: accuracy | control: probe | contract: accuracy | contract: probe |
+|---|---|---|---|---|
+| 0 | 81.2 | 82.8 | 55.9 | 82.8 |
+| 100 | 80.3 | 83.5 | 98.2 | 78.6 |
+| 250 | 82.5 | 84.2 | 97.7 | 78.4 |
+| 500 | 83.1 | 83.9 | 98.8 | 78.5 |
+| 1,000 | 83.8 | 84.8 | 98.8 | 78.8 |
+| 2,000 | 84.5 | 85.8 | 99.3 | 78.3 |
+
+**Against the predictions.** (1) *Control: probe ≥ 75% throughout:* **confirmed** (it even rises, 82 → 86%). (2) *Contract: accuracy ≥ 95%
+by step 500:* **confirmed** (98% by step 100). (3) *Contract: the probe falls by ≥ 10 points by step 2,000:* **wrong**: it falls by
+4.5 points (to 78.3%; 7.5 points below the control), almost all of it in the first 100 steps, and then stays flat.
+
+**What it means, with S3.** The registration named the alternative outcome, and it is the one we got: an unused copy is not deleted.
+When the contract is installed, the trunk reorganises quickly (the first 100 steps cost the own position code about 5 points while task
+accuracy jumps from chance to 98%), and after that nothing pushes the old code either way, so it stays. In S3 the network's own bicubic
+copy was deleted within ~500 steps, but there the copy was harmful: with the shortcut back, the low frequencies were counted twice. So
+the reorganisation around installed structure has a specific trigger: gradient descent removes a redundant skill when keeping it costs
+loss, and leaves it largely intact when it is merely unused. Dependence on the contract therefore grows only as far as the copy erodes:
+here the network keeps a working fallback (~77–81% without the contract).

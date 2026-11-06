@@ -82,3 +82,4 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | L1 | predictions: one-constant law within 1.5 columns everywhere; accuracy cap formula within 3 points | agent | L1 | wrong as stated (r=2,σ=1 −1.9; wide blobs at r=4 ≥ +3.3; cap formula ignores base error) | recorded; the guarantee half confirmed exactly |
 | 2026-11-06 | L2 | prediction: L1's law transfers to natural images (correction ≥ the reach) | agent | L2 | wrong: ~3 columns, below the reach of 4 | recorded; guarantee exact as predicted |
 | 2026-11-06 | E1b | prediction: the control keeps ≥ 7 of 8 neighbouring answers | agent | E1b | wrong: 6 of 8 (near-tie prompts flip under any training) | recorded |
+| 2026-11-06 | L3 | prediction: the own position code withers by ≥ 10 points once a contract supplies position | agent | L3 | wrong: −4.5 points, all in the first 100 steps, then flat; unused copies persist (S3's deletion needs the copy to be harmful) | recorded |

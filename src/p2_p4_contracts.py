@@ -57,6 +57,30 @@ def p2(R, t0):
                 R[sname][arm][str(n)] = rs
                 print("P2", sname, arm, n, "in", [round(r["in"], 3) for r in rs], "shifted", [round(r["shifted"], 3) for r in rs], f"{time.time() - t0:.0f}s", flush=True)
 
+def make_cols(n, seed, intervals):
+    """P1's task with the red blob's centre column drawn uniformly from the given column intervals (label still x < 16)."""
+    rng = np.random.default_rng(seed); X, y = make2(n, seed)                          # distractors and noise as usual
+    lens = np.array([b - a for a, b in intervals], float); yy, xx = np.mgrid[0:S_, 0:S_].astype(np.float32)
+    rng2 = np.random.default_rng(seed + 1000); Xb = 0.5 + 0.05 * rng2.standard_normal((n, 3, S_, S_)).astype(np.float32); y = np.zeros(n, np.float32)
+    for i in range(n):
+        for col in ("green", "blue", "red"):
+            if col == "red":
+                k = rng2.choice(len(intervals), p=lens / lens.sum()); cx = rng2.uniform(*intervals[k]); cy = rng2.uniform(0, S_); y[i] = float(cx < S_ / 2)
+            else: cx, cy = rng2.uniform(0, S_, 2)
+            dx = np.minimum(np.abs(xx - cx), S_ - np.abs(xx - cx)); dy = np.minimum(np.abs(yy - cy), S_ - np.abs(yy - cy))
+            a = np.exp(-(dx ** 2 + dy ** 2) / (2 * 2.0 ** 2))[None]; Xb[i] = (1 - a) * Xb[i] + a * np.array(COLS[col], np.float32)[:, None, None]
+    return torch.from_numpy(Xb), torch.from_numpy(y)
+
+def p2b(R, t0):
+    Xtr, ytr = make_cols(4096, 41, [(6, 26)]); Xin, yin = make_cols(4000, 42, [(6, 26)]); Xout, yout = make_cols(4000, 43, [(0, 6), (26, 32)])
+    for arm in "bcd":
+        R[arm] = {}
+        for n in (256, 4096):
+            rs = []
+            for seed in (0, 1, 2):
+                m = train(P.Net(arm).to(DEV), Xtr[:n], ytr[:n], seed); rs.append({"in": acc(m, Xin, yin), "shifted": acc(m, Xout, yout)})
+            R[arm][str(n)] = rs; print("P2b", arm, n, "in", [round(r["in"], 3) for r in rs], "edges", [round(r["shifted"], 3) for r in rs], f"{time.time() - t0:.0f}s", flush=True)
+
 def install_contract(pre, X_unlab):
     """The pretrained circular network's detector, with clamp, signed gate and RIGHT wire installed before the pooling; the
     readout applies the pretrained rule (mean score > 0) to the left half: logit = mean over the left half of the clamped score.
@@ -105,7 +129,7 @@ def p4(R, t0):
 
 def main(which):
     t0 = time.time(); out = C.out_dir(which); R = {}
-    {"p2": p2, "p3": p3, "p4": p4}[which](R, t0); R["seconds"] = time.time() - t0; C.save_json(R, f"{out}/{which}_results.json")
+    {"p2": p2, "p2b": p2b, "p3": p3, "p4": p4}[which](R, t0); R["seconds"] = time.time() - t0; C.save_json(R, f"{out}/{which}_results.json")
 
 if __name__ == "__main__":
     main(sys.argv[1])

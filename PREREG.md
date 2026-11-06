@@ -473,6 +473,12 @@ right-half detector values, which the gate sets to exactly 0 (|u| ≤ B < M afte
 **Predictions.** (1) (d)'s accuracy and logits are exactly unchanged under every attack (largest logit change 0.0).
 (2) (b) and (c) lose ≥ 30 points of accuracy at ε = 32/255.
 
+### P2b. Horizontal position shift (registered 2026-11-06, after P2, before running)
+P2's position probe was uninformative: circular networks are equivariant to vertical shifts. **Shift.** Train with the red blob's
+centre in columns 6–25, test with it in columns 0–5 and 26–31 (near the edges; labels still x < 16). Arms (b), (c), (d);
+N ∈ {256, 4,096}; seeds 0–2. **Predictions.** (d) loses ≤ 2 points (its binary wire reads the same at the edges); (c) loses more
+than (d) at N = 256 (its ramp takes values at the edges it never saw in training); (b) loses more than (d).
+
 ## P5–P7, P9. Mapping the contract (registered 2026-11-06)
 
 P1's task, networks and training unless stated; seeds 0–2.

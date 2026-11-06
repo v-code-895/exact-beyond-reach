@@ -1,0 +1,35 @@
+{
+ "EleutherAI/pythia-160m": {
+  "revision": "50f5173d932e8e61f858120bcb800b97af589f46",
+  "dir": "models/pythia-160m",
+  "files": [
+   "config.json",
+   "model.safetensors",
+   "special_tokens_map.json",
+   "tokenizer.json",
+   "tokenizer_config.json"
+  ]
+ },
+ "HuggingFaceTB/SmolLM2-135M": {
+  "revision": "93efa2f097d58c2a74874c7e644dbc9b0cee75a2",
+  "dir": "models/smollm2-135m",
+  "files": [
+   "config.json",
+   "generation_config.json",
+   "merges.txt",
+   "model.safetensors",
+   "special_tokens_map.json",
+   "tokenizer.json",
+   "tokenizer_config.json",
+   "vocab.json"
+  ]
+ },
+ "NeelNanda/pile-10k": {
+  "revision": "127bfedcd5047750df5ccf3a12979a47bfa0bafa",
+  "dir": "data/pile-10k",
+  "files": [
+   "data\\train-00000-of-00001-4746b8785c874cc7.parquet",
+   "dataset_infos.json"
+  ]
+ }
+}

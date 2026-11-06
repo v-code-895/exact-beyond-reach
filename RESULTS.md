@@ -777,3 +777,30 @@ point or two of the ceiling that a 3-column correction allows (after the ~3% err
 synthetic data. Renegotiation shrinks from about 7.5 columns on clean backgrounds (L1, r = 4, σ = 2) to about 3 on cat fur: with clutter
 around it, a detector that leans its response toward the gate also leans into false alarms, so training can use less of its reach. The
 renegotiable band is set by what the trainable part can reliably see, not only by what it can reach; the guarantee depends on reach alone.
+
+## E1b. The shielded edit under training that does not damage the model (2026-11-06)
+
+Script `src/e1_shielded_edit.py e1b`; output `results/e1b/`. As E1, at lr 10⁻⁶ (from the drift check) with Adam's moments warmed for
+100 steps at lr 0; 1,000 steps; seeds 0–2; evaluations at steps 20, 50 and every 100.
+
+| arm | Rome top-1 on the 20 fitting paraphrases (every evaluation) | Rome probability, install → step 1,000 | validation loss, install → 1,000 | neighbouring prompts unchanged, install → 1,000 |
+|---|---|---|---|---|
+| no edit (control) | — | — | 3.064 → 3.058 | 8 → 6 (every seed) |
+| unit, margin 30 | **20/20 at every evaluation, every seed** | 0.994 → **1.000** | 3.064 → 3.059 | 8 → 6 |
+| fine-tuned edit (layer 10's MLP) | 20/20 at every evaluation, every seed | 1.000 → 0.975 (falling steadily) | 3.136 → 3.063 | 2 → 3 |
+
+The unit's gradient was exactly zero in 96.0–97.3% of steps (14–26 of 2.05M training tokens fired it); its weights moved by at most
+1.0–1.6 × 10⁻⁴, and its bias by exactly 0 (the updates fall below the float32 spacing at the bias's large magnitude).
+
+**Against the predictions.** (1) *Control: validation loss within ±0.02, ≥ 7 of 8 neighbouring prompts keep the base answer:* **first half
+confirmed** (−0.006), **second wrong**: 6 of 8 in every seed, so even gentle training flips two near-tie prompts; the edits do no worse.
+(2) *Margin 30: gradient exactly zero in ≥ 95% of steps, Rome top-1 ≥ 18/20 at every evaluation, probability ≥ 0.95 at step 1,000:*
+**confirmed** (20/20 throughout; 1.000). (3) *The fine-tuned edit keeps Rome probability ≥ 0.5:* **confirmed** (0.974–0.977). (4) *The
+unit's weights still move (≥ 10⁻⁵):* **confirmed** (10⁻⁴), a tenth of E1's movement at a tenth of the learning rate.
+
+**What it means, with E1.** Most of the fine-tuned edit's decay in E1 came from the damaging learning rate: under gentle training both
+edits survive. What separates them is aggressiveness and side effects. Under aggressive training (E1) the shielded unit kept the edit
+(0.98) while the fine-tuned edit faded (0.29); under gentle training (E1b) the unit does not decay at all while the fine-tuned edit
+slides slowly (1.00 → 0.975). And the unit is clean from the start: it leaves all 8 neighbouring prompts and the validation loss as they
+were, where the fine-tune changes 6 of 8 neighbours and costs 0.07 in validation loss (which continued training then repairs).
+The shield remains statistical, not exact: its weights still move, in proportion to the learning rate.

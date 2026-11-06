@@ -81,3 +81,4 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | L5 | prediction: the shortcut is worth more than doubling the width | agent | L5 | wrong: about 1.7x at 48 channels | recorded |
 | 2026-11-06 | L1 | predictions: one-constant law within 1.5 columns everywhere; accuracy cap formula within 3 points | agent | L1 | wrong as stated (r=2,σ=1 −1.9; wide blobs at r=4 ≥ +3.3; cap formula ignores base error) | recorded; the guarantee half confirmed exactly |
 | 2026-11-06 | L2 | prediction: L1's law transfers to natural images (correction ≥ the reach) | agent | L2 | wrong: ~3 columns, below the reach of 4 | recorded; guarantee exact as predicted |
+| 2026-11-06 | E1b | prediction: the control keeps ≥ 7 of 8 neighbouring answers | agent | E1b | wrong: 6 of 8 (near-tie prompts flip under any training) | recorded |

@@ -455,6 +455,14 @@ same N (the unconstrained way to adapt); (iii) P1's from-scratch (d) at the clos
 for blobs straddling the boundary). (2) (i) ≥ 95% from 32 labelled images. (3) (ii) is below 75% at N = 8 and needs ≥ 128
 labels to reach 95%.
 
+**Amendment (2026-11-06, P3, after a smoke test, before the run).** The pretrained detector scores ~+331 on red pixels, +4 on
+background and −8.5 on distractors; its left-half mean separates the classes (96.5% at the best threshold), but the contract's
+clamp (B = 20) crushed the red evidence and zero-shot accuracy fell to 47%. The contract is therefore installed with a frozen
+positive rescaling of the score, set from 512 unlabelled left/right-task images (largest |score| → 10) and folded exactly into
+the score layer; the clamp still bounds every input, so the guarantee is unchanged, and no labels are used. Readout wording
+clarified: logit = mean over the left half of the clamped score (a positive rescaling never changes the sign).
+Smoke test after the change (one seed, short pretraining): zero-shot 89.4%, 96.7% after 32 labels.
+
 ### P4. Robustness by construction
 
 **Attack.** Train (b), (c), (d) on N = 4,096 (seeds 0–2). PGD on the input, 100 steps, changing only columns 20–27 (the

@@ -624,3 +624,36 @@ boundaries and gives partial evidence, and the variance between seeds is large (
 N = 4,096). That points to the boundary slack measured in P6b, now present on two axes at once, rather than to the readout's
 inability to threshold. Composition works (up to 98.5% in the best seed) but is less reliable than one contract or than generic
 coordinates (97–98%).
+
+## S5. A frozen content filter inside continued GAN training (2026-11-06; arms 1 and 3 only, see the amendment)
+
+Script `src/s5_filter.py` (arm 1: `results/s5/s5_arm1_results.json`; arm 3: `s5_arm3_results.json`). CatGAN-26 (folded), continued
+training at lr 2e-5 on all AFHQ cats, 2,000 steps, with a frozen filter that turns orange cats into flat grey through paper one's
+exact mux. 300 test latents; "orange share" is measured on the generator's unfiltered images; Fréchet distance (FD) on unfiltered
+images. At step 0: 14.3% orange, FD 58.3.
+
+| arm | seed | outcome | peak orange share (step) | at step 2,000: orange blocked / non-orange blocked | FD at 2,000 |
+|---|---|---|---|---|---|
+| (1) feature filter (reads block 2's features) | 0 | collapse: everything blocked from step 750 | 70.7% (1,000) | 100% / 100% | 654 |
+| | 1 | evasion: keeps making orange cats, the filter stops firing | 21.0% (500–1,000) | 4% / 1% | 60.0 |
+| | 2 | collapse | 87.3% (1,250) | 100% / 100% | 563 |
+| (3) pixel filter (reads the output's colour) | 0 | drifting into the filter | 70.7% (2,000) | 93% / 3% | 109 |
+| | 1 | collapse | 84.0% (1,250) | — / 100% | 662 |
+| | 2 | drifting into the filter | 46.7% (2,000) | 79% / 7% | 89 |
+
+In all six runs the filter's weights did not change (0.0), and every image the filter passed was bit-identical to the unfiltered one.
+
+**Against the predictions.** (2) *Frozen filters keep their weights exactly, unblocked images exact:* **confirmed** (0.0 in all six runs).
+(3) *On all cats the frozen filters keep blocking ≥ 80% of orange images, and the generator makes fewer orange cats than the control:*
+**the second half is wrong in the opposite direction**: the generator made *more* orange cats in all six runs (peaks of 21–87% from
+14%), until it collapsed (three runs) or, with the feature filter, learned to make orange cats the filter no longer catches (one run).
+Blocking stayed ≥ 79% in five runs, three of them only because everything was blocked. (1) and (4) were not tested (arms dropped).
+
+**What it means.** A filter inside training is not neutral: it pulls the generator into the very category it filters. Blocked
+images reach the discriminator as flat grey and give the generator exactly zero gradient, so a generator that drifts into the
+filtered region cannot get back out. Why it drifts *toward* orange, consistently, is the interesting part. A hypothesis, registered
+as S5b: the filter removes orange cats from the generated images the discriminator sees but not from the real ones, so the
+discriminator can treat orange as a mark of a real image, and the generator, rewarded for looking real, chases orange into the
+filter. The feature filter can be satisfied without stopping (seed 1: orange cats that no longer trigger its features); the pixel
+filter cannot, so its runs drift or collapse. The safety reading is narrow but concrete: a hard output filter must not sit inside a
+fine-tuning loss in this form; whether filtering the real images the same way removes the pull is S5b's test.

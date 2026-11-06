@@ -761,6 +761,8 @@ is the accuracy ceiling 1 − (shift − 3)/64 if training moves the boundary ba
 | 12 | 20 | 82.9, 51.2, 84.6 | 3, failed, 3 | 85.9 |
 | 16 | 16 | 80.1, 75.7, 79.5 | 4, 2, 3 | 79.7 |
 
+(Shift 0, seed 2: the probe called column 0 "right", so its correction reads −32; an artefact of the probe at the wrap-around edge, the run's accuracy is 96.7%.)
+
 The circular network without a contract: 51.1%. Guarantee check (boundary at 32): an attacker repainting one input
 column moved the output by 0.37–11 logits at distances 0–3 and by **exactly 0.0 at distances 4 and 5**, in all three models.
 

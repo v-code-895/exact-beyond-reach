@@ -65,3 +65,4 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | P7 | composed contracts below prediction (91–93%) | agent | P7 | prediction wrong | P7b registered: MLP readout |
 | 2026-11-06 | P1/P9 | sample-efficiency question asked at N ≥ 64, where all position-aware arms had saturated | agent | P1, P5 | design gap | P9b registered: N = 8, 16, 32 |
 | 2026-11-06 | queue | P6b, P9b, P7b run in the second lane before S1 (short; they close the contract thread) | agent | — | ordering | run_queue2.sh chain2 |
+| 2026-11-06 | P5 | predictions: wire channel beats the ramp at every N; needs ≥ 4× the contract's samples | agent | P5 | wrong (−0.3 at N = 64; both saturated at 64) | P9b registered |

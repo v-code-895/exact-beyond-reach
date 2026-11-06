@@ -424,3 +424,54 @@ generic networks are attackable there because their global average reads every p
 robustness on its own, but how much depends on the seed. The caveat is the other face of P2: a contract certifies exactly what it
 encodes. Columns 20–27 cannot matter to the output because the contract says so, not because the data does; if the task's truth
 depended on them, the same guarantee would be a guaranteed failure.
+
+## P5–P7. Mapping the contract (2026-11-06)
+
+Script `src/p5_p7_contracts.py`; output `results/p5/`, `results/p6/`, `results/p7/`. P1's task unless stated; test accuracy, mean ±
+sd over seeds 0–2. (Initialisation in P2–P7 was not seeded per run, only the batches; fixed from P6b on.)
+
+**P5. How much structure is enough?** The binary RIGHT wire given as a plain input channel (f), against P1's arms:
+
+| arm | N = 64 | 256 | 1,024 | 4,096 |
+|---|---|---|---|---|
+| (c) coordinate ramp (P1) | 97.9 ± 0.3 | 98.3 ± 0.5 | 98.8 ± 0.3 | 99.2 ± 0.3 |
+| (d) contract (P1) | 96.9 ± 1.6 | 97.9 ± 0.3 | 97.9 ± 0.7 | 97.0 ± 1.8 |
+| (f) binary wire as an input channel | 97.6 ± 0.1 | **99.0 ± 0.1** | **98.9 ± 0.7** | **99.3 ± 0.2** |
+
+*Predictions:* (f) beats (c) at every N: **wrong at N = 64** (−0.3), right but within noise elsewhere (+0.1 to +0.7). (f) needs ≥ 4×
+the samples (d) needs for 95%: **wrong**: both are above 95% at the smallest N tested. The grid started too late to answer
+sample-efficiency questions (P9b).
+
+**P6. Wrong contracts.**
+
+| contract | N = 256 | N = 4,096 |
+|---|---|---|
+| correct (boundary at column 16) | 97.1 ± 1.2 | 98.5 ± 0.6 |
+| boundary at column 14 | 96.7 ± 1.0 | 98.7 ± 0.3 |
+| boundary at column 12 | 97.4 ± 1.0 | 98.8 ± 0.3 |
+| inverted halves (gate passes the right half) | 97.8 ± 0.1 | 99.3 ± 0.1 |
+
+*Predictions:* a shifted boundary caps accuracy at 93.75% (column 14) and 87.5% (column 12): **wrong**: both are as accurate as the
+correct contract. The inverted contract is as good as the correct one: **confirmed**. So a frozen boundary did not stay where it
+was put. The gate is frozen, but the detector feeding it is not, and a shift-equivariant detector can still place its response
+off-centre (up to its receptive-field radius plus the blob's extent): the effective boundary of gate ∘ detector can move back.
+This does not touch P1/P4's guarantee, which was stated for pixels outside the detector's reach, but it means a contract's
+*boundary* is soft by the reach of the trainable part in front of it. P6b measures how far it can move and checks the mechanism.
+
+**P7. Two contracts composed** (red in the left half AND blue in the top half; 24% positives; balanced accuracy):
+
+| arm | N = 256 | 1,024 | 4,096 |
+|---|---|---|---|
+| (b2) zero padding | 67.8 ± 2.9 | 67.7 ± 5.6 | 62.1 ± 9.3 |
+| (c2) circular + x and y ramps | **96.9 ± 1.2** | **97.9 ± 0.8** | **97.4 ± 1.7** |
+| (d2) two contracts, linear readout | 91.5 ± 0.9 | 93.3 ± 1.3 | 88.5 ± 5.3 |
+
+*Predictions:* (d2) ≥ 95% at N ≤ 1,024: **wrong** (91.5, 93.3). (c2) below 90% at N = 1,024: **wrong** (97.9). The second contract's
+sample cost is small (within 3 points of P1's (d)): **wrong** (93.3 vs 97.9). Composition did not come for free: two contracts with
+a linear readout lose to generic coordinates. Hypothesis (P7b): a linear readout cannot threshold each graded evidence before the
+AND (a blob straddling a boundary gives partial evidence). (d2) at N = 4,096 is also unstable (81–93% by seed).
+
+**What P5–P7 mean together.** From scratch, the exact form of the supplied information matters little: a ramp, a binary channel or a
+contract all solve P1's task from 64 examples, and the binary channel is the most accurate. A contract's distinctive value is its
+guarantee (P1, P4) and zero-shot transfer (P3), not learning speed. Its boundary is softer than it looks (P6), and composing two
+contracts needs care in the readout (P7).

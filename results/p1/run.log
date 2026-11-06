@@ -1,0 +1,37 @@
+shift invariance of (a) at init: 0.0
+(a) circular padding 64 test [0.494, 0.494, 0.498] train [0.656, 0.641, 0.734]  318s
+(a) circular padding 256 test [0.504, 0.504, 0.496] train [0.516, 0.516, 0.555]  639s
+(a) circular padding 1024 test [0.504, 0.504, 0.504] train [0.561, 0.561, 0.561]  946s
+(a) circular padding 4096 test [0.497, 0.504, 0.504] train [0.5, 0.5, 0.5]  1367s
+(a) circular padding 16384 test [0.504, 0.504, 0.504] train [0.503, 0.503, 0.503]  1978s
+(b) zero padding 64 test [0.711, 0.718, 0.724] train [1.0, 1.0, 1.0]  2180s
+(b) zero padding 256 test [0.776, 0.783, 0.777] train [0.879, 0.891, 0.941]  2355s
+(b) zero padding 1024 test [0.77, 0.788, 0.822] train [0.766, 0.823, 0.846]  2495s
+(b) zero padding 4096 test [0.797, 0.79, 0.782] train [0.811, 0.804, 0.783]  2655s
+(b) zero padding 16384 test [0.781, 0.85, 0.832] train [0.793, 0.851, 0.838]  2829s
+(c) circular + coordinate channel 64 test [0.975, 0.98, 0.983] train [1.0, 1.0, 1.0]  3192s
+(c) circular + coordinate channel 256 test [0.989, 0.983, 0.978] train [1.0, 1.0, 1.0]  3548s
+(c) circular + coordinate channel 1024 test [0.992, 0.989, 0.985] train [0.997, 0.997, 0.979]  3897s
+(c) circular + coordinate channel 4096 test [0.987, 0.994, 0.994] train [0.99, 0.994, 0.995]  4249s
+(c) circular + coordinate channel 16384 test [0.981, 0.984, 0.987] train [0.982, 0.984, 0.99]  4606s
+(d) scaffold: wire + gate + frozen clamp, detector trained 64 test [0.979, 0.981, 0.947] train [1.0, 1.0, 1.0] [-30.0, -30.0, -30.0] 4961s
+(d) scaffold: wire + gate + frozen clamp, detector trained 256 test [0.98, 0.974, 0.982] train [1.0, 1.0, 1.0] [-30.0, -30.0, -30.0] 5317s
+(d) scaffold: wire + gate + frozen clamp, detector trained 1024 test [0.987, 0.98, 0.97] train [0.993, 0.979, 0.971] [-30.0, -30.0, -30.0] 5653s
+(d) scaffold: wire + gate + frozen clamp, detector trained 4096 test [0.981, 0.984, 0.944] train [0.985, 0.985, 0.949] [-30.0, -30.0, -30.0] 5955s
+(d) scaffold: wire + gate + frozen clamp, detector trained 16384 test [0.985, 0.978, 0.98] train [0.988, 0.982, 0.981] [-30.0, -30.0, -30.0] 6255s
+(e) scaffold without the clamp 64 test [0.982, 0.979, 0.96] train [1.0, 1.0, 1.0] [17.0, 18.5, 44.5] 6555s
+(e) scaffold without the clamp 256 test [0.982, 0.96, 0.98] train [0.992, 0.992, 1.0] [14.5, 15.5, 20.0] 6774s
+(e) scaffold without the clamp 1024 test [0.987, 0.988, 0.972] train [0.995, 0.978, 0.975] [14.0, 12.3, 8.5] 6946s
+(e) scaffold without the clamp 4096 test [0.986, 0.97, 0.976] train [0.988, 0.975, 0.979] [8.1, 7.4, 10.8] 7245s
+(e) scaffold without the clamp 16384 test [0.988, 0.974, 0.992] train [0.99, 0.979, 0.992] [4.5, 8.3, 8.1] 7683s
+# P1: a provable gap
+
+Test accuracy, mean ± sd over seeds 0-2 (4,000 test images; training set of N images).
+
+| arm | N = 64 | N = 256 | N = 1,024 | N = 4,096 | N = 16,384 |
+|---|---|---|---|---|---|
+| (a) circular padding | 49.5 ± 0.2 | 50.1 ± 0.4 | 50.4 ± 0.0 | 50.1 ± 0.3 | 50.4 ± 0.0 |
+| (b) zero padding | 71.7 ± 0.5 | 77.9 ± 0.3 | 79.3 ± 2.2 | 78.9 ± 0.6 | 82.1 ± 2.9 |
+| (c) circular + coordinate channel | 97.9 ± 0.3 | 98.3 ± 0.5 | 98.8 ± 0.3 | 99.2 ± 0.3 | 98.4 ± 0.2 |
+| (d) scaffold: wire + gate + frozen clamp, detector trained | 96.9 ± 1.6 | 97.9 ± 0.3 | 97.9 ± 0.7 | 97.0 ± 1.8 | 98.1 ± 0.3 |
+| (e) scaffold without the clamp | 97.3 ± 1.0 | 97.4 ± 1.0 | 98.2 ± 0.7 | 97.7 ± 0.6 | 98.5 ± 0.8 |

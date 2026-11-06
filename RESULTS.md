@@ -286,3 +286,55 @@ more than (a).* **Confirmed** on all counts: (b) +0.108 vs (a) +0.023; (d) +0.08
 Neither reaches the union's +0.23 on clean bicubic inputs, so routing each input type to its own expert is still worth ~0.12 dB
 there. The 3×-wide network spends its extra capacity mostly on noisy and nearest inputs, where it beats the union (+3.47 vs
 +3.26, +0.14 vs 0.00). A patched network is a better teacher than the data, but at this budget not a perfect one.
+
+## P1. A provable gap (2026-11-06)
+
+Script `src/p1_separation.py`; output `results/p1/`. Test accuracy on 4,000 fresh images, mean ± sd over seeds 0–2:
+
+| arm | N = 64 | N = 256 | N = 1,024 | N = 4,096 | N = 16,384 |
+|---|---|---|---|---|---|
+| (a) circular padding (exactly shift-equivariant) | 49.5 ± 0.2 | 50.1 ± 0.4 | 50.4 ± 0.0 | 50.1 ± 0.3 | 50.4 ± 0.0 |
+| (b) zero padding | 71.7 ± 0.5 | 77.9 ± 0.3 | 79.3 ± 2.2 | 78.9 ± 0.6 | 82.1 ± 2.9 |
+| (c) circular + coordinate channel | **97.9 ± 0.3** | 98.3 ± 0.5 | 98.8 ± 0.3 | 99.2 ± 0.3 | 98.4 ± 0.2 |
+| (d) contract: wire + signed gate + frozen clamp | 96.9 ± 1.6 | 97.9 ± 0.3 | 97.9 ± 0.7 | 97.0 ± 1.8 | 98.1 ± 0.3 |
+| (e) the same contract without the clamp | 97.3 ± 1.0 | 97.4 ± 1.0 | 98.2 ± 0.7 | 97.7 ± 0.6 | 98.5 ± 0.8 |
+
+Right-half margin (largest |gate input| on the right half minus M): (d) −30.0 in all 15 runs (= B − M, by construction); (e)
+**+4.5 to +44.5 in all 15 runs**. (a) memorises small training sets (67.7% training accuracy at N = 64) but is at chance on test
+images; the circular network's output is identical for an image and its 16-column shift (difference 0.0).
+
+**Against the predictions.** (1) *(a) at 50 ± 2% at every N:* **confirmed** (49.5–50.4%). (2) *(b) improves with N, stays below
+(c), below 90% at 16,384:* **confirmed** (82.1%). (3) *(c) ≥ 95% at N ≥ 4,096:* **confirmed**, and far earlier than predicted
+(97.9% at N = 64). (4) *(d) ≥ 95% at N ≤ 1,024, with the fewest samples of any arm:* **half right**: 96.9% at N = 64, but (c)
+gets there as fast. (5) *(d) ≥ (c) > (b) > (a) at every N:* **wrong for (d) ≥ (c)** ((c) is 0.4–2.2 points higher at every N);
+right for the rest. (6) *(d)'s margin −30 in every run:* **confirmed**. (7) *(e) learns as well as (d) and breaks the guarantee
+in at least half its runs:* **confirmed, in all 15**.
+
+**What it means.** The impossibility is real (no weights help the symmetric network) and is cured by *any* supply of the missing
+information: a generic coordinate channel learns the rule from 64 examples, as fast as the full contract. From scratch, the
+contract's gate and clamp buy no sample efficiency; they buy the guarantee — and only the clamped version keeps it, since
+training pushed the unclamped detector past its margin in every run. Where the contract pays is with a pretrained host (P3).
+
+## P3. A post hoc contract on a pretrained network (2026-11-06)
+
+Script `src/p2_p4_contracts.py p3`; output `results/p3/`. Networks pretrained on "is there a red blob anywhere?" (100% accuracy,
+all seeds), then tested on the left/right task on 4,000 images; mean over seeds 0–2 (per seed in the JSON).
+
+| labelled left/right examples | 0 (zero-shot) | 8 | 32 | 128 | 512 |
+|---|---|---|---|---|---|
+| (i) contract installed post hoc on the pretrained symmetric network | **88.0%** (87.7–88.3) | 90.1% | 94.6% | 96.9% | 97.5% |
+| (ii) pretrained coordinate network, fine-tuned | — | 71.3% | 81.0% | 81.9% | 81.8% |
+| pretrained symmetric network, no contract | 49.8% | | | | |
+
+(ii) is bimodal: seeds 0 and 1 reach 94–96% from 32 labels; seed 2 never learns to use its coordinate channel (51–55% at every N).
+The contract's calibration (largest |score| on 512 unlabelled images) was 68–95 across seeds; after it, the largest score is 10.
+
+**Against the predictions.** (1) *Zero-shot ≥ 85%:* **confirmed** (88.0%). (2) *≥ 95% from 32 labels:* **narrowly wrong** (94.6%;
+1 of 3 seeds above). (3) *(ii) below 75% at N = 8 and needs ≥ 128 labels for 95%:* **confirmed** (71.3%; its mean never reaches
+95% because one seed fails entirely).
+
+**What it means.** A network that provably cannot tell left from right does so at 88% after a patch and no labels, because the
+contract re-uses a detector the network already has and only restricts where it counts. The unconstrained route — a coordinate
+channel the pretrained network ignored during pretraining — has to be discovered by fine-tuning, and in one seed of three it
+never is. With P1: supplying the missing information makes the task learnable from scratch in any form; installing it as a
+contract additionally transfers existing skills without training, reliably, and with a guarantee.

@@ -10,3 +10,4 @@ installs the structure, does SGD keep it, improve it, ignore it or erase it?
 | exactly silent exception | paper one §4.5 | no (needs a new unit) | — | fits it as well as the closed form, given preservation data (paper one Table 7) | paper one exp23 |
 | bicubic + noisy gains in one network | A3 | partly: a 1× student keeps +0.11 of +0.23 | joint retraining: no (+0.02 / +3.19 / +0.08) | as a teacher, the union gives a 1× network 4.7× more bicubic gain than ground truth, as much as 3× width does | A3 |
 | exact depth growth | D2 | yes | — | pending | — |
+| position-dependent rule in an exactly shift-equivariant CNN (P1's task) | P1, P3 | **no** (proof: chance for any weights) | no | any position source makes it learnable from 64 examples (P1); a post hoc contract on a pretrained detector does it zero-shot at 88% and reliably (P3); only the clamped contract keeps its guarantee through training | P1, P3 |

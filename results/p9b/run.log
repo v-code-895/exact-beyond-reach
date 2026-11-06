@@ -1,0 +1,9 @@
+P9b (c) circular + coordinate channel 8 [0.902, 0.874, 0.897, 0.898, 0.9] 110s
+P9b (c) circular + coordinate channel 16 [0.851, 0.843, 0.863, 0.858, 0.834] 190s
+P9b (c) circular + coordinate channel 32 [0.923, 0.907, 0.91, 0.924, 0.9] 319s
+P9b (d) contract 8 [0.927, 0.92, 0.939, 0.901, 0.933] 388s
+P9b (d) contract 16 [0.92, 0.877, 0.907, 0.874, 0.892] 462s
+P9b (d) contract 32 [0.942, 0.918, 0.939, 0.924, 0.93] 587s
+P9b (f) binary wire as an input channel 8 [0.944, 0.942, 0.959, 0.941, 0.944] 641s
+P9b (f) binary wire as an input channel 16 [0.924, 0.907, 0.923, 0.91, 0.915] 761s
+P9b (f) binary wire as an input channel 32 [0.932, 0.947, 0.948, 0.936, 0.926] 833s

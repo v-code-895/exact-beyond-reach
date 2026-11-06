@@ -574,3 +574,49 @@ detector gives up leaning (centroid ≈ 0) and widens its response instead, and 
 4 + 7.3. So **a frozen boundary has slack equal to the reach of the trainable part in front of it.** That is a feature for
 misplaced contracts (they self-correct) and a design rule for guarantees: P4's guarantee held exactly because it was stated for
 input columns beyond the detector's reach; the contract's *semantic* boundary is only fixed up to that reach.
+
+## P9b and P9. Small-N learning curves (2026-11-06)
+
+Script `src/p_ext.py p9b`; output `results/p9b/`. Test accuracy (4,000 images), mean ± sd over seeds 0–4 at N = 8–32; larger N
+from P1 and P5 (seeds 0–2). N = 16 is below N = 8 in every arm: the same first 16 training images are used throughout, so this
+is a property of that subset, not of the arms.
+
+| arm | N = 8 | 16 | 32 | 64 | 256 | 4,096 | fit of test error ≈ a · N^(−b), N = 8–4,096 |
+|---|---|---|---|---|---|---|---|
+| (c) coordinate ramp | 89.4 ± 1.0 | 85.0 ± 1.0 | 91.3 ± 0.9 | 97.9 | 98.3 | 99.2 | a = 0.32, b = 0.48 |
+| (d) contract | 92.4 ± 1.3 | 89.4 ± 1.8 | 93.0 ± 0.9 | 96.9 | 97.9 | 97.0 | a = 0.12, b = 0.23 |
+| (f) binary wire as an input channel | **94.6 ± 0.6** | **91.6 ± 0.7** | **93.8 ± 0.8** | 97.6 | **99.0** | **99.3** | a = 0.16, b = 0.40 |
+| (b) zero padding (P1; N ≥ 64) | — | — | — | 71.7 | 77.9 | 78.9 | a = 0.35, b = 0.07 (N = 64–4,096) |
+
+**Against the predictions.** (1) *(d) beats (c) by ≥ 5 points at N = 8 and 16:* **wrong, narrowly**: +3.0 and +4.4. (2) *(f) lies
+between (c) and (d) at N = 8:* **wrong**: (f) is the best arm (94.6). (3) *The contract's constant a is ≥ 10× smaller than zero
+padding's at the smallest common N:* **narrowly wrong**: at N = 64 the error ratio is 9.1× (28.3% vs 3.1%).
+
+**What it means.** All three position-aware networks learn the rule from a handful of examples (89–95% from 8 images). The order
+is the same at every small N: binary channel > contract > ramp. Sample efficiency follows how exact the supplied information is
+(a binary boundary beats a ramp), not the frozen gating: the contract's gate and clamp cost 1–2 points against the same binary
+information given freely. The power-law fits are rough (the curves dip at N = 16 and saturate at a 1–3% floor), but they say the
+same thing: the contract starts lowest (smallest a) and improves slowest (smallest b), and the others catch it by N = 64.
+
+## P7b. Composing contracts with an MLP readout (2026-11-06)
+
+Script `src/p_ext.py p7b`; output `results/p7b/`. Balanced accuracy, mean ± sd (per seed in brackets), seeds 0–2, seeded
+initialisation; the same test images as P7 (checked).
+
+| arm | N = 256 | 1,024 | 4,096 |
+|---|---|---|---|
+| (d2) two contracts, linear readout | 91.6 ± 0.6 (91.1, 91.5, 92.4) | 94.2 ± 0.4 (94.7, 93.6, 94.3) | 93.6 ± 1.5 (94.3, 91.5, 94.9) |
+| (d2m) two contracts, MLP readout (2 → 16 → 1) | 89.8 ± 3.6 (94.8, 86.6, 87.9) | 95.2 ± 1.6 (97.6, 93.8, 94.3) | 95.3 ± 2.5 (98.5, 92.4, 95.1) |
+
+Errors concentrate at the boundaries: 87% (linear) and 88% (MLP) of all errors have the red blob's column or the blue
+blob's row within 1.5 of a boundary, against 31.5% of test images.
+
+**Against the predictions.** (1) *(d2m) ≥ 95% at N = 1,024:* **confirmed, barely** (95.2). (2) *(d2m) beats (d2) by ≥ 2 points at every
+N:* **wrong**: −1.9, +1.0, +1.7. With seeded initialisation the linear readout itself does better than in P7 (91.7 / 94.2 / 93.6
+against 91.5 / 93.3 / 88.5), so part of P7's shortfall was unlucky initialisations.
+
+**What it means.** The readout was not the main bottleneck. The composed contract's errors sit where a blob straddles one of the two
+boundaries and gives partial evidence, and the variance between seeds is large (the MLP readout ranges from 92.4% to 98.5% at
+N = 4,096). That points to the boundary slack measured in P6b, now present on two axes at once, rather than to the readout's
+inability to threshold. Composition works (up to 98.5% in the best seed) but is less reliable than one contract or than generic
+coordinates (97–98%).

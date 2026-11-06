@@ -110,3 +110,34 @@ finds a far more sensitive iris detector than the closed form, from random initi
 installed structure keeps the right half unchanged to rounding. Position is the part SGD could not find
 (paper one); the content of the detector is not. What λ = 1 does not show is whether SGD's detector is
 better at equal collateral; C1b sweeps the preservation weight to compare the two trade-off curves.
+
+## B2b. Tied pairs restore shielding (2026-11-05)
+
+Script `src/b2b_tied_pairs.py`; output `results/b2b/`. The gate's ReLU pair re-parameterised as tied (one
+kernel, bias and output vector; channel g1 derived as the negation, with output a × g0's). The installed
+network is already tied up to float rounding (g1 = −g0 exactly; output ratio a to 3 × 10⁻⁸), and the tied
+forward matches it to 6.6 × 10⁻⁷. Same 50 batches as B2; gradient restricted to one half by detaching the
+gate's contribution to the image elsewhere.
+
+| gate parameters | tied, all pixels (RMS) | tied, right half only | tied, left half only | untied pair, same batches (RMS) | untied / tied |
+|---|---|---|---|---|---|
+| detector over b5c1 | 0.150 | **0.0 in 50/50 batches** | 0.150 | 0.266 | 1.8× |
+| bias | 0.391 | **0.0 in 50/50** | 0.391 | 0.284 | 0.7× |
+| output vector | 0.036 | **0.0 in 50/50** | 0.036 | 7.62 | 210× |
+
+The gate fired on ~8,000 left-half pixels per batch and on no right-half pixel (largest right-half
+pre-activation −10.4).
+
+**Against the predictions.**
+1. *Right-half contribution exactly 0.0 in every batch.* **Confirmed**, for every tied parameter.
+2. *Tied gate gradient ≥ 10× smaller than the untied pair's.* **Wrong for the detector (1.8×) and bias
+   (0.7×), right for the output vector (210×).** The untied pair's output weights read lrelu(p) and
+   lrelu(−p), which are large wherever the gate is off (|p| ≈ 10), so their gradients are huge and
+   cancel only along the tied direction. The detector's gradient was never mostly from off pixels: it
+   comes from the left-half pixels where the gate fires.
+
+**What it means.** B2's "maximally exposed" result is a property of the parameterisation, not of the
+circuit. Tied, a LeakyReLU pair is an exact ReLU with exactly zero gradient wherever it is off, so the
+gate can still learn where it acts and is frozen everywhere else. This is the mechanism for B1's
+"identities protected" arm, and it is how an installed circuit can be made to survive training without
+freezing it.

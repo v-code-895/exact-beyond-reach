@@ -5,7 +5,7 @@ learn to route to the organ, come to depend on it, and let its own denoising wit
 
   <venv python> followup/src/s1_domestication.py
 """
-import time
+import json, os, time
 import numpy as np
 import common as C, sr_common as S, surgery_common as SC
 import torch, torch.nn as nn, torch.nn.functional as F
@@ -29,7 +29,12 @@ def mixed(hr):
 
 def main():
     t0 = time.time(); T = S.TestSet(); E = S.experts(); W0 = E["base"]; b0 = T.psnr(SC.SR(W0).to(SC.DEV)); R = {"base": b0, "runs": {}}
-    organ_scores = {c: v - b0[c] for c, v in T.psnr(SC.SR(E["noisy"]).to(SC.DEV)).items()}; R["organ_alone"] = organ_scores; print("organ alone", organ_scores, flush=True)
+    organ_scores = {c: v - b0[c] for c, v in T.psnr(SC.SR(E["noisy"]).to(SC.DEV)).items()}; R["organ_alone"] = organ_scores;
+    prev = {}                                                                            # resume: keep finished (arm, seed) runs of an interrupted run
+    if os.path.exists(f"{OUT}/s1_results.json"):
+        old = json.load(open(f"{OUT}/s1_results.json"))
+        if "seconds" not in old: prev = old["runs"]; R["resumed_with"] = {k: [x["seed"] for x in v] for k, v in prev.items()}; print("resuming with", R["resumed_with"], flush=True)
+    print("organ alone", organ_scores, flush=True)
     def ev(m):
         if isinstance(m, Domesticated):
             m.mode = "system"; sysp = T.psnr(m); m.mode = "host"; hostp = T.psnr(m); m.mode = "system"
@@ -38,8 +43,9 @@ def main():
         p = T.psnr(m); return {"system": {c: p[c] - b0[c] for c in S.CONDS}, "host_alone": {c: p[c] - b0[c] for c in S.CONDS}}
     for age in ("adult", "young"):
         for organ in (True, False):
-            name = f"{age} host" + (" + organ" if organ else ", control"); R["runs"][name] = []
+            name = f"{age} host" + (" + organ" if organ else ", control"); R["runs"][name] = list(prev.get(name, []))
             for seed in (0, 1, 2):
+                if any(x["seed"] == seed for x in R["runs"][name]): continue
                 if age == "adult": host = SC.SR(W0).to(SC.DEV)
                 else:
                     host, _ = S.train(SC.SR(SC.random_W(seed)).to(SC.DEV), YOUNG, mixed, seed=seed); host = host.train()

@@ -1,0 +1,17 @@
+organ alone {'bicubic LR': -0.20374321407742002, 'noisy bicubic LR': 3.261354139116076, 'nearest LR': -1.0111602571275498}
+adult host + organ 0 system {'bicubic LR': 0.067, 'noisy bicubic LR': 3.293, 'nearest LR': 0.113} host alone {'bicubic LR': 0.063, 'noisy bicubic LR': 0.971, 'nearest LR': 0.11} gate {'bicubic LR': 0.091, 'noisy bicubic LR': 0.944, 'nearest LR': 0.062} 1186s
+adult host + organ 1 system {'bicubic LR': 0.065, 'noisy bicubic LR': 3.295, 'nearest LR': 0.109} host alone {'bicubic LR': 0.061, 'noisy bicubic LR': 0.966, 'nearest LR': 0.105} gate {'bicubic LR': 0.092, 'noisy bicubic LR': 0.936, 'nearest LR': 0.058} 2419s
+adult host + organ 2 system {'bicubic LR': 0.061, 'noisy bicubic LR': 3.294, 'nearest LR': 0.113} host alone {'bicubic LR': 0.057, 'noisy bicubic LR': 0.982, 'nearest LR': 0.11} gate {'bicubic LR': 0.085, 'noisy bicubic LR': 0.945, 'nearest LR': 0.059} 3531s
+adult host, control 0 system {'bicubic LR': 0.038, 'noisy bicubic LR': 3.149, 'nearest LR': 0.047} host alone {'bicubic LR': 0.038, 'noisy bicubic LR': 3.149, 'nearest LR': 0.047} gate {} 3886s
+Traceback (most recent call last):
+  File "C:\Users\starb\Downloads\Weight Space Programming\followup\src\s1_domestication.py", line 54, in <module>
+    main()
+  File "C:\Users\starb\Downloads\Weight Space Programming\followup\src\s1_domestication.py", line 47, in main
+    ema, log = S.train(m, STEPS, mixed, seed=seed, eval_every=EVERY, evaluate=ev)
+  File "C:\Users\starb\Downloads\Weight Space Programming\followup\src\sr_common.py", line 82, in train
+    m.train(); hr = b.view(-1, 3, 96, 96).to(DEV).float() / 255; x, y = batch_fn(hr)
+torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

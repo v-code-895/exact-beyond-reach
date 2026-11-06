@@ -1,0 +1,957 @@
+{
+ "base": {
+  "bicubic LR": 32.52762383355035,
+  "noisy bicubic LR": 26.891242991553412,
+  "nearest LR": 31.121492523617214
+ },
+ "runs": {
+  "adult host + organ": [
+   {
+    "seed": 0,
+    "log": [
+     {
+      "step": 0,
+      "system": {
+       "bicubic LR": 0.0,
+       "noisy bicubic LR": 0.0,
+       "nearest LR": 0.0
+      },
+      "host_alone": {
+       "bicubic LR": 0.0,
+       "noisy bicubic LR": 0.0,
+       "nearest LR": 0.0
+      },
+      "mean_gate": {
+       "bicubic LR": 0.0,
+       "noisy bicubic LR": 0.0,
+       "nearest LR": 0.0
+      }
+     },
+     {
+      "step": 250,
+      "seconds": 123.12482571601868,
+      "system": {
+       "bicubic LR": 0.026755725012883147,
+       "noisy bicubic LR": 2.930477205912272,
+       "nearest LR": 0.0671007368299712
+      },
+      "host_alone": {
+       "bicubic LR": 0.024850633409286615,
+       "noisy bicubic LR": 1.2703473832872199,
+       "nearest LR": 0.06937544080946267
+      },
+      "mean_gate": {
+       "bicubic LR": 0.04742324991772572,
+       "noisy bicubic LR": 0.6605014522870382,
+       "nearest LR": 0.019887394551187754
+      }
+     },
+     {
+      "step": 500,
+      "seconds": 196.16204571723938,
+      "system": {
+       "bicubic LR": 0.03751064936319892,
+       "noisy bicubic LR": 3.116574986775717,
+       "nearest LR": 0.08327343198988402
+      },
+      "host_alone": {
+       "bicubic LR": 0.03296501371595184,
+       "noisy bicubic LR": 1.3209960513644745,
+       "nearest LR": 0.08586228688557895
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08048970823486647,
+       "noisy bicubic LR": 1.0801634232203166,
+       "nearest LR": 0.04114130859573682
+      }
+     },
+     {
+      "step": 750,
+      "seconds": 260.8969910144806,
+      "system": {
+       "bicubic LR": 0.05369293424817556,
+       "noisy bicubic LR": 3.1542474958631743,
+       "nearest LR": 0.07106569078233704
+      },
+      "host_alone": {
+       "bicubic LR": 0.04872807396782264,
+       "noisy bicubic LR": 1.3193362236022956,
+       "nearest LR": 0.07538732952541949
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08749157041311265,
+       "noisy bicubic LR": 1.0569679220517476,
+       "nearest LR": 0.05152072782317797
+      }
+     },
+     {
+      "step": 1000,
+      "seconds": 368.6275019645691,
+      "system": {
+       "bicubic LR": 0.06252758238050404,
+       "noisy bicubic LR": 3.20276599460178,
+       "nearest LR": 0.059536711374921225
+      },
+      "host_alone": {
+       "bicubic LR": 0.05750007629394105,
+       "noisy bicubic LR": 1.2942684491475447,
+       "nearest LR": 0.06449582841661439
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08661817014217377,
+       "noisy bicubic LR": 1.0129777590433757,
+       "nearest LR": 0.06113107601801555
+      }
+     },
+     {
+      "step": 1250,
+      "seconds": 452.72055554389954,
+      "system": {
+       "bicubic LR": 0.058684465620245874,
+       "noisy bicubic LR": 3.2387963612874344,
+       "nearest LR": 0.09010207917955171
+      },
+      "host_alone": {
+       "bicubic LR": 0.05324980417886849,
+       "noisy bicubic LR": 1.1620846536424416,
+       "nearest LR": 0.09493187798394231
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08896201054255168,
+       "noisy bicubic LR": 0.9722590426603953,
+       "nearest LR": 0.06742981088658175
+      }
+     },
+     {
+      "step": 1500,
+      "seconds": 520.1249351501465,
+      "system": {
+       "bicubic LR": 0.04050072564018592,
+       "noisy bicubic LR": 3.259312142266168,
+       "nearest LR": 0.10317301220364072
+      },
+      "host_alone": {
+       "bicubic LR": 0.033301268683537444,
+       "noisy bicubic LR": 1.1233836491902665,
+       "nearest LR": 0.10594318177965079
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08986542398730914,
+       "noisy bicubic LR": 0.9452139417330424,
+       "nearest LR": 0.06615346893668175
+      }
+     },
+     {
+      "step": 1750,
+      "seconds": 612.1770348548889,
+      "system": {
+       "bicubic LR": 0.06116252475314354,
+       "noisy bicubic LR": 3.26949667400784,
+       "nearest LR": 0.08178701400757049
+      },
+      "host_alone": {
+       "bicubic LR": 0.056174119313553206,
+       "noisy bicubic LR": 1.0804558118184424,
+       "nearest LR": 0.0842838605244971
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08715388774871827,
+       "noisy bicubic LR": 0.9344420651594798,
+       "nearest LR": 0.07100065698226293
+      }
+     },
+     {
+      "step": 2000,
+      "seconds": 709.6330699920654,
+      "system": {
+       "bicubic LR": 0.06784593794080251,
+       "noisy bicubic LR": 3.2723485734727653,
+       "nearest LR": 0.10000009536743448
+      },
+      "host_alone": {
+       "bicubic LR": 0.0635776413811513,
+       "noisy bicubic LR": 1.063003730773925,
+       "nearest LR": 0.10013065338134908
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08596193740765254,
+       "noisy bicubic LR": 0.937846440076828,
+       "nearest LR": 0.06119165817896525
+      }
+     },
+     {
+      "step": 2250,
+      "seconds": 776.5019872188568,
+      "system": {
+       "bicubic LR": 0.05881492826673451,
+       "noisy bicubic LR": 3.2799097485012467,
+       "nearest LR": 0.10364532470703125
+      },
+      "host_alone": {
+       "bicubic LR": 0.05440920723808773,
+       "noisy bicubic LR": 1.0515920215182852,
+       "nearest LR": 0.10270455678304202
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08392669136325519,
+       "noisy bicubic LR": 0.9380564033985138,
+       "nearest LR": 0.060365734497706096
+      }
+     },
+     {
+      "step": 2500,
+      "seconds": 888.0392820835114,
+      "system": {
+       "bicubic LR": 0.06275693045721908,
+       "noisy bicubic LR": 3.2849973360697433,
+       "nearest LR": 0.10297416051228936
+      },
+      "host_alone": {
+       "bicubic LR": 0.05882056554158055,
+       "noisy bicubic LR": 1.0055905130174416,
+       "nearest LR": 0.10060497919718614
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08942052473624547,
+       "noisy bicubic LR": 0.9414905528227488,
+       "nearest LR": 0.060838645324110985
+      }
+     },
+     {
+      "step": 2750,
+      "seconds": 976.4281930923462,
+      "system": {
+       "bicubic LR": 0.06300656000772875,
+       "noisy bicubic LR": 3.290399742126464,
+       "nearest LR": 0.08816817601521976
+      },
+      "host_alone": {
+       "bicubic LR": 0.058542103237570586,
+       "noisy bicubic LR": 0.9895332866244857,
+       "nearest LR": 0.08664875030517649
+      },
+      "mean_gate": {
+       "bicubic LR": 0.09031883353988329,
+       "noisy bicubic LR": 0.9351948479811351,
+       "nearest LR": 0.06455101954440276
+      }
+     },
+     {
+      "step": 3000,
+      "seconds": 1078.3977370262146,
+      "system": {
+       "bicubic LR": 0.06705609427557846,
+       "noisy bicubic LR": 3.292851850721572,
+       "nearest LR": 0.11251062817043689
+      },
+      "host_alone": {
+       "bicubic LR": 0.06324193742539563,
+       "noisy bicubic LR": 0.9713090154859749,
+       "nearest LR": 0.10971370273166414
+      },
+      "mean_gate": {
+       "bicubic LR": 0.09147518624862035,
+       "noisy bicubic LR": 0.9435883065064748,
+       "nearest LR": 0.06177583063642184
+      }
+     }
+    ]
+   },
+   {
+    "seed": 1,
+    "log": [
+     {
+      "step": 0,
+      "system": {
+       "bicubic LR": 0.0,
+       "noisy bicubic LR": 0.0,
+       "nearest LR": 0.0
+      },
+      "host_alone": {
+       "bicubic LR": 0.0,
+       "noisy bicubic LR": 0.0,
+       "nearest LR": 0.0
+      },
+      "mean_gate": {
+       "bicubic LR": 0.0,
+       "noisy bicubic LR": 0.0,
+       "nearest LR": 0.0
+      }
+     },
+     {
+      "step": 250,
+      "seconds": 88.54851150512695,
+      "system": {
+       "bicubic LR": 0.026502143012152146,
+       "noisy bicubic LR": 2.8935378074646003,
+       "nearest LR": 0.08150862587822871
+      },
+      "host_alone": {
+       "bicubic LR": 0.02407667371961253,
+       "noisy bicubic LR": 1.2682721138000481,
+       "nearest LR": 0.08289918899536275
+      },
+      "mean_gate": {
+       "bicubic LR": 0.04628424812108278,
+       "noisy bicubic LR": 0.638676275809606,
+       "nearest LR": 0.01963386293500662
+      }
+     },
+     {
+      "step": 500,
+      "seconds": 215.55136156082153,
+      "system": {
+       "bicubic LR": 0.024723529815673828,
+       "noisy bicubic LR": 3.1261801295810265,
+       "nearest LR": 0.09339672724405901
+      },
+      "host_alone": {
+       "bicubic LR": 0.0189595646328371,
+       "noisy bicubic LR": 1.3626834551493339,
+       "nearest LR": 0.09642931620280137
+      },
+      "mean_gate": {
+       "bicubic LR": 0.07636949593822161,
+       "noisy bicubic LR": 1.0729026357332865,
+       "nearest LR": 0.035941746458411215
+      }
+     },
+     {
+      "step": 750,
+      "seconds": 287.9891288280487,
+      "system": {
+       "bicubic LR": 0.047230339050287284,
+       "noisy bicubic LR": 3.1658787303500695,
+       "nearest LR": 0.08495566050211778
+      },
+      "host_alone": {
+       "bicubic LR": 0.041932996114091736,
+       "noisy bicubic LR": 1.3365688641866065,
+       "nearest LR": 0.08975441190931477
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08500732158621152,
+       "noisy bicubic LR": 1.03971116344134,
+       "nearest LR": 0.04987130475540956
+      }
+     },
+     {
+      "step": 1000,
+      "seconds": 404.6481523513794,
+      "system": {
+       "bicubic LR": 0.05083023707071277,
+       "noisy bicubic LR": 3.201500362820095,
+       "nearest LR": 0.0848311530219199
+      },
+      "host_alone": {
+       "bicubic LR": 0.044837241702609276,
+       "noisy bicubic LR": 1.25616102218628,
+       "nearest LR": 0.0907532056172684
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08344681560993195,
+       "noisy bicubic LR": 1.0086276233196259,
+       "nearest LR": 0.05664580004910628
+      }
+     },
+     {
+      "step": 1250,
+      "seconds": 491.49532198905945,
+      "system": {
+       "bicubic LR": 0.053717019822862255,
+       "noisy bicubic LR": 3.241441578335234,
+       "nearest LR": 0.09031100802951642
+      },
+      "host_alone": {
+       "bicubic LR": 0.0479359202914722,
+       "noisy bicubic LR": 1.1442462497287345,
+       "nearest LR": 0.09501269658406741
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08779158021012942,
+       "noisy bicubic LR": 0.9648303031921387,
+       "nearest LR": 0.06341229950388273
+      }
+     },
+     {
+      "step": 1500,
+      "seconds": 575.5915157794952,
+      "system": {
+       "bicubic LR": 0.060317940182152086,
+       "noisy bicubic LR": 3.2636126730177146,
+       "nearest LR": 0.09367463853624258
+      },
+      "host_alone": {
+       "bicubic LR": 0.055910491943357954,
+       "noisy bicubic LR": 1.062243758307563,
+       "nearest LR": 0.09621529049343636
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08497736131151518,
+       "noisy bicubic LR": 0.946807179848353,
+       "nearest LR": 0.06502632809182009
+      }
+     },
+     {
+      "step": 1750,
+      "seconds": 654.8056173324585,
+      "system": {
+       "bicubic LR": 0.06702486673990649,
+       "noisy bicubic LR": 3.272109466128878,
+       "nearest LR": 0.0850705464680992
+      },
+      "host_alone": {
+       "bicubic LR": 0.0631636301676366,
+       "noisy bicubic LR": 1.0036693043178992,
+       "nearest LR": 0.08527904086642835
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08498551100492477,
+       "noisy bicubic LR": 0.9339845061302186,
+       "nearest LR": 0.05935242908696334
+      }
+     },
+     {
+      "step": 2000,
+      "seconds": 779.0800890922546,
+      "system": {
+       "bicubic LR": 0.06595847871567884,
+       "noisy bicubic LR": 3.277752982245552,
+       "nearest LR": 0.08368798361884444
+      },
+      "host_alone": {
+       "bicubic LR": 0.06219684812757009,
+       "noisy bicubic LR": 1.0221118821038147,
+       "nearest LR": 0.08386996587117679
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08669160430630048,
+       "noisy bicubic LR": 0.9365709503491719,
+       "nearest LR": 0.061667148023843765
+      }
+     },
+     {
+      "step": 2250,
+      "seconds": 851.4314632415771,
+      "system": {
+       "bicubic LR": 0.05773732927109876,
+       "noisy bicubic LR": 3.28378036287096,
+       "nearest LR": 0.09742702907986356
+      },
+      "host_alone": {
+       "bicubic LR": 0.05386227501762875,
+       "noisy bicubic LR": 1.0166201379564086,
+       "nearest LR": 0.0947813457912865
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08315796504418055,
+       "noisy bicubic LR": 0.9308608452479045,
+       "nearest LR": 0.06026303023099899
+      }
+     },
+     {
+      "step": 2500,
+      "seconds": 970.8818724155426,
+      "system": {
+       "bicubic LR": 0.06367289225259753,
+       "noisy bicubic LR": 3.286174615224205,
+       "nearest LR": 0.10163443883260115
+      },
+      "host_alone": {
+       "bicubic LR": 0.06000721189710134,
+       "noisy bicubic LR": 1.0211460961235908,
+       "nearest LR": 0.0981000052558052
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08630410085121791,
+       "noisy bicubic LR": 0.9321883141994476,
+       "nearest LR": 0.05991834749778112
+      }
+     },
+     {
+      "step": 2750,
+      "seconds": 1055.1869280338287,
+      "system": {
+       "bicubic LR": 0.06436392466226692,
+       "noisy bicubic LR": 3.2902187983195006,
+       "nearest LR": 0.10270277659098426
+      },
+      "host_alone": {
+       "bicubic LR": 0.05993380016750649,
+       "noisy bicubic LR": 0.9950130780537947,
+       "nearest LR": 0.0999245537651916
+      },
+      "mean_gate": {
+       "bicubic LR": 0.09389078617095947,
+       "noisy bicubic LR": 0.9365320324897766,
+       "nearest LR": 0.06192807977398237
+      }
+     },
+     {
+      "step": 3000,
+      "seconds": 1161.6852643489838,
+      "system": {
+       "bicubic LR": 0.06502716276380482,
+       "noisy bicubic LR": 3.2945265769958496,
+       "nearest LR": 0.10884195963541643
+      },
+      "host_alone": {
+       "bicubic LR": 0.061375247107605446,
+       "noisy bicubic LR": 0.9658492406209334,
+       "nearest LR": 0.10512864854600679
+      },
+      "mean_gate": {
+       "bicubic LR": 0.09150719220439593,
+       "noisy bicubic LR": 0.9363866150379181,
+       "nearest LR": 0.05836907053987185
+      }
+     }
+    ]
+   },
+   {
+    "seed": 2,
+    "log": [
+     {
+      "step": 0,
+      "system": {
+       "bicubic LR": 0.0,
+       "noisy bicubic LR": 0.0,
+       "nearest LR": 0.0
+      },
+      "host_alone": {
+       "bicubic LR": 0.0,
+       "noisy bicubic LR": 0.0,
+       "nearest LR": 0.0
+      },
+      "mean_gate": {
+       "bicubic LR": 0.0,
+       "noisy bicubic LR": 0.0,
+       "nearest LR": 0.0
+      }
+     },
+     {
+      "step": 250,
+      "seconds": 90.69735956192017,
+      "system": {
+       "bicubic LR": 0.01801896625094912,
+       "noisy bicubic LR": 2.953157499101426,
+       "nearest LR": 0.08671461741129605
+      },
+      "host_alone": {
+       "bicubic LR": 0.0152445687187992,
+       "noisy bicubic LR": 1.2802157084147154,
+       "nearest LR": 0.08818011813693616
+      },
+      "mean_gate": {
+       "bicubic LR": 0.047128740698099136,
+       "noisy bicubic LR": 0.6749776562054952,
+       "nearest LR": 0.020622918444375197
+      }
+     },
+     {
+      "step": 500,
+      "seconds": 213.8596704006195,
+      "system": {
+       "bicubic LR": 0.028679000006775368,
+       "noisy bicubic LR": 3.1291071785820854,
+       "nearest LR": 0.09149280124240633
+      },
+      "host_alone": {
+       "bicubic LR": 0.023934968312580907,
+       "noisy bicubic LR": 1.3455804083082405,
+       "nearest LR": 0.09495595296224124
+      },
+      "mean_gate": {
+       "bicubic LR": 0.07452682132522265,
+       "noisy bicubic LR": 1.0722626268863678,
+       "nearest LR": 0.03731544663508733
+      }
+     },
+     {
+      "step": 750,
+      "seconds": 279.3573398590088,
+      "system": {
+       "bicubic LR": 0.03674873775905496,
+       "noisy bicubic LR": 3.1485638724433045,
+       "nearest LR": 0.08921187718709334
+      },
+      "host_alone": {
+       "bicubic LR": 0.03106583489311987,
+       "noisy bicubic LR": 1.3088539335462777,
+       "nearest LR": 0.09304846657647303
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08173191746075949,
+       "noisy bicubic LR": 1.0681351284186045,
+       "nearest LR": 0.04908917707701524
+      }
+     },
+     {
+      "step": 1000,
+      "seconds": 379.8698539733887,
+      "system": {
+       "bicubic LR": 0.052100700802270694,
+       "noisy bicubic LR": 3.2076698939005546,
+       "nearest LR": 0.0899478488498282
+      },
+      "host_alone": {
+       "bicubic LR": 0.04645623101128393,
+       "noisy bicubic LR": 1.249318461947972,
+       "nearest LR": 0.09496368832058621
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08344887519876162,
+       "noisy bicubic LR": 0.9968874295552571,
+       "nearest LR": 0.06572503459950288
+      }
+     },
+     {
+      "step": 1250,
+      "seconds": 459.5961606502533,
+      "system": {
+       "bicubic LR": 0.04243529637654575,
+       "noisy bicubic LR": 3.238436497582331,
+       "nearest LR": 0.10619618097941341
+      },
+      "host_alone": {
+       "bicubic LR": 0.03567510181002831,
+       "noisy bicubic LR": 1.1487295998467353,
+       "nearest LR": 0.10996712578667811
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08202917178471883,
+       "noisy bicubic LR": 0.9665214935938518,
+       "nearest LR": 0.06887358998258909
+      }
+     },
+     {
+      "step": 1500,
+      "seconds": 537.363579750061,
+      "system": {
+       "bicubic LR": 0.0554749700758137,
+       "noisy bicubic LR": 3.2613955391777907,
+       "nearest LR": 0.09413659837510835
+      },
+      "host_alone": {
+       "bicubic LR": 0.04992132186889364,
+       "noisy bicubic LR": 1.0773996247185593,
+       "nearest LR": 0.09839025073581453
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08414932936429978,
+       "noisy bicubic LR": 0.9395030895868938,
+       "nearest LR": 0.06275580525398254
+      }
+     },
+     {
+      "step": 1750,
+      "seconds": 639.5719063282013,
+      "system": {
+       "bicubic LR": 0.05808741251627225,
+       "noisy bicubic LR": 3.268547280629477,
+       "nearest LR": 0.09476349088880909
+      },
+      "host_alone": {
+       "bicubic LR": 0.05361393822563798,
+       "noisy bicubic LR": 1.0602521578470885,
+       "nearest LR": 0.09635659323798507
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08094387625654538,
+       "noisy bicubic LR": 0.9437588930130005,
+       "nearest LR": 0.06299403682351112
+      }
+     },
+     {
+      "step": 2000,
+      "seconds": 703.4459002017975,
+      "system": {
+       "bicubic LR": 0.05428606669107694,
+       "noisy bicubic LR": 3.2755627526177307,
+       "nearest LR": 0.1023734198676216
+      },
+      "host_alone": {
+       "bicubic LR": 0.049788019392224214,
+       "noisy bicubic LR": 1.0076313230726477,
+       "nearest LR": 0.10324092441135235
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08280022044976552,
+       "noisy bicubic LR": 0.9339150786399841,
+       "nearest LR": 0.0648992583155632
+      }
+     },
+     {
+      "step": 2250,
+      "seconds": 808.1246411800385,
+      "system": {
+       "bicubic LR": 0.054839886559378215,
+       "noisy bicubic LR": 3.2815530247158478,
+       "nearest LR": 0.10688475502862005
+      },
+      "host_alone": {
+       "bicubic LR": 0.05097535451253066,
+       "noisy bicubic LR": 0.9641466458638526,
+       "nearest LR": 0.10513253741794415
+      },
+      "mean_gate": {
+       "bicubic LR": 0.0863252172867457,
+       "noisy bicubic LR": 0.9377415657043457,
+       "nearest LR": 0.0672365461786588
+      }
+     },
+     {
+      "step": 2500,
+      "seconds": 884.1590166091919,
+      "system": {
+       "bicubic LR": 0.06618688371445813,
+       "noisy bicubic LR": 3.2869581646389427,
+       "nearest LR": 0.1009076224433052
+      },
+      "host_alone": {
+       "bicubic LR": 0.06262468761867268,
+       "noisy bicubic LR": 0.9561080614725768,
+       "nearest LR": 0.09951882892184827
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08689840907851855,
+       "noisy bicubic LR": 0.9429181158542633,
+       "nearest LR": 0.06454107587536176
+      }
+     },
+     {
+      "step": 2750,
+      "seconds": 968.0147957801819,
+      "system": {
+       "bicubic LR": 0.06427612304687358,
+       "noisy bicubic LR": 3.2924088690016013,
+       "nearest LR": 0.10655707253350144
+      },
+      "host_alone": {
+       "bicubic LR": 0.06075425677828861,
+       "noisy bicubic LR": 0.9610390769110779,
+       "nearest LR": 0.10388783348931341
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08560105860233307,
+       "noisy bicubic LR": 0.9395733892917633,
+       "nearest LR": 0.05845206851760546
+      }
+     },
+     {
+      "step": 3000,
+      "seconds": 1066.5460102558136,
+      "system": {
+       "bicubic LR": 0.06109895706176616,
+       "noisy bicubic LR": 3.294117228190103,
+       "nearest LR": 0.11312781439887232
+      },
+      "host_alone": {
+       "bicubic LR": 0.057377974192299064,
+       "noisy bicubic LR": 0.9824056625366211,
+       "nearest LR": 0.10978537665473098
+      },
+      "mean_gate": {
+       "bicubic LR": 0.08516640290617943,
+       "noisy bicubic LR": 0.9445900738239288,
+       "nearest LR": 0.05881535584727923
+      }
+     }
+    ]
+   }
+  ],
+  "adult host, control": [
+   {
+    "seed": 0,
+    "log": [
+     {
+      "step": 0,
+      "system": {
+       "bicubic LR": 0.0,
+       "noisy bicubic LR": 0.0,
+       "nearest LR": 0.0
+      },
+      "host_alone": {
+       "bicubic LR": 0.0,
+       "noisy bicubic LR": 0.0,
+       "nearest LR": 0.0
+      }
+     },
+     {
+      "step": 250,
+      "seconds": 41.50834131240845,
+      "system": {
+       "bicubic LR": 0.03777053621080029,
+       "noisy bicubic LR": 1.6844442685445173,
+       "nearest LR": -0.03779902988009809
+      },
+      "host_alone": {
+       "bicubic LR": 0.03777053621080029,
+       "noisy bicubic LR": 1.6844442685445173,
+       "nearest LR": -0.03779902988009809
+      }
+     },
+     {
+      "step": 500,
+      "seconds": 64.34243750572205,
+      "system": {
+       "bicubic LR": 0.02712953355577241,
+       "noisy bicubic LR": 2.347628296746148,
+       "nearest LR": -0.03423517015245281
+      },
+      "host_alone": {
+       "bicubic LR": 0.02712953355577241,
+       "noisy bicubic LR": 2.347628296746148,
+       "nearest LR": -0.03423517015245281
+      }
+     },
+     {
+      "step": 750,
+      "seconds": 84.88790559768677,
+      "system": {
+       "bicubic LR": 0.016974565717902124,
+       "noisy bicubic LR": 2.6530013826158303,
+       "nearest LR": -0.021919960445828224
+      },
+      "host_alone": {
+       "bicubic LR": 0.016974565717902124,
+       "noisy bicubic LR": 2.6530013826158303,
+       "nearest LR": -0.021919960445828224
+      }
+     },
+     {
+      "step": 1000,
+      "seconds": 105.86693143844604,
+      "system": {
+       "bicubic LR": 0.019421821170382714,
+       "noisy bicubic LR": 2.8098751174079055,
+       "nearest LR": 0.0005431069268126976
+      },
+      "host_alone": {
+       "bicubic LR": 0.019421821170382714,
+       "noisy bicubic LR": 2.8098751174079055,
+       "nearest LR": 0.0005431069268126976
+      }
+     },
+     {
+      "step": 1250,
+      "seconds": 127.3393862247467,
+      "system": {
+       "bicubic LR": 0.01600948969522875,
+       "noisy bicubic LR": 2.8816174401177292,
+       "nearest LR": 0.016697374979656843
+      },
+      "host_alone": {
+       "bicubic LR": 0.01600948969522875,
+       "noisy bicubic LR": 2.8816174401177292,
+       "nearest LR": 0.016697374979656843
+      }
+     },
+     {
+      "step": 1500,
+      "seconds": 159.83465838432312,
+      "system": {
+       "bicubic LR": 0.017989455329043835,
+       "noisy bicubic LR": 2.959160497453478,
+       "nearest LR": 0.022531138526069583
+      },
+      "host_alone": {
+       "bicubic LR": 0.017989455329043835,
+       "noisy bicubic LR": 2.959160497453478,
+       "nearest LR": 0.022531138526069583
+      }
+     },
+     {
+      "step": 1750,
+      "seconds": 202.1733477115631,
+      "system": {
+       "bicubic LR": 0.01997303432887776,
+       "noisy bicubic LR": 3.0032503975762275,
+       "nearest LR": 0.025496779547797388
+      },
+      "host_alone": {
+       "bicubic LR": 0.01997303432887776,
+       "noisy bicubic LR": 3.0032503975762275,
+       "nearest LR": 0.025496779547797388
+      }
+     },
+     {
+      "step": 2000,
+      "seconds": 244.99856615066528,
+      "system": {
+       "bicubic LR": 0.03029346466064453,
+       "noisy bicubic LR": 3.0370005077785933,
+       "nearest LR": 0.038860130310059304
+      },
+      "host_alone": {
+       "bicubic LR": 0.03029346466064453,
+       "noisy bicubic LR": 3.0370005077785933,
+       "nearest LR": 0.038860130310059304
+      }
+     },
+     {
+      "step": 2250,
+      "seconds": 276.82884216308594,
+      "system": {
+       "bicubic LR": 0.020256773630777047,
+       "noisy bicubic LR": 3.075292650858561,
+       "nearest LR": 0.04823227988349288
+      },
+      "host_alone": {
+       "bicubic LR": 0.020256773630777047,
+       "noisy bicubic LR": 3.075292650858561,
+       "nearest LR": 0.04823227988349288
+      }
+     },
+     {
+      "step": 2500,
+      "seconds": 300.49659538269043,
+      "system": {
+       "bicubic LR": 0.03534962336222236,
+       "noisy bicubic LR": 3.105028533935549,
+       "nearest LR": 0.04585354063246072
+      },
+      "host_alone": {
+       "bicubic LR": 0.03534962336222236,
+       "noisy bicubic LR": 3.105028533935549,
+       "nearest LR": 0.04585354063246072
+      }
+     },
+     {
+      "step": 2750,
+      "seconds": 322.8302879333496,
+      "system": {
+       "bicubic LR": 0.03243086073133128,
+       "noisy bicubic LR": 3.1247520340813537,
+       "nearest LR": 0.0339360660976844
+      },
+      "host_alone": {
+       "bicubic LR": 0.03243086073133128,
+       "noisy bicubic LR": 3.1247520340813537,
+       "nearest LR": 0.0339360660976844
+      }
+     },
+     {
+      "step": 3000,
+      "seconds": 343.90902185440063,
+      "system": {
+       "bicubic LR": 0.03779940075344257,
+       "noisy bicubic LR": 3.1491582022772917,
+       "nearest LR": 0.04676748911539974
+      },
+      "host_alone": {
+       "bicubic LR": 0.03779940075344257,
+       "noisy bicubic LR": 3.1491582022772917,
+       "nearest LR": 0.04676748911539974
+      }
+     }
+    ]
+   }
+  ]
+ },
+ "organ_alone": {
+  "bicubic LR": -0.20374321407742002,
+  "noisy bicubic LR": 3.261354139116076,
+  "nearest LR": -1.0111602571275498
+ }
+}

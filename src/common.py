@@ -48,6 +48,7 @@ def odd_eye(mode="left"):
 # --------------------------------------------------------------------------------------------------
 def torch_modules():
     import torch, torch.nn as nn, torch.nn.functional as F
+    torch.backends.cudnn.allow_tf32 = False; torch.backends.cuda.matmul.allow_tf32 = False   # TF32 breaks exactness checks (~1e-3 relative)
 
     class FoldedG(nn.Module):
         """CatGAN-26 with BatchNorm folded (the exported form patches live in). Parameters are named like
@@ -76,3 +77,53 @@ def torch_modules():
         D = e11.Discriminator().to(dev); c = torch.load(CKPT, map_location=dev); D.load_state_dict(c["D"])
         return D, c
     return FoldedG, discriminator
+
+# --------------------------------------------------------------------------------------------------
+# Exact widening of CatGAN-26 and the odd-eye metrics shared by A1, B1, B3 and D5
+# --------------------------------------------------------------------------------------------------
+CATGAN_LAYERS = ["dense"] + [f"b{i}c{j}" for i in range(1, 6) for j in (1, 2)] + ["out"]
+
+def widen_catgan(W, k, rng, std=0.01):
+    """Grow k channels in every hidden layer with small random incoming weights and zero outgoing weights
+    (exact: the function is unchanged, but the new channels can train). Returns (W, first new slot per layer)."""
+    import wpgit
+    W = {kk: v.copy() for kk, v in W.items()}; slots = {}
+    for prod, cons in zip(CATGAN_LAYERS[:-1], CATGAN_LAYERS[1:]):
+        C_old = W[cons + "/kernel"].shape[2]; W = wpgit.grow(W, prod, cons, k); slots[prod] = C_old
+        K = W[prod + "/kernel"]
+        if K.ndim == 2:
+            Kc = K.reshape(K.shape[0], -1, C_old + k); Kc[:, :, C_old:] = rng.normal(0, std, Kc[:, :, C_old:].shape); W[prod + "/kernel"] = Kc.reshape(K.shape[0], -1).astype(np.float32)
+        else:
+            K[..., C_old:] = rng.normal(0, std, K[..., C_old:].shape).astype(np.float32)
+    return W, slots
+
+class OddEyeEval:
+    """Paper one's odd-eye metrics on its 300 test latents. Iris masks come from the base image at each latent."""
+    def __init__(self, dev="cuda"):
+        import torch, cat_domain as cd
+        self.dev = dev; rng = np.random.default_rng(0); _, _, z = (rng.standard_normal((n, 128)) for n in (256, 300, 300))
+        self.z = torch.tensor(z, dtype=torch.float32, device=dev)
+        FoldedG, _ = torch_modules(); self.x0 = self.images(FoldedG(catgan_base()).to(dev))
+        self.m = cd.eye_mask(np.clip(self.x0, 0, 1)); self.left = np.zeros((128, 128), bool); self.left[:, :64] = True
+        self.far = ~np.any([np.roll(np.roll(self.m, dy, 1), dx, 2) for dy in range(-3, 4) for dx in range(-3, 4)], 0)
+    def images(self, model, z=None):
+        import torch
+        z = self.z if z is None else z
+        with torch.no_grad(): return np.concatenate([model(z[s:s + 50]).permute(0, 2, 3, 1).cpu().numpy() for s in range(0, len(z), 50)])
+    def score(self, x, ref=None):
+        """x: images (N,128,128,3) in [0,1]. ref: images to measure drift against (default: the base)."""
+        import exp20_odd_eyes as e20
+        ref = self.x0 if ref is None else ref
+        hl = e20.per_image_hue(x, self.m & self.left[None]); hr = e20.per_image_hue(x, self.m & ~self.left[None])
+        inb = lambda h: h is not None and 200 <= h <= 250
+        pairs = [(inb(a), inb(b)) for a, b in zip(hl, hr) if a is not None and b is not None]
+        d = np.abs(np.clip(x, 0, 1) - np.clip(ref, 0, 1)) * 255
+        return {"left_in_band": float(np.mean([inb(h) for h in hl if h is not None])), "right_in_band": float(np.mean([inb(h) for h in hr if h is not None])),
+                "left_only": float(np.mean([a and not b for a, b in pairs])), "both": float(np.mean([a and b for a, b in pairs])),
+                "right_half_mean_change": float(d[:, :, 64:].mean()), "right_half_max_change": float(d[:, :, 64:].max()),
+                "outside_eyes_change": float(d[self.far].mean())}
+
+def dense_mirror_asymmetry(W, W_ref, C0=512):
+    """sum |db(cell) - db(mirror cell)| / sum |db| over the first C0 channels of the dense bias (Keras cell-major layout)."""
+    C = W["dense/bias"].size // 16; db = (W["dense/bias"].reshape(4, 4, C)[..., :C0] - W_ref["dense/bias"].reshape(4, 4, -1)[..., :C0])
+    tot = np.abs(db).sum(); return float(np.abs(db - db[:, ::-1]).sum() / tot) if tot > 0 else 0.0

@@ -1114,3 +1114,31 @@ by more than 1:* **confirmed** (0.8).
 it almost nothing to do with it: removing the wires afterwards changes images by under one RGB level and costs nothing. The data does not ask
 for position, so training does not come to depend on it. This is the converse of the odd eyes (C1, D5): position is supplied easily, and used
 only when the task demands it.
+
+## S5b. Why the filter pulls the generator in: the registered mechanism is refuted (2026-11-07)
+
+Script `src/s5b_filter_both.py`; output `results/s5b/`. S5's setup and frozen pixel filter, 2,000 steps. "Orange share" on the generator's
+unfiltered images (14.3% at start); Fréchet distance (FD) on unfiltered images (58.3 at start); "gap": the discriminator's mean score on 300
+real orange minus 300 real non-orange cats, divided by the spread of those scores.
+
+| arm | seed | orange share, peak / at 2,000 | FD at 2,000 | orange blocked at 2,000 | discriminator gap at 1,000 / range over training |
+|---|---|---|---|---|---|
+| (a) filter on generated images only (S5 arm 3 rerun) | 0 | 22.3% / 22.3% | 70.9 | 67% | 0.15 / −0.66 to 1.00 |
+| (b) filter on generated **and** real images | 0 | 64.0% / 62.7% | 85.4 | 97% | 0.11 / −0.92 to 0.26 |
+| | 1 | 51.3% / 50.7% | 90.5 | 97% | −0.17 / −0.95 to 0.37 |
+| | 2 | 34.7% / 31.7% | 68.9 | 82% | −0.25 / −0.41 to 0.72 |
+| (c) control, no filter | 0 | 16.0% / 13.3% | 57.1 | — | −0.02 / −0.30 to 0.29 |
+| | 1 | 16.0% / 14.3% | 57.3 | — | 0.11 / −0.27 to 0.37 |
+
+**Against the predictions.** (1) *Mechanism: in (a) the normalised gap at step 1,000 is ≥ 0.5 and at least twice the control's:* **wrong**: 0.15,
+and in every arm the gap swings in sign from one evaluation to the next; the discriminator shows no stable preference for real orange cats.
+(2) *Fix: filtering the real images too keeps the orange share within 1.5× the control's, no collapse, ≥ 80% blocked:* **wrong on the first
+two** (orange rises to 32–63%, FD to 69–90), **confirmed on the third** (82–97%). (3) *Control: orange share 10–20%, FD within 5 of the
+start:* **confirmed** (13–16%; 56.6–57.8).
+
+**What it means.** The hypothesis is refuted: the discriminator does not learn orange as a mark of real images, and hiding orange from it on
+both sides makes the pull *stronger*. One reading fits (b): filtering the real images turns 14% of them into flat grey, so grey becomes a
+legitimate "real" image, and the generator is rewarded for producing it, which it can do only by making orange cats for the filter to grey
+out. Why a filter on generated images alone pulls the generator toward orange (S5, six of six runs; the rerun here milder, 22% against S5's
+71% for the same seed, so the size varies between runs) remains open. What stands is the practical finding: a hard filter inside the training
+loop, on either side of the discriminator, is not neutral.

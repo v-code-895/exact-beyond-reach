@@ -97,3 +97,4 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | S2 | predictions: head skip most damaging; block removals heal within 0.1 dB | agent | S2 | wrong (tail and early blocks worse; 0.1–0.65 dB left) | recorded; healing is local (confirmed) |
 | 2026-11-06 | P2b | predictions: the contract holds at the edges (≤ 2 points lost), the ramp loses more | agent | P2b | wrong: the edges are the contract's second (wrap-around) boundary, never covered in training (−9 to −11 points) | recorded |
 | 2026-11-06 | B3 | prediction: the generator comes to lean on the supplied position | agent | B3 | wrong: ablation changes images by 0.65 levels, Fréchet distance unchanged | recorded |
+| 2026-11-07 | S5b | registered mechanism: the discriminator learns orange = real | agent | S5b | refuted: no stable discriminator preference; filtering reals too makes the pull stronger | recorded; cause in (a) open |

@@ -7,12 +7,11 @@ date: November 6, 2026 (draft)
 ---
 
 <!-- Draft. Every number traces to RESULTS.md and a file under results/ (Appendix A). Every experiment was registered in PREREG.md
-before it ran; wrong predictions are kept. Items marked [pending] are still running and are filled in as they finish.
-Build: python paper/build_paper.py (HTML + PDF, as paper one). -->
+before it ran; wrong predictions are kept. Build: python paper/build_paper.py (HTML + PDF, as paper one). -->
 
 ## Abstract
 
-A companion paper showed that an LLM agent can compile exact structure into trained networks: wires, gates, guards and exceptions built from identities of the activations a network already uses. This paper asks what happens next, when gradient descent keeps training around that structure. In 38 pre-registered experiments so far (one more is running) on a synthetic classifier, a super-resolution network, a cat generator and Pythia-160M, the answer has one organising result, which we call the **reach law**:
+A companion paper showed that an LLM agent can compile exact structure into trained networks: wires, gates, guards and exceptions built from identities of the activations a network already uses. This paper asks what happens next, when gradient descent keeps training around that structure. In 39 pre-registered experiments on a synthetic classifier, a super-resolution network, a cat generator and Pythia-160M, the answer has one organising result, which we call the **reach law**:
 
 - **What is fixed.** A frozen module fixes, exactly, everything beyond the reach of the trainable parts in front of it. This is a proposition that holds for any weights. Measured on 39 trained models with three different reaches and three different architectures, on synthetic and natural images, an attacker who may repaint one input column moves the output by up to 45 logits at the module's boundary, and by **exactly 0.0** at every distance at or beyond the reach.
 - **What is renegotiated.** Within that reach, training moves even the module's own boundary. A boundary misplaced by up to 6 columns is moved back to within a column of where it belongs; the distance training can move it grows with the reach and with the size of the object (about the reach plus 1.4 object widths on clean images) and shrinks as the object gets harder to see against its background: from 8 to 5.5 columns as background noise rises, and to about 3 on natural images.
@@ -174,7 +173,7 @@ The price of a module falls as the network grows. At the other end, P1's circula
 
 **Survival by margin is statistical (E1, E1b).** A counterfactual fact ("The Eiffel Tower is located in the city of" → Rome) grown into Pythia-160M as one unit, with its pre-activation pushed far below zero on training text, keeps its edit through 1,000 steps of continued training (Rome probability 0.98; the same edit made by fine-tuning: 0.29). Its gradient is exactly zero in 97% of steps, but its weights still move: 14–18 of 2.05M training tokens trigger it whatever the margin, and Adam turns such rare gradients into full-size steps. That training run also damaged the model (validation loss +0.12); at a learning rate that does not (E1b), both edits survive, the grown unit without any decay (1.000 against 0.975) and without the fine-tune's side effects on neighbouring prompts.
 
-**Filters trap (S5).** A frozen filter that replaces orange cats with grey, inside continued GAN training: its weights do not change and every image it passes is bit-identical, yet in all six runs the generator made more orange cats (from 14% to 21–87%), then collapsed into the blocked region or, with a filter that reads internal features, learned to make orange cats the filter no longer catches. Blocked images give the generator exactly zero gradient, so the blocked region is a trap. S5b tests a mechanism: the discriminator still sees orange in real images, so orange may become a mark of realness [pending: S5b].
+**Filters trap (S5).** A frozen filter that replaces orange cats with grey, inside continued GAN training: its weights do not change and every image it passes is bit-identical, yet in all six runs the generator made more orange cats (from 14% to 21–87%), then collapsed into the blocked region or, with a filter that reads internal features, learned to make orange cats the filter no longer catches. Blocked images give the generator exactly zero gradient, so the blocked region is a trap. Our first explanation, that the discriminator learns orange as a mark of real images because the filter removes orange only from generated ones, was refuted (S5b): the discriminator shows no stable preference for real orange cats, and filtering the real images as well makes the pull stronger (orange cats rise to 32–63%), plausibly because 14% of real images then become flat grey and the generator is rewarded for producing grey. Why a filter on generated images alone pulls the generator toward orange remains open; that a hard filter inside the training loop is not neutral does not.
 
 **Other limits.** Contracts add a skill without forgetting in two of three seeds (L4); composed contracts are less reliable than one (P7); the tasks with proofs are synthetic, and the natural-image version is a synthetic label on real backgrounds; models are small; most results use two or three seeds.
 
@@ -294,6 +293,6 @@ Each experiment was registered in `PREREG.md` before it ran and is written up in
 | S2 | Lesion atlas | Healing is local (6/6); block removals leave 0.1–0.65 dB | 1 of 4, 1 in part |
 | P2b | Contract vs ramp near the image edges | Contract loses 9–11 points at its untrained wrap-around boundary, ramp 4–8 | 0 of 3 |
 | B3 | Give a generator position | Read from zero, but ablating it changes images by 0.65 levels | 2 of 3 |
-| S5b | | [pending] | |
+| S5b | Why does the filter pull the generator in? | Registered mechanism refuted; filtering reals too makes it worse | 1 of 3, 1 in part |
 
 **Reproducing.** Every script is under `src/`; `run_queue*.sh` record the order in which jobs ran on one 8 GB GPU; `results/queue.log` records start and end times, and `LOG.md` every change of plan.

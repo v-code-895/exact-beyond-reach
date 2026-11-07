@@ -1093,3 +1093,24 @@ network never had to resolve it. Within reach of that boundary its behaviour is 
 errs (the reach law, §4 of the paper: anything within reach of the boundary is set by training, and only as good as the data there). The
 coordinate ramp has no decision boundary at the edges (0 is clearly left, 1 clearly right) and loses less. A contract's exact guarantee
 beyond its reach says nothing about how well it behaves next to its own boundaries.
+
+## B3. Give a generator position and let it train (2026-11-06)
+
+Script `src/b3_position.py 2e-5`; output `results/b3/`. CatGAN-26 continued on real cats for 2,000 steps (lr 2 × 10⁻⁵, the registered
+rule), seeds 0–2; arm (b) adds exact coarse x and y coordinate wires (4 levels each), frozen, with zero weights into the existing channels
+(install exact to 3.3 × 10⁻⁶). Mean ± sd over seeds at step 2,000:
+
+| arm | Fréchet distance | change vs base (RGB levels) | mean-image asymmetry | weights out of the wires (norm) | ablating them: image change / Fréchet distance |
+|---|---|---|---|---|---|
+| (a) control | 57.29 ± 0.19 | 16.2 | 5.30 | — | — |
+| (b) coordinate wires | 56.49 ± 0.05 | 17.2 | 5.38 | 0.065 (from exactly 0) | 0.65 levels / 56.35 |
+
+**Against the predictions.** (1) *The weights out of the wires grow from zero:* **confirmed** (0 → 0.065). (2) *Ablating them changes the images
+more than the Fréchet difference suggests, i.e. the network leans on position:* **wrong**: ablation changes images by only 0.65 RGB levels
+(training itself moved them by 17) and leaves the Fréchet distance where it was (56.35). (3) *The Fréchet distance is not better than (a)'s
+by more than 1:* **confirmed** (0.8).
+
+**What it means.** Given exact position it never had, the generator starts to read it, as B2's gradients predicted, but real cat images give
+it almost nothing to do with it: removing the wires afterwards changes images by under one RGB level and costs nothing. The data does not ask
+for position, so training does not come to depend on it. This is the converse of the odd eyes (C1, D5): position is supplied easily, and used
+only when the task demands it.

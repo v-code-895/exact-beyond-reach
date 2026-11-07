@@ -1,0 +1,39 @@
+install 3.337860107421875e-06
+(a) control 0 {'step': 0, 'fd': 58.3253, 'asymmetry_mean_image': 6.2193, 'mean_change_vs_base': 0.0} 329s
+(a) control 0 {'step': 500, 'fd': 56.8709, 'asymmetry_mean_image': 5.7169, 'mean_change_vs_base': 7.7609} 648s
+(a) control 0 {'step': 1000, 'fd': 56.4753, 'asymmetry_mean_image': 5.6385, 'mean_change_vs_base': 12.7604} 968s
+(a) control 0 {'step': 1500, 'fd': 57.1038, 'asymmetry_mean_image': 5.3976, 'mean_change_vs_base': 15.8695} 1288s
+(a) control 0 {'step': 2000, 'fd': 57.549, 'asymmetry_mean_image': 5.3453, 'mean_change_vs_base': 17.4496} 1623s
+(a) control 1 {'step': 0, 'fd': 58.3253, 'asymmetry_mean_image': 6.2193, 'mean_change_vs_base': 0.0} 1738s
+(a) control 1 {'step': 500, 'fd': 56.9726, 'asymmetry_mean_image': 5.7545, 'mean_change_vs_base': 7.1462} 2046s
+(a) control 1 {'step': 1000, 'fd': 57.2549, 'asymmetry_mean_image': 5.5435, 'mean_change_vs_base': 11.8853} 2361s
+(a) control 1 {'step': 1500, 'fd': 57.103, 'asymmetry_mean_image': 5.3441, 'mean_change_vs_base': 13.9981} 2668s
+(a) control 1 {'step': 2000, 'fd': 57.1688, 'asymmetry_mean_image': 5.2043, 'mean_change_vs_base': 15.2535} 2974s
+(a) control 2 {'step': 0, 'fd': 58.3253, 'asymmetry_mean_image': 6.2193, 'mean_change_vs_base': 0.0} 3088s
+(a) control 2 {'step': 500, 'fd': 57.2206, 'asymmetry_mean_image': 5.8137, 'mean_change_vs_base': 7.6316} 3397s
+(a) control 2 {'step': 1000, 'fd': 56.5911, 'asymmetry_mean_image': 5.6876, 'mean_change_vs_base': 12.6661} 3703s
+(a) control 2 {'step': 1500, 'fd': 56.5142, 'asymmetry_mean_image': 5.5432, 'mean_change_vs_base': 14.658} 4001s
+(a) control 2 {'step': 2000, 'fd': 57.137, 'asymmetry_mean_image': 5.3622, 'mean_change_vs_base': 15.8617} 4299s
+(b) coordinate wires 0 {'step': 0, 'fd': 58.3258, 'asymmetry_mean_image': 6.2193, 'mean_change_vs_base': 0.0, 'wire_out_norm': 0.0, 'ablation_mean_change': 0.0, 'ablation_fd': None, 'wires_unchanged': True} 4425s
+(b) coordinate wires 0 {'step': 500, 'fd': 56.7041, 'asymmetry_mean_image': 5.8431, 'mean_change_vs_base': 7.4829, 'wire_out_norm': 0.0147, 'ablation_mean_change': 0.1693, 'ablation_fd': None, 'wires_unchanged': True} 4829s
+(b) coordinate wires 0 {'step': 1000, 'fd': 56.0402, 'asymmetry_mean_image': 5.5947, 'mean_change_vs_base': 12.2651, 'wire_out_norm': 0.0323, 'ablation_mean_change': 0.3155, 'ablation_fd': None, 'wires_unchanged': True} 5224s
+(b) coordinate wires 0 {'step': 1500, 'fd': 55.8633, 'asymmetry_mean_image': 5.3506, 'mean_change_vs_base': 15.6292, 'wire_out_norm': 0.0501, 'ablation_mean_change': 0.5225, 'ablation_fd': None, 'wires_unchanged': True} 5629s
+(b) coordinate wires 0 {'step': 2000, 'fd': 56.4171, 'asymmetry_mean_image': 5.2346, 'mean_change_vs_base': 18.0115, 'wire_out_norm': 0.0654, 'ablation_mean_change': 0.6905, 'ablation_fd': 56.3273, 'wires_unchanged': True} 6136s
+(b) coordinate wires 1 {'step': 0, 'fd': 58.3258, 'asymmetry_mean_image': 6.2193, 'mean_change_vs_base': 0.0, 'wire_out_norm': 0.0, 'ablation_mean_change': 0.0, 'ablation_fd': None, 'wires_unchanged': True} 6265s
+(b) coordinate wires 1 {'step': 500, 'fd': 56.5855, 'asymmetry_mean_image': 5.7456, 'mean_change_vs_base': 6.4626, 'wire_out_norm': 0.015, 'ablation_mean_change': 0.184, 'ablation_fd': None, 'wires_unchanged': True} 6670s
+(b) coordinate wires 1 {'step': 1000, 'fd': 56.0398, 'asymmetry_mean_image': 5.4765, 'mean_change_vs_base': 12.0225, 'wire_out_norm': 0.0325, 'ablation_mean_change': 0.3754, 'ablation_fd': None, 'wires_unchanged': True} 7100s
+(b) coordinate wires 1 {'step': 1500, 'fd': 56.4276, 'asymmetry_mean_image': 5.3415, 'mean_change_vs_base': 14.965, 'wire_out_norm': 0.0491, 'ablation_mean_change': 0.4694, 'ablation_fd': None, 'wires_unchanged': True} 7457s
+(b) coordinate wires 1 {'step': 2000, 'fd': 56.5306, 'asymmetry_mean_image': 5.5372, 'mean_change_vs_base': 17.6033, 'wire_out_norm': 0.0648, 'ablation_mean_change': 0.6626, 'ablation_fd': 56.3267, 'wires_unchanged': True} 7884s
+(b) coordinate wires 2 {'step': 0, 'fd': 58.3258, 'asymmetry_mean_image': 6.2193, 'mean_change_vs_base': 0.0, 'wire_out_norm': 0.0, 'ablation_mean_change': 0.0, 'ablation_fd': None, 'wires_unchanged': True} 7989s
+(b) coordinate wires 2 {'step': 500, 'fd': 57.0153, 'asymmetry_mean_image': 5.8022, 'mean_change_vs_base': 6.8902, 'wire_out_norm': 0.0151, 'ablation_mean_change': 0.241, 'ablation_fd': None, 'wires_unchanged': True} 8245s
+(b) coordinate wires 2 {'step': 1000, 'fd': 57.1099, 'asymmetry_mean_image': 5.5988, 'mean_change_vs_base': 11.8674, 'wire_out_norm': 0.0329, 'ablation_mean_change': 0.3677, 'ablation_fd': None, 'wires_unchanged': True} 8501s
+(b) coordinate wires 2 {'step': 1500, 'fd': 56.7856, 'asymmetry_mean_image': 5.4695, 'mean_change_vs_base': 14.5052, 'wire_out_norm': 0.0491, 'ablation_mean_change': 0.4715, 'ablation_fd': None, 'wires_unchanged': True} 8758s
+(b) coordinate wires 2 {'step': 2000, 'fd': 56.5101, 'asymmetry_mean_image': 5.3696, 'mean_change_vs_base': 16.1256, 'wire_out_norm': 0.0647, 'ablation_mean_change': 0.592, 'ablation_fd': 56.3978, 'wires_unchanged': True} 9101s
+# B3: give a generator position
+
+lr 2e-05; 2000 steps; mean ± sd over seeds 0-2 at the end. Install exact to 3.3e-06.
+
+| arm | Fréchet distance | change vs base (RGB levels) | mean-image asymmetry | weights out of the wires (norm) | ablating them: image change / Fréchet distance |
+|---|---|---|---|---|---|
+| (a) control | 57.285 ± 0.187 | 16.188 ± 0.926 | 5.304 ± 0.071 | - | - / - |
+| (b) coordinate wires | 56.486 ± 0.049 | 17.247 ± 0.810 | 5.380 ± 0.124 | 0.065 ± 0.000 | 0.648 ± 0.041 / 56.351 ± 0.033 |

@@ -12,7 +12,7 @@ Build: python paper/build_paper.py (HTML + PDF, as paper one). -->
 
 ## Abstract
 
-A companion paper showed that an LLM agent can compile exact structure into trained networks: wires, gates, guards and exceptions built from identities of the activations a network already uses. This paper asks what happens next, when gradient descent keeps training around that structure. In 37 pre-registered experiments so far (two more are running) on a synthetic classifier, a super-resolution network, a cat generator and Pythia-160M, the answer has one organising result, which we call the **reach law**:
+A companion paper showed that an LLM agent can compile exact structure into trained networks: wires, gates, guards and exceptions built from identities of the activations a network already uses. This paper asks what happens next, when gradient descent keeps training around that structure. In 38 pre-registered experiments so far (one more is running) on a synthetic classifier, a super-resolution network, a cat generator and Pythia-160M, the answer has one organising result, which we call the **reach law**:
 
 - **What is fixed.** A frozen module fixes, exactly, everything beyond the reach of the trainable parts in front of it. This is a proposition that holds for any weights. Measured on 39 trained models with three different reaches and three different architectures, on synthetic and natural images, an attacker who may repaint one input column moves the output by up to 45 logits at the module's boundary, and by **exactly 0.0** at every distance at or beyond the reach.
 - **What is renegotiated.** Within that reach, training moves even the module's own boundary. A boundary misplaced by up to 6 columns is moved back to within a column of where it belongs; the distance training can move it grows with the reach and with the size of the object (about the reach plus 1.4 object widths on clean images) and shrinks as the object gets harder to see against its background: from 8 to 5.5 columns as background noise rises, and to about 3 on natural images.
@@ -137,6 +137,8 @@ The two halves are different kinds of statement. The guarantee depends on reach 
 **Lesions (S2).** Healing is local. After a residual block of TinySR-26 is removed, the two layers that change most during 1,000 steps of healing are the blocks on either side of the gap, in every one of the six cases. Removing a whole block leaves a lasting deficit at this budget (0.1–0.2 dB on bicubic inputs, 0.2–0.65 dB on nearest-neighbour inputs), while removing the head skip (−1 dB) or a quarter of one block's channels heals completely within 100–300 steps; a closed-form suture makes the channel lesion nearly free from the start.
 
 **Transplants (S4).** Replacing one residual block of TinySR-26 with the same block from a sibling network (same pretraining) costs 0.6–1.0 dB and is accepted within 200–300 steps. A block of the same shape from an independently trained network costs 1–1.9 dB and is still 0.1–0.3 dB short after 1,000 steps. Closed-form 1×1 stitching adapters halve the damage at installation but do not speed up integration. A skill carried in by a transplant is kept only if the objective uses it: the noisy expert's block brings +0.28 dB on noisy inputs, which fades to +0.06 dB under an objective without noise.
+
+**Supplied but not needed (B3).** Exact coordinate wires added to the cat generator, with zero weights into its existing channels: under continued training on real cats the weights out of the wires grow from exactly zero (to a norm of 0.065), but removing them at the end changes the images by only 0.65 RGB levels and leaves the Fréchet distance unchanged (56.35 against 56.49). Real cat images do not ask for position, so the generator reads it a little and does not come to depend on it; the odd eyes, which do ask for it, could not be learned without it (C1, D5).
 
 **A new mode behind an exact switch (D4).** A copy of the cat generator's last blocks reads its block-3 features behind an exact switch on an extra latent bit, and only that branch trains, adversarially, on unpaired anime faces. With the switch off the network is the cat generator to 1.2 × 10⁻¹⁵ (float64). With it on, each latent's cat becomes an anime face that keeps the cat's layout (layout correlation 0.33–0.42 between matched pairs, against 0.04 for shuffled ones) and, more weakly, its colours (Figure 6). The frozen trunk shapes what the new mode learns, with no paired data.
 
@@ -291,6 +293,7 @@ Each experiment was registered in `PREREG.md` before it ran and is written up in
 | S4 | Transplant and rejection | Sibling block accepted in 200–300 steps; foreign block 0.1–0.3 dB short after 1,000 | 2 of 6, 1 in part |
 | S2 | Lesion atlas | Healing is local (6/6); block removals leave 0.1–0.65 dB | 1 of 4, 1 in part |
 | P2b | Contract vs ramp near the image edges | Contract loses 9–11 points at its untrained wrap-around boundary, ramp 4–8 | 0 of 3 |
-| B3, S5b | | [pending] | |
+| B3 | Give a generator position | Read from zero, but ablating it changes images by 0.65 levels | 2 of 3 |
+| S5b | | [pending] | |
 
 **Reproducing.** Every script is under `src/`; `run_queue*.sh` record the order in which jobs ran on one 8 GB GPU; `results/queue.log` records start and end times, and `LOG.md` every change of plan.

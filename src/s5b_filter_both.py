@@ -7,7 +7,7 @@ the same way, and measure the discriminator's score on real orange vs real non-o
   (b) pixel filter on generated AND real images, seeds 0-2
   (c) control: no filter, seeds 0-1
 
-  <venv python> followup/src/s5b_filter_both.py          (S5B_SMOKE=1 for a short run)
+  <venv python> src/s5b_filter_both.py          (S5B_SMOKE=1 for a short run)
 """
 import os, time
 import numpy as np

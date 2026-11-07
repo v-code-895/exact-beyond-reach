@@ -21,4 +21,4 @@ for j, (title, key, diffkey) in enumerate(cols):
             ax.text(96, 118, f"right\nmax {rtxt}", color="white", ha="center", fontsize=8.5)
 # fig.text(0.5, 0.01, "The detector inside the frozen wiring changes only the left half (right half unchanged to float rounding); the student learned the odd eyes from the patched teacher but changes the right half too (D5).",
 #         ha="center", fontsize=9.5, color=INK)
-fig.tight_layout(); fig.savefig(os.path.join(HERE, "figures", "fig_odd_eyes_followup.png"), dpi=130); print("ok")
+fig.tight_layout(); fig.savefig(os.path.join(HERE, "figures", "fig_odd_eyes.png"), dpi=130); print("ok")

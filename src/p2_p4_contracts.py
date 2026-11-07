@@ -4,7 +4,7 @@ P2-P4: contracts on P1's task (see PREREG.md).
   p3: a post hoc contract on a pretrained network (zero-shot, then few-shot)
   p4: robustness by construction (attacks confined to columns 20-27)
 
-  <venv python> followup/src/p2_p4_contracts.py p3|p2|p4
+  <venv python> src/p2_p4_contracts.py p3|p2|p4
 """
 import sys, time
 import numpy as np

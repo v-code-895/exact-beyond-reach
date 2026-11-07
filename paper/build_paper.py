@@ -1,5 +1,5 @@
 """
-Build paper/followup.html and paper/followup.pdf from paper/followup.md (copied from paper one) without pandoc or LaTeX: the page renders
+Build paper/exact_beyond_reach.html and .pdf from paper/exact_beyond_reach.md (copied from paper one) without pandoc or LaTeX: the page renders
 the Markdown in the browser (marked) and typesets the maths (MathJax), and headless Chrome or Edge
 prints it to PDF. Needs an internet connection for the two scripts (cdn.jsdelivr.net).
 
@@ -143,7 +143,7 @@ def pdf_pages(path):
 def build_pdf(html_path, pdf_path, browser, attempts=3):
     """Print with headless Chrome/Edge. If the CDN scripts load too late the page prints before the
     Markdown is rendered (a one-page PDF with the title only), so check and retry."""
-    tmp = tempfile.mkdtemp(prefix="followup-pdf-")
+    tmp = tempfile.mkdtemp(prefix="ebr-pdf-")
     try:
         src = print_copy(html_path, tmp)
         for k in range(attempts):
@@ -160,7 +160,7 @@ def build_pdf(html_path, pdf_path, browser, attempts=3):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("--browser"); ap.add_argument("--html-only", action="store_true")
-    ap.add_argument("--md", default=os.path.join(HERE, "followup.md"))
+    ap.add_argument("--md", default=os.path.join(HERE, "exact_beyond_reach.md"))
     a = ap.parse_args(); a.md = os.path.abspath(a.md)
     out_html = os.path.splitext(a.md)[0] + ".html"; build_html(a.md, out_html); print("wrote", out_html)
     if not a.html_only:

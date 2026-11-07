@@ -3,7 +3,7 @@ Renders for the contract diagram (illustration; seeded): trains P1's contract (s
 L1/L2 (reach 4, boundary in the middle), plus L1's contract with the boundary misplaced to column 8, and saves the maps of a few test
 images: input, the trainable detector's (clamped) score, the frozen wire, the gated score, and the logit. Output: results/fig/contract_maps.npz
 
-  <venv python> followup/src/fig_contract_maps.py
+  <venv python> src/fig_contract_maps.py
 """
 import numpy as np
 import common as C

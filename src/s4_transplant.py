@@ -3,7 +3,7 @@ S4: transplant and rejection. Replace block 2 of TinySR-26 with a block from a r
 lineage) or an unrelated one (D2's from-scratch network), optionally stitched in with closed-form 1x1 adapters, and heal
 for 1,000 steps (see PREREG.md).
 
-  <venv python> followup/src/s4_transplant.py
+  <venv python> src/s4_transplant.py
 """
 import os, time
 import numpy as np

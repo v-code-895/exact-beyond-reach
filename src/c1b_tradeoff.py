@@ -6,7 +6,7 @@ sweeping the preservation weight lambda, with the preservation region matched to
 (left-half pixels outside a 3-pixel dilation of the iris mask). The frozen network's b5c1 features for the
 2,000 fitting latents are cached once (float16, left half plus one column) so the 45 runs are cheap.
 
-  <venv python> followup/src/c1b_tradeoff.py
+  <venv python> src/c1b_tradeoff.py
 """
 import os, time
 import numpy as np

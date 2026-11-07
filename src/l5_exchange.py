@@ -3,7 +3,7 @@ L5 (TinySR part): what the fixed bicubic shortcut is worth in width (see PREREG.
 TinySR-26's architecture (6 residual blocks) from random initialisation at 24, 48 and 96 channels, with and without the
 shortcut, 3,000 steps of S3's objective, seeds 0-1. 48 channels without the shortcut is S3's newborn arm (seeds 0-1), reused.
 
-  <venv python> followup/src/l5_exchange.py [--smoke]
+  <venv python> src/l5_exchange.py [--smoke]
 """
 import json, os, sys, time
 import numpy as np

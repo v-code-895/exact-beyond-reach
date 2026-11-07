@@ -2,7 +2,7 @@
 Renders for the paper's figures (no training): odd-eyed cats from saved detectors and students, and the cat generator's
 gate maps. Output: results/fig/gan_renders.npz
 
-  <venv python> followup/src/fig_gan_renders.py
+  <venv python> src/fig_gan_renders.py
 """
 import numpy as np
 import common as C

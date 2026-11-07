@@ -9,7 +9,7 @@ paper one's mixed batches, seeds 0-2:
   (c) distillation + ground truth (losses averaged);
   (d) 3x width (exactly widened base), joint retraining on ground truth.
 
-  <venv python> followup/src/a3_union_distill.py
+  <venv python> src/a3_union_distill.py
 """
 import time, sys
 import numpy as np

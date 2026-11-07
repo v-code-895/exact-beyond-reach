@@ -2,7 +2,7 @@
 S2: lesion atlas. Remove one part of TinySR-26 at a time, heal for 1,000 steps, and record damage, recovery and where the
 healing happens (see PREREG.md).
 
-  <venv python> followup/src/s2_lesion_atlas.py
+  <venv python> src/s2_lesion_atlas.py
 """
 import time
 import numpy as np

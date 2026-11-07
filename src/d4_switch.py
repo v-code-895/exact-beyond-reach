@@ -8,7 +8,7 @@ through every layer, the trunk and branch run side by side, and a final 1x1 laye
     out = a + relu(d - M(1 - s)) - relu(-d - M(1 - s)),  d = b - a  (a: cat image, b: branch image, M = 10),
 with a carried by the pass identity and each relu by a LeakyReLU pair. s = 0 gives the cat network; s = 1 the branch.
 
-  <venv python> followup/src/d4_switch.py <k: 3 or 2> [lr]
+  <venv python> src/d4_switch.py <k: 3 or 2> [lr]
 """
 import sys, time
 import numpy as np

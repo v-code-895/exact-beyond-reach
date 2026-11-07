@@ -10,7 +10,7 @@ trainable parts in front of it, and training renegotiates everything within that
   l7     reach, not depth: three trunks with reach 4 (2 layers, one dilated; 4 layers; 6 layers with two 1x1)
   l8     renegotiation vs visibility: L1's task (r = 4, sigma = 2) with background noise 0.05, 0.15 or 0.3
 
-  <venv python> followup/src/l_series.py l1|l2|l3|l4|l5toy|l6|l7|l8 [--smoke]
+  <venv python> src/l_series.py l1|l2|l3|l4|l5toy|l6|l7|l8 [--smoke]
 """
 import copy, sys, time
 import numpy as np

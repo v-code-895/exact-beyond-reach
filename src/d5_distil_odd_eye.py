@@ -8,7 +8,7 @@ Teacher: paper one's left-eye patched CatGAN-26 (folded). Students start from th
 Loss: mean L1 to the teacher + mean L1 over pixels where the teacher differs from the base by > 2 levels.
 Fresh latents every batch (32), Adam lr 2e-5 (0.9, 0.99; 1e-4 drifted in a pilot), 2,000 steps, EMA (rate 0.01), seeds 0-2.
 
-  <venv python> followup/src/d5_distil_odd_eye.py [a b c]
+  <venv python> src/d5_distil_odd_eye.py [a b c]
 """
 import copy, sys, time
 import numpy as np

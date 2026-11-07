@@ -2,7 +2,7 @@
 C1d: eight units split on the output side (see PREREG.md): each unit is the full closed-form detector plus noise, with a fixed
 output weight of 1/8, so the eight relu outputs average to the closed form at install. Same cache, loss, evaluator as C1b/C1c.
 
-  <venv python> followup/src/c1d_output_split.py
+  <venv python> src/c1d_output_split.py
 """
 import os, time
 import numpy as np

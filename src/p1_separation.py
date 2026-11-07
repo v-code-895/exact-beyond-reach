@@ -3,7 +3,7 @@ P1: a provable gap (see PREREG.md). Synthetic 32x32 images on a torus with a red
 blob in the left half. An exactly shift-equivariant CNN (circular padding + global pooling) is at chance for any weights;
 a frozen RIGHT wire + AND scaffold makes the task representable so that only a detector has to be learned.
 
-  <venv python> followup/src/p1_separation.py
+  <venv python> src/p1_separation.py
 """
 import time
 import numpy as np

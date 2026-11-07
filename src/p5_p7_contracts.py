@@ -4,7 +4,7 @@ P5-P7: mapping the contract on P1's task (see PREREG.md).
   p6: wrong contracts — boundary at column 14 or 12, inverted halves
   p7: two contracts composed — red on the left AND blue on the top
 
-  <venv python> followup/src/p5_p7_contracts.py p5|p6|p7
+  <venv python> src/p5_p7_contracts.py p5|p6|p7
 """
 import sys, time
 import numpy as np

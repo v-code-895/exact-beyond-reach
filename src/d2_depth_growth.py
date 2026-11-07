@@ -11,7 +11,7 @@ L1), Adam 1e-4, EMA, seeds 0-2:
 Evaluated every 250 steps on paper one's 180 test photos (bicubic and nearest inputs); EMA weights kept
 every 1,000 steps.
 
-  <venv python> followup/src/d2_depth_growth.py
+  <venv python> src/d2_depth_growth.py
 """
 import os, time
 import numpy as np

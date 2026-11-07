@@ -5,7 +5,7 @@ Follow-ups to P5-P7 (see PREREG.md, "P6b, P7b, P9b"):
   p7b: two contracts with a small MLP readout instead of a linear one, and where the composed contract's errors are
   p9b: learning curves at small N (8, 16, 32) for (c) coordinate channel, (d) contract, (f) binary wire as an input channel
 
-  <venv python> followup/src/p_ext.py p6b|p7b|p9b
+  <venv python> src/p_ext.py p6b|p7b|p9b
 """
 import sys, time
 import numpy as np

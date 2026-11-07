@@ -7,7 +7,7 @@ LeakyReLU exactly; nearest upsampling keeps the blocks). Their weights into exis
 train; the wires themselves are frozen. (a) is the control, trained the same way. Continued GAN training on real
 cats (gan_common), seeds 0-2.
 
-  <venv python> followup/src/b3_position.py <lr>
+  <venv python> src/b3_position.py <lr>
 """
 import sys, time
 import numpy as np

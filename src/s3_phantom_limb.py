@@ -1,7 +1,7 @@
 """
 S3: phantom limb. Cut TinySR-26's fixed bicubic shortcut, let the network heal, then re-attach the shortcut (see PREREG.md).
 
-  <venv python> followup/src/s3_phantom_limb.py
+  <venv python> src/s3_phantom_limb.py
 """
 import time
 import numpy as np

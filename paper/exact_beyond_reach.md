@@ -27,7 +27,7 @@ Around this law:
 - **Guarantees do not distil.** Students trained on a guarded teacher's outputs match its quality and violate its bound on every attack start, while the teacher's violation is exactly zero.
 - **Limits.** Protection by margins is statistical: an edit grown into Pythia keeps its fact (probability 0.98 against 0.29 for the same edit by fine-tuning), but its weights still move. A hard filter inside continued GAN training survives exactly and pulls the generator into the very category it filters.
 
-![Odd-eyed cats: inside frozen wiring, and without it.](figures/fig_odd_eyes_followup.png)
+![Odd-eyed cats: inside frozen wiring, and without it.](figures/fig_odd_eyes.png)
 
 *Figure 2. Real outputs of the cat generator. A detector trained by gradient descent inside a frozen wire and AND gate (third column) recolours the left iris and leaves the right half unchanged to float rounding (4 × 10⁻⁷). A plain network taught the same behaviour by copying the patched one (fifth column, D5) learns the odd eyes, but also changes the right half (up to 0.28). Change maps: largest per-pixel change, 0–1 scale.*
 

@@ -2,7 +2,7 @@
 Illustration only (not a registered result): rerun S5 arms with image snapshots, for the paper's figures.
 Saves, every 500 steps, the EMA generator's unfiltered and filtered images for 8 fixed latents.
 
-  <venv python> followup/src/fig_s5_snapshots.py
+  <venv python> src/fig_s5_snapshots.py
 """
 import time
 import numpy as np

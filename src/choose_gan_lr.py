@@ -3,7 +3,7 @@ Apply the registered setup rule to the B1 stability check and print the chosen g
 Stable: Fréchet distance at step 2,000 at most 5 above step 0, and mean image change against the base at most 0.10.
 Prefer lr 2e-4 (paper one's rate) if stable, else 2e-5; print 'none' if neither folded setup is stable.
 
-  <venv python> followup/src/choose_gan_lr.py
+  <venv python> src/choose_gan_lr.py
 """
 import json, os
 import common as C

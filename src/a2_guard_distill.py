@@ -9,7 +9,7 @@ TinySR-18A's original architecture and start from its base weights:
   (c) paper one's ground-truth fine-tune (exp21.finetune, 4,000 steps, dark pixels x8).
 Then PGD on the input looks for violations of the teacher's bound, from 100 starts, at three radii.
 
-  <venv python> followup/src/a2_guard_distill.py
+  <venv python> src/a2_guard_distill.py
 """
 import os, time
 import numpy as np

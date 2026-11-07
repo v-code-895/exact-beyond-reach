@@ -8,7 +8,7 @@ between the trained network and the same network with the gate's outgoing weight
 Also: share of left irises in the blue band (paper one's 300 test latents), and wire purity at b5c1
 (largest deviation of the carrier from the exact right-half indicator).
 
-  <venv python> followup/src/b1_pilot.py
+  <venv python> src/b1_pilot.py
 """
 import time
 import numpy as np

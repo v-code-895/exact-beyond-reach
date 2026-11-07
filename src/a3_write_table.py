@@ -2,7 +2,7 @@
 Write A3's results table from results/a3/a3_results.json (the same table a3_union_distill.py writes at the end),
 for when the run is stopped early: the 3x-wide arm was cut to one seed at the person's request (LOG.md).
 
-  <venv python> followup/src/a3_write_table.py
+  <venv python> src/a3_write_table.py
 """
 import json
 import numpy as np

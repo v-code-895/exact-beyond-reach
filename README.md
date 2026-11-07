@@ -1,7 +1,7 @@
 # Exact Beyond Reach
 
 **What gradient descent can and cannot change around frozen structure.**
-Paper: [`paper/followup.pdf`](paper/followup.pdf) (source `paper/followup.md`, built with `python paper/build_paper.py`).
+Paper: [`paper/exact_beyond_reach.pdf`](paper/exact_beyond_reach.pdf) (source `paper/exact_beyond_reach.md`, built with `python paper/build_paper.py`).
 
 Exact structure (wires, gates, bounds, switches) can be compiled into a trained neural network after training. This repository
 studies what happens when the network keeps training around that structure. The organising result, the *reach law*: a frozen module

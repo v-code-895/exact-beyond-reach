@@ -2,7 +2,7 @@
 C1c: eight detector units, each warm-started as 1/8 of the closed-form detector (see PREREG.md). Reuses C1b's cache,
 training, evaluator and saved closed-form fit, so the runs are directly comparable with C1b's.
 
-  <venv python> followup/src/c1c_warm_units.py
+  <venv python> src/c1c_warm_units.py
 """
 import os, time
 import numpy as np

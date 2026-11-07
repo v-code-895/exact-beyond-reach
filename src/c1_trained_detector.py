@@ -11,7 +11,7 @@ real network (grown b5c2 channels in relu pairs) and evaluated with paper one's 
 Arms: (a) paper one's closed form (300 fitting cats); (b) the same rule on 2,000 fitting cats;
 (c) Adam from (b); (d) Adam from random; (e) Adam, K = 8 units, random. Seeds 0-2 for (c)-(e).
 
-  <venv python> followup/src/c1_trained_detector.py
+  <venv python> src/c1_trained_detector.py
 """
 import time
 import numpy as np

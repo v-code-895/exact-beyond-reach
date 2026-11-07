@@ -5,8 +5,8 @@ one for pooling), nearest upsampling and LeakyReLU pairs, with paper one's ident
     relu(u) = (lrelu(u) + a lrelu(-u)) / (1 - a^2);  clamp(v, 0, 1) = relu(v) - relu(v - 1);
     mux:     out = x + relu(d - M (1 - g)) - relu(-d - M (1 - g)),  d = 0.5 - x,  M = 10.
 
-  <venv python> followup/src/s5_filter.py        all six arms
-  <venv python> followup/src/s5_filter.py 3      one arm only (amendment 2026-11-06: arm 3), saved as s5_arm3_results.json
+  <venv python> src/s5_filter.py        all six arms
+  <venv python> src/s5_filter.py 3      one arm only (amendment 2026-11-06: arm 3), saved as s5_arm3_results.json
 """
 import sys, time
 import numpy as np

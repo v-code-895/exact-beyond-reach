@@ -8,7 +8,7 @@ the second channel derived from them in the forward pass (identical function). T
 lrelu'(p) - a*lrelu'(-p) = a - a = 0 wherever p < 0, so pixels where the gate is off should contribute
 exactly nothing. Measured per batch as in B2, with the gradient restricted to right-half or left-half pixels.
 
-  <venv python> followup/src/b2b_tied_pairs.py
+  <venv python> src/b2b_tied_pairs.py
 """
 import time, json
 import numpy as np

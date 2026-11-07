@@ -9,8 +9,8 @@ embed_out[Rome] - embed_out[Paris]. The margin m sets the largest pre-activation
 -m (and the smallest on fitting paraphrases to +m). Then the whole model keeps training on held-out Pile
 text, and we watch whether the unit's weights get gradient and whether the edit survives.
 
-  <venv python> followup/src/e1_shielded_edit.py        (E1)
-  <venv python> followup/src/e1_shielded_edit.py e1b    (E1b: lr 1e-6, Adam warmed 100 steps at lr 0; no-edit control, margin 30, fine-tuned)
+  <venv python> src/e1_shielded_edit.py        (E1)
+  <venv python> src/e1_shielded_edit.py e1b    (E1b: lr 1e-6, Adam warmed 100 steps at lr 0; no-edit control, margin 30, fine-tuned)
 """
 import copy, os, sys, time
 import numpy as np

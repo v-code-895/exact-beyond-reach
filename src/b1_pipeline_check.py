@@ -8,7 +8,7 @@ from paper one's step-30,000 state, unpatched? Three setups, 2,000 steps each, D
 Every 500 steps: Fréchet distance in MobileNetV2 features (paper one's metric) between 500 EMA samples
 and 500 real AFHQ validation cats, and the mean change of the EMA images against the base on fixed latents.
 
-  <venv python> followup/src/b1_pipeline_check.py
+  <venv python> src/b1_pipeline_check.py
 """
 import copy, os, time, sys
 import numpy as np

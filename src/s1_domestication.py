@@ -3,7 +3,7 @@ S1: domestication. Paper one's noisy-input expert runs frozen beside a TinySR-26
 features (zero at install, so the system is exactly the host) mixes it in: out = host + g * (organ - host). Does the host
 learn to route to the organ, come to depend on it, and let its own denoising wither? (see PREREG.md)
 
-  <venv python> followup/src/s1_domestication.py
+  <venv python> src/s1_domestication.py
 """
 import json, os, time
 import numpy as np

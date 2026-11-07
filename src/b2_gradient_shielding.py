@@ -7,7 +7,7 @@ gradient against paper one's trained discriminator (with its augmentation) on 50
 and record per weight group the share of entries whose gradient is exactly zero. For the MobileNetV2
 exception unit, compute per-example gradients of paper one's preservation objective.
 
-  <venv python> followup/src/b2_gradient_shielding.py
+  <venv python> src/b2_gradient_shielding.py
 """
 import time
 import numpy as np

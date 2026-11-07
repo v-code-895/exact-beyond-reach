@@ -30,6 +30,8 @@ Around this law:
 - **Guarantees do not distil.** Students trained on a guarded teacher's outputs match its quality and violate its bound on every attack start, while the teacher's violation is exactly zero.
 - **Limits.** Protection by margins is statistical: an edit grown into Pythia keeps its fact (probability 0.98 against 0.29 for the same edit by fine-tuning), but its weights still move. A hard filter inside continued GAN training survives exactly and pulls the generator into the very category it filters.
 
+Code, pre-registrations and results: https://github.com/v-code-895/exact-beyond-reach (archived at https://doi.org/10.5281/zenodo.24032112).
+
 ![Odd-eyed cats: inside frozen wiring, and without it.](figures/fig_odd_eyes.png)
 
 *Figure 2. Real outputs of the cat generator. A detector trained by gradient descent inside a frozen wire and AND gate (third column) recolours the left iris and leaves the right half unchanged to float rounding (4 × 10⁻⁷). A plain network taught the same behaviour by copying the patched one (fifth column, D5) learns the odd eyes, but also changes the right half (up to 0.28). Change maps: largest per-pixel change, 0–1 scale.*
@@ -43,11 +45,11 @@ Three questions run through it:
 2. **What does training do with the structure?** Does the rest of the network use it, depend on it, compensate for its errors, or route around it?
 3. **What can structure do that training cannot?** Where is installed structure the only route to a behaviour, and what is it worth where training could also get there?
 
-The central answer is the reach law (Figure 4, §4). A frozen module's guarantee is exact beyond the reach of the trainable parts that feed it, and training can renegotiate everything within that reach, including where the module's own boundary effectively sits. The guarantee side is a short proposition we state and check exactly; the renegotiation side is a measured quantity with a simple form on clean data and a smaller value on natural images.
+The central answer is the reach law (Figure 3, §4). A frozen module's guarantee is exact beyond the reach of the trainable parts that feed it, and training can renegotiate everything within that reach, including where the module's own boundary effectively sits. The guarantee side is a short proposition we state and check exactly; the renegotiation side is a measured quantity with a simple form on clean data and a smaller value on natural images.
 
 ![The reach law on P1's task, drawn for a detector of reach 4.](figures/fig_reach_schematic.png)
 
-*Figure 4. The reach law. A frozen gate passes a trainable detector's score on columns 0–15 and zeroes it elsewhere. Input columns farther from the gate's region than the detector's reach cannot change the output, for any weights (aqua). Within the reach (orange), training can change what counts, and can move the effective boundary.*
+*Figure 3. The reach law. A frozen gate passes a trainable detector's score on columns 0–15 and zeroes it elsewhere. Input columns farther from the gate's region than the detector's reach cannot change the output, for any weights (aqua). Within the reach (orange), training can change what counts, and can move the effective boundary.*
 
 **Contributions.**
 - The reach law, with a proposition for its guarantee side and measurements of its renegotiation side across reach, object size, clutter and natural images (§4).
@@ -72,7 +74,7 @@ The central answer is the reach law (Figure 4, §4). A frozen module's guarantee
 
 ![A frozen contract, with the real maps of trained networks.](figures/fig_contract_diagram.png)
 
-*Figure 3. What a contract is. (a) On P1's task and on cat photos with a red disc: a trainable detector (orange) scores the image; a frozen wire, clamp and gate (blue) pass the score where the wire is open and set it to exactly 0 where it is closed; a frozen average gives the answer. (b) The same pattern inside the cat generator, producing the odd eyes of Figure 2. All maps are from trained networks.*
+*Figure 4. What a contract is. (a) On P1's task and on cat photos with a red disc: a trainable detector (orange) scores the image; a frozen wire, clamp and gate (blue) pass the score where the wire is open and set it to exactly 0 where it is closed; a frozen average gives the answer. (b) The same pattern inside the cat generator, producing the odd eyes of Figure 2. All maps are from trained networks.*
 
 ## 3. Contracts make an impossible task learnable
 
@@ -314,4 +316,4 @@ Each experiment was registered in `PREREG.md` before it ran and is written up in
 | B3 | Give a generator position | Read from zero, but ablating it changes images by 0.65 levels | 2 of 3 |
 | S5b | Why does the filter pull the generator in? | Registered mechanism refuted; filtering reals too makes it worse | 1 of 3, 1 in part |
 
-**Reproducing.** Every script is under `src/`; `run_queue*.sh` record the order in which jobs ran on one 8 GB GPU; `results/queue.log` records start and end times, and `LOG.md` every change of plan.
+**Reproducing.** Code, pre-registrations and results are released at https://github.com/v-code-895/exact-beyond-reach and archived at https://doi.org/10.5281/zenodo.24032112. Every script is under `src/`; `run_queue*.sh` record the order in which jobs ran on one 8 GB GPU; `results/queue.log` records start and end times, and `LOG.md` every change of plan.

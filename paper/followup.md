@@ -12,7 +12,7 @@ Build: python paper/build_paper.py (HTML + PDF, as paper one). -->
 
 ## Abstract
 
-A companion paper showed that an LLM agent can compile exact structure into trained networks: wires, gates, guards and exceptions built from identities of the activations a network already uses. This paper asks what happens next, when gradient descent keeps training around that structure. In 36 pre-registered experiments so far (three more are running) on a synthetic classifier, a super-resolution network, a cat generator and Pythia-160M, the answer has one organising result, which we call the **reach law**:
+A companion paper showed that an LLM agent can compile exact structure into trained networks: wires, gates, guards and exceptions built from identities of the activations a network already uses. This paper asks what happens next, when gradient descent keeps training around that structure. In 37 pre-registered experiments so far (two more are running) on a synthetic classifier, a super-resolution network, a cat generator and Pythia-160M, the answer has one organising result, which we call the **reach law**:
 
 - **What is fixed.** A frozen module fixes, exactly, everything beyond the reach of the trainable parts in front of it. This is a proposition that holds for any weights. Measured on 39 trained models with three different reaches and three different architectures, on synthetic and natural images, an attacker who may repaint one input column moves the output by up to 45 logits at the module's boundary, and by **exactly 0.0** at every distance at or beyond the reach.
 - **What is renegotiated.** Within that reach, training moves even the module's own boundary. A boundary misplaced by up to 6 columns is moved back to within a column of where it belongs; the distance training can move it grows with the reach and with the size of the object (about the reach plus 1.4 object widths on clean images) and shrinks as the object gets harder to see against its background: from 8 to 5.5 columns as background noise rises, and to about 3 on natural images.
@@ -78,7 +78,7 @@ The central answer is the reach law (Figure 1, §4). A frozen module's guarantee
 
 **An exact certificate (P4).** An attack confined to columns 20–27, beyond the reach of every left-half pixel, moves the contract's output by exactly 0.0 under PGD at every radius, including repainting the region freely; zero padding falls to 1% accuracy under the same attack, and the coordinate network to 50–89% depending on the seed.
 
-**What the contract does not buy.** It is no more robust along axes it does not constrain: with unseen distractor colours it loses 4 points more than the coordinate network (P2). Two contracts composed ("red on the left AND blue on top") reach 92–95%, below generic coordinates (97–98%), with errors concentrated where a blob straddles a boundary (P7, P7b).
+**What the contract does not buy.** It is no more robust along axes it does not constrain: with unseen distractor colours it loses 4 points more than the coordinate network (P2). Near a boundary the training data never covered, it is worse than a coordinate channel: trained with the blob away from the image edges, which on a torus are where the gate's open half meets its closed half, the contract loses 9–11 points there and the coordinate network 4–8 (P2b). Within reach of its boundary a contract is only as good as the training data near that boundary (§4). Two contracts composed ("red on the left AND blue on top") reach 92–95%, below generic coordinates (97–98%), with errors concentrated where a blob straddles a boundary (P7, P7b).
 
 ## 4. The reach law
 
@@ -290,6 +290,7 @@ Each experiment was registered in `PREREG.md` before it ran and is written up in
 | L8 | Renegotiation and visibility | 8 → 7.5 → 5.5 columns as noise rises; guarantee exact (after an attack fix) | 2 of 4, 1 in part |
 | S4 | Transplant and rejection | Sibling block accepted in 200–300 steps; foreign block 0.1–0.3 dB short after 1,000 | 2 of 6, 1 in part |
 | S2 | Lesion atlas | Healing is local (6/6); block removals leave 0.1–0.65 dB | 1 of 4, 1 in part |
-| B3, S5b, P2b | | [pending] | |
+| P2b | Contract vs ramp near the image edges | Contract loses 9–11 points at its untrained wrap-around boundary, ramp 4–8 | 0 of 3 |
+| B3, S5b | | [pending] | |
 
 **Reproducing.** Every script is under `src/`; `run_queue*.sh` record the order in which jobs ran on one 8 GB GPU; `results/queue.log` records start and end times, and `LOG.md` every change of plan.

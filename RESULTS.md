@@ -1068,3 +1068,28 @@ is within 0.05 dB by step 100; crude needs ≥ 300 steps:* **partly**: 12.6× cl
 leaves a lasting deficit at this budget (1,000 steps), while removing a quarter of one block's channels, or the head skip, is fully repaired;
 a closed-form suture makes a channel lesion nearly free from the start. The early blocks matter most for nearest-neighbour inputs, the tail and
 the middle block for bicubic ones.
+
+## P2b. Horizontal position shift (2026-11-06)
+
+Script `src/p2_p4_contracts.py p2b`; output `results/p2b/`. Trained with the red blob's centre in columns 6–25; tested in distribution and
+with the blob in columns 0–5 and 26–31 ("edges"). Accuracy per seed (0, 1, 2), %:
+
+| arm | N | in distribution | edges | mean loss (points) |
+|---|---|---|---|---|
+| (b) zero padding | 256 | 60.7, 49.5, 50.5 | 81.6, 52.9, 51.9 | — (at chance in distribution) |
+| | 4,096 | 49.7, 50.3, 50.2 | 50.6, 49.4, 50.1 | — |
+| (c) circular + coordinate ramp | 256 | 98.8, 99.3, 99.4 | 92.3, 94.6, 98.5 | 4.0 |
+| | 4,096 | 99.0, 98.2, 98.4 | 92.6, 83.4, 97.0 | 7.5 |
+| (d) contract | 256 | 99.1, 97.7, 99.1 | 90.1, 93.2, 84.5 | 9.4 |
+| | 4,096 | 99.4, 98.4, 96.4 | 90.2, 89.5, 83.1 | 10.5 |
+
+**Against the predictions.** (1) *(d) loses ≤ 2 points at the edges:* **wrong** (9–11 points). (2) *(c) loses more than (d) at N = 256:* **wrong**
+(4.0 vs 9.4). (3) *(b) loses more than (d):* **not testable**: with the blob kept away from the borders, zero padding never learns the task (chance
+in distribution).
+
+**What it means.** The prediction assumed the edges were simply unfamiliar positions. For the contract they are something else: on a torus,
+columns 0 and 31 are where the gate's open half meets the closed half, a second boundary, and with training blobs kept in columns 6–25 the
+network never had to resolve it. Within reach of that boundary its behaviour is whatever training made of it, which here was nothing, so it
+errs (the reach law, §4 of the paper: anything within reach of the boundary is set by training, and only as good as the data there). The
+coordinate ramp has no decision boundary at the edges (0 is clearly left, 1 clearly right) and loses less. A contract's exact guarantee
+beyond its reach says nothing about how well it behaves next to its own boundaries.

@@ -90,3 +90,4 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | S1 | prediction: freed capacity gives ≥ +0.05 dB on clean inputs over joint retraining | agent | S1 | narrowly wrong (+0.041) | recorded |
 | 2026-11-06 | L6 | prediction: object-like clutter shrinks renegotiation below the reach | agent | L6 | wrong: 7.5 → ~7 with six orange distractors | L8 registered: background noise (visibility) |
 | 2026-11-06 | L8 | renegotiation vs background noise (visibility) | agent | L6 null, L2 | refines the renegotiation term | registered; queued after L7 |
+| 2026-11-06 | L8 | guarantee check showed 0.02–0.86 logits beyond the reach at noise 0.15/0.3, identical at distances 4 and 5 | agent | L8 | artefact: the attack clipped the whole image to [0, 1], changing the 0.07% / 8.3% of pixels outside it (none at noise 0.05, so L1, L2, L6, L7 unaffected) | attack fixed (clip only the attacked column); guarantee rechecked on retrained b = 16 models (l8g, CPU) |

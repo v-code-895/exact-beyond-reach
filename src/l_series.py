@@ -83,7 +83,9 @@ def column_attack(m, X, y, col, steps=50, eps=1.0):
     x = x0.clone()
     for _ in range(steps):
         x.requires_grad_(True); loss = F.binary_cross_entropy_with_logits(m(x), y0); gx, = torch.autograd.grad(loss, x)
-        with torch.no_grad(): x = (x0 + ((x + eps / 10 * gx.sign() * mask) - x0).clamp(-eps, eps)).clamp(0, 1)
+        with torch.no_grad():                                                      # clip to [0, 1] only inside the attacked column (L8 amendment:
+            x = x0 + mask * ((x + eps / 10 * gx.sign() * mask) - x0).clamp(-eps, eps)  # clipping the whole image changed pixels outside it
+            x = torch.where(mask.bool().expand_as(x), x.clamp(0, 1), x0)            # wherever they lie outside [0, 1], as with heavy noise)
     with torch.no_grad():
         xr = x0 * (1 - mask) + mask * torch.rand_like(x0)                               # and a random repaint of the column
         return max(float((m(x) - l0).abs().max()), float((m(xr) - l0).abs().max()))
@@ -283,9 +285,18 @@ def l8(R, t0, out):
                 R[str(nz)][str(b)].append(r); print("L8 noise", nz, "b", b, "seed", seed, {k: v for k, v in r.items() if k != "left_share_by_column"}, f"{time.time() - t0:.0f}s", flush=True)
             C.save_json(R, f"{out}/l8_results.json")
 
+def l8g(R, t0, out):
+    """L8 amendment: the guarantee check rerun with the attack clipped only inside the attacked column (b = 16 models, retrained)."""
+    for nz in (0.05, 0.15, 0.3):
+        Xtr, ytr = make(4096, 1, 2.0, noise=nz); Xte, yte = make(4000, 2, 2.0, noise=nz); R[str(nz)] = []
+        for seed in (0, 1):
+            m = fit(lambda: Contract(4, 16), Xtr, ytr, len(Xtr), seed)
+            r = {"seed": seed, "acc": Q.acc(m, Xte, yte), "guarantee_max_logit_change_by_d": guarantee(m, Xte, yte, 4, 16)}
+            R[str(nz)].append(r); print("L8g noise", nz, "seed", seed, r, f"{time.time() - t0:.0f}s", flush=True); C.save_json(R, f"{out}/l8g_results.json")
+
 def main(which):
     t0 = time.time(); out = C.out_dir(which + ("_smoke" if SMOKE else "")); R = {"smoke": SMOKE}
-    {"l1": l1, "l2": l2, "l3": l3, "l4": l4, "l5toy": l5toy, "l6": l6, "l7": l7, "l8": l8}[which](R, t0, out); R["seconds"] = time.time() - t0; C.save_json(R, f"{out}/{which}_results.json")
+    {"l1": l1, "l2": l2, "l3": l3, "l4": l4, "l5toy": l5toy, "l6": l6, "l7": l7, "l8": l8, "l8g": l8g}[which](R, t0, out); R["seconds"] = time.time() - t0; C.save_json(R, f"{out}/{which}_results.json")
 
 if __name__ == "__main__":
     main(sys.argv[1])

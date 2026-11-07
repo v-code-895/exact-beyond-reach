@@ -9,9 +9,13 @@ date: November 6, 2026 (draft)
 <!-- Draft. Every number traces to RESULTS.md and a file under results/ (Appendix A). Every experiment was registered in PREREG.md
 before it ran; wrong predictions are kept. Build: python paper/build_paper.py (HTML + PDF, as paper one). -->
 
+![What the experiments do to a network.](figures/fig_vocabulary.png)
+
+*Figure 1. A visual vocabulary of the paper. Each panel is one operation on a small network; colours mark what is frozen, what trains, what is grown, removed or taken from another network. Panels 3–5 are the core: a frozen circuit, training around it, and the reach law that says what training can and cannot change.*
+
 ## Abstract
 
-A companion paper showed that an LLM agent can compile exact structure into trained networks: wires, gates, guards and exceptions built from identities of the activations a network already uses. This paper asks what happens next, when gradient descent keeps training around that structure. In 39 pre-registered experiments on a synthetic classifier, a super-resolution network, a cat generator and Pythia-160M, the answer has one organising result, which we call the **reach law**:
+Gradient descent only adjusts the weights of an architecture fixed before training. Exact structure can also be compiled into a network after training (wires that carry information the network cannot compute, gates, bounds and switches built from identities of the activations it already uses [1]), but real models keep training. This paper asks what gradient descent does with frozen structure once training resumes. In 39 pre-registered experiments on a synthetic classifier, a super-resolution network, a cat generator and Pythia-160M, the answer has one organising result, which we call the **reach law**:
 
 - **What is fixed.** A frozen module fixes, exactly, everything beyond the reach of the trainable parts in front of it. This is a proposition that holds for any weights. Measured on 39 trained models with three different reaches and three different architectures, on synthetic and natural images, an attacker who may repaint one input column moves the output by up to 45 logits at the module's boundary, and by **exactly 0.0** at every distance at or beyond the reach.
 - **What is renegotiated.** Within that reach, training moves even the module's own boundary. A boundary misplaced by up to 6 columns is moved back to within a column of where it belongs; the distance training can move it grows with the reach and with the size of the object (about the reach plus 1.4 object widths on clean images) and shrinks as the object gets harder to see against its background: from 8 to 5.5 columns as background noise rises, and to about 3 on natural images.
@@ -23,20 +27,24 @@ Around this law:
 - **Guarantees do not distil.** Students trained on a guarded teacher's outputs match its quality and violate its bound on every attack start, while the teacher's violation is exactly zero.
 - **Limits.** Protection by margins is statistical: an edit grown into Pythia keeps its fact (probability 0.98 against 0.29 for the same edit by fine-tuning), but its weights still move. A hard filter inside continued GAN training survives exactly and pulls the generator into the very category it filters.
 
+![Odd-eyed cats: inside frozen wiring, and without it.](figures/fig_odd_eyes_followup.png)
+
+*Figure 2. Real outputs of the cat generator. A detector trained by gradient descent inside a frozen wire and AND gate (third column) recolours the left iris and leaves the right half unchanged to float rounding (4 × 10⁻⁷). A plain network taught the same behaviour by copying the patched one (fifth column, D5) learns the odd eyes, but also changes the right half (up to 0.28). Change maps: largest per-pixel change, 0–1 scale.*
+
 ## 1. Introduction
 
-Gradient descent and hand-built structure are usually alternatives: either a network learns a behaviour, or someone wires it in. The companion paper [1] showed the second is practical for trained networks: an agent compiles exact circuits (a coordinate wire carried through ten layers, an AND gate, a bound on the output, a unit that is exactly silent where it does not fire) into small trained models, using identities such as relu(u) = (lrelu(u) + a·lrelu(−u))/(1 − a²). Those patches were applied to finished models. Real models keep training: they are fine-tuned, adapted and merged after any patch is installed. This paper studies that interaction.
+Gradient descent and hand-built structure are usually alternatives: either a network learns a behaviour, or someone wires it in. The second has become practical for trained networks [1]: an LLM agent compiles exact circuits (a coordinate wire carried through ten layers, an AND gate, a bound on the output, a unit that is exactly silent where it does not fire) into small trained models, using identities such as relu(u) = (lrelu(u) + a·lrelu(−u))/(1 − a²). Those patches were applied to finished models. Real models keep training: they are fine-tuned, adapted and merged after any patch is installed. This paper studies that interaction.
 
 Three questions run through it:
 1. **What survives?** Which properties of installed structure are guaranteed under any further training, and which only hold until training moves them?
 2. **What does training do with the structure?** Does the rest of the network use it, depend on it, compensate for its errors, or route around it?
 3. **What can structure do that training cannot?** Where is installed structure the only route to a behaviour, and what is it worth where training could also get there?
 
-The central answer is the reach law (Figure 1, §4). A frozen module's guarantee is exact beyond the reach of the trainable parts that feed it, and training can renegotiate everything within that reach, including where the module's own boundary effectively sits. The guarantee side is a short proposition we state and check exactly; the renegotiation side is a measured quantity with a simple form on clean data and a smaller value on natural images.
+The central answer is the reach law (Figure 4, §4). A frozen module's guarantee is exact beyond the reach of the trainable parts that feed it, and training can renegotiate everything within that reach, including where the module's own boundary effectively sits. The guarantee side is a short proposition we state and check exactly; the renegotiation side is a measured quantity with a simple form on clean data and a smaller value on natural images.
 
 ![The reach law on P1's task, drawn for a detector of reach 4.](figures/fig_reach_schematic.png)
 
-*Figure 1. The reach law. A frozen gate passes a trainable detector's score on columns 0–15 and zeroes it elsewhere. Input columns farther from the gate's region than the detector's reach cannot change the output, for any weights (aqua). Within the reach (orange), training can change what counts, and can move the effective boundary.*
+*Figure 4. The reach law. A frozen gate passes a trainable detector's score on columns 0–15 and zeroes it elsewhere. Input columns farther from the gate's region than the detector's reach cannot change the output, for any weights (aqua). Within the reach (orange), training can change what counts, and can move the effective boundary.*
 
 **Contributions.**
 - The reach law, with a proposition for its guarantee side and measurements of its renegotiation side across reach, object size, clutter and natural images (§4).
@@ -58,6 +66,10 @@ The central answer is the reach law (Figure 1, §4). A frozen module's guarantee
 **A contract** (Figure 1) is installed structure that supplies information the network cannot compute and states a property that must hold. On P1's task it is a frozen wire marking the right half, a frozen clamp and a signed gate: g = relu(u − M·R) − relu(−u − M·R), where u is the detector's score clamped to [−B, B] and R is the wire. Where R = 0 the gate passes u exactly; where R = 1 it outputs exactly 0, because |u| ≤ B < M. The readout averages the gated score. The clamp matters: without it, training pushed |u| past M in all 15 runs and broke the guarantee (P1).
 
 **Exactness.** Exactness claims are checked in float32 with TF32 off; "exactly 0.0" means bit-identical outputs.
+
+![A frozen contract, with the real maps of trained networks.](figures/fig_contract_diagram.png)
+
+*Figure 3. What a contract is. (a) On P1's task and on cat photos with a red disc: a trainable detector (orange) scores the image; a frozen wire, clamp and gate (blue) pass the score where the wire is open and set it to exactly 0 where it is closed; a frozen average gives the answer. (b) The same pattern inside the cat generator, producing the odd eyes of Figure 2. All maps are from trained networks.*
 
 ## 3. Contracts make an impossible task learnable
 
@@ -85,19 +97,19 @@ The central answer is the reach law (Figure 1, §4). A frozen module's guarantee
 
 **Proposition.** In the contract above, every score pixel depends only on input pixels within the trunk's receptive-field radius r. Gated-off score pixels contribute exactly 0 to the output. So an input column whose distance from the gate's open region exceeds r cannot change the output, for any weights.
 
-The proof is a line; what is not obvious is whether trained networks sit right at this edge or well inside it, and whether the edge survives natural images. **L1** trains 72 contracts on P1's task: trunk reach r ∈ {2, 4, 6}, blob width σ ∈ {1, 2, 3}, gate boundary b ∈ {16, 12, 8, 4}, two seeds each. On every model with the boundary in place, an attacker repaints one input column at distance d past the boundary (PGD, and a random repaint). The output moves by up to 45 logits at d = 0, by 0.014–8 logits at d = r − 1, and by exactly 0.0 at every d ≥ r: 18 of 18 models (Figure 2, left). On natural images (**L2**: AFHQ cats [4], randomly cyclically shifted, with a red disc), the same holds in 3 of 3 models: 0.4–11 logits within the reach, exactly 0.0 beyond. The edge follows reach, not depth or parameter count (**L7**): a two-layer trunk with one dilated layer, the four-layer trunk and a six-layer trunk whose last two layers are 1×1, all of reach 4, are each changed at distance 3 and exactly unchanged at distances 4 and 5 (6 of 6 models).
+The proof is a line; what is not obvious is whether trained networks sit right at this edge or well inside it, and whether the edge survives natural images. **L1** trains 72 contracts on P1's task: trunk reach r ∈ {2, 4, 6}, blob width σ ∈ {1, 2, 3}, gate boundary b ∈ {16, 12, 8, 4}, two seeds each. On every model with the boundary in place, an attacker repaints one input column at distance d past the boundary (PGD, and a random repaint). The output moves by up to 45 logits at d = 0, by 0.014–8 logits at d = r − 1, and by exactly 0.0 at every d ≥ r: 18 of 18 models (Figure 5, left). On natural images (**L2**: AFHQ cats [4], randomly cyclically shifted, with a red disc), the same holds in 3 of 3 models: 0.4–11 logits within the reach, exactly 0.0 beyond. The edge follows reach, not depth or parameter count (**L7**): a two-layer trunk with one dilated layer, the four-layer trunk and a six-layer trunk whose last two layers are 1×1, all of reach 4, are each changed at distance 3 and exactly unchanged at distances 4 and 5 (6 of 6 models).
 
 ![L1: the guarantee and renegotiation sides of the reach law.](figures/fig_l1_reach_law.png)
 
-*Figure 2. L1, 72 runs. Left: the largest output change any attack on one input column achieves, against the column's distance past the gate's boundary, for trunks of reach 2, 4 and 6; × marks exactly 0.0. Right: how far training moved a misplaced boundary back, against reach, for three blob widths; dashed lines r + 1.42σ; hollow points hit the test's cap.*
+*Figure 5. L1, 72 runs. Left: the largest output change any attack on one input column achieves, against the column's distance past the gate's boundary, for trunks of reach 2, 4 and 6; × marks exactly 0.0. Right: how far training moved a misplaced boundary back, against reach, for three blob widths; dashed lines r + 1.42σ; hollow points hit the test's cap.*
 
 ### 4.2 The renegotiation side
 
-The gate is frozen. Its boundary, as the network uses it, is not. **P6b** puts the gate's boundary at column b instead of 16 and asks where the trained network actually draws its line, by probing it with a lone red blob at every column (Figure 3).
+The gate is frozen. Its boundary, as the network uses it, is not. **P6b** puts the gate's boundary at column b instead of 16 and asks where the trained network actually draws its line, by probing it with a lone red blob at every column (Figure 6).
 
 ![P6b: a frozen boundary moved by training.](figures/fig_p6b_boundary.png)
 
-*Figure 3. P6b (r = 4, σ = 2). Left: the share of probes called "left" by blob column, for four gate boundaries (dotted); the network draws its line at 16 for boundaries 16, 12 and (almost) 8. Right: the detector's response around a blob: it leans left, toward the gate, by as much as the boundary demands.*
+*Figure 6. P6b (r = 4, σ = 2). Left: the share of probes called "left" by blob column, for four gate boundaries (dotted); the network draws its line at 16 for boundaries 16, 12 and (almost) 8. Right: the detector's response around a blob: it leans left, toward the gate, by as much as the boundary demands.*
 
 | gate boundary | 16 | 14 | 12 | 10 | 8 | 4 |
 |---|---|---|---|---|---|---|
@@ -107,7 +119,7 @@ The gate is frozen. Its boundary, as the network uses it, is not. **P6b** puts t
 
 *Table 2. P6b, mean of three seeds. The detector leans its response toward the gate by one column for a 2-column shift and two for a 4-column shift. Beyond its reach it stops leaning (b = 4: centroid ≈ 0) and widens its response instead.*
 
-The trainable detector is shift-equivariant, but it is free to place its response off-centre, so the effective boundary of gate ∘ detector can move. How far? **L1** answers across reach and object size (Figure 2, right). The largest correction k* grows with both: from 1.5 columns (r = 2, σ = 1) to at least 11.5 (r = 4, σ = 3). Over the seven cells not limited by the test's 12-column cap, k* ≈ r + 1.42σ fits six within 0.7 columns; the smallest network with the smallest blob falls 1.9 short. Reach, not depth, sets this scale too (L7): the three reach-4 trunks move the boundary back by 6.0–8.0 columns, between the reach-2 (4.5) and reach-6 (9.5) values; the dilated trunk, which sees its outer pixels through only three taps, uses a little less of its reach. The σ term is about how far the object is visible: a Gaussian blob changes pixels appreciably to about 1.4–2σ from its centre against the image noise, so a detector can see it, and lean toward the gate, from that far away.
+The trainable detector is shift-equivariant, but it is free to place its response off-centre, so the effective boundary of gate ∘ detector can move. How far? **L1** answers across reach and object size (Figure 5, right). The largest correction k* grows with both: from 1.5 columns (r = 2, σ = 1) to at least 11.5 (r = 4, σ = 3). Over the seven cells not limited by the test's 12-column cap, k* ≈ r + 1.42σ fits six within 0.7 columns; the smallest network with the smallest blob falls 1.9 short. Reach, not depth, sets this scale too (L7): the three reach-4 trunks move the boundary back by 6.0–8.0 columns, between the reach-2 (4.5) and reach-6 (9.5) values; the dilated trunk, which sees its outer pixels through only three taps, uses a little less of its reach. The σ term is about how far the object is visible: a Gaussian blob changes pixels appreciably to about 1.4–2σ from its centre against the image noise, so a detector can see it, and lean toward the gate, from that far away.
 
 On natural images the band shrinks (**L2**). With cat fur as background, training moved a misplaced boundary back by only about 3 columns at reach 4, against 7.5 on clean backgrounds, and accuracy sat within a point or two of the ceiling that a 3-column correction allows. Distractors alone do not explain this (**L6**): six orange blobs per image, easy to tell from the red one by hue, leave the correction at about 7 columns (7.5 without them), and the guarantee exact. What sets the band is visibility (**L8**): raising the synthetic task's background noise from 0.05 to 0.15 to 0.3 shrinks the correction from 8 to 7.5 to 5.5 columns, with the guarantee exact at every level. Independent pixel noise partly averages out over the detector's field; the correlated texture of cat fur does not, which is why L2's band is smaller still.
 
@@ -121,7 +133,7 @@ The two halves are different kinds of statement. The guarantee depends on reach 
 
 ![S3: cutting and restoring a fixed module.](figures/fig_s3_phantom_limb.png)
 
-*Figure 4. S3. Cutting TinySR-26's fixed bicubic shortcut, healing, and re-attaching it (mean of 3 seeds).*
+*Figure 7. S3. Cutting TinySR-26's fixed bicubic shortcut, healing, and re-attaching it (mean of 3 seeds).*
 
 **Deletion needs pressure (L3).** P1's zero-padding network learns a crude sense of position from the image borders (83% after pretraining). Installing the contract on its score map takes it to 98% within 100 steps. Its own position code, read out by a linear probe from the pooled trunk features, drops by 4.5 points in those first 100 steps and then stays flat for 1,900 more (78%, against 86% in the control). So gradient descent removes a redundant skill when keeping it costs something: loss, when the copy is harmful (S3's double-counted the low frequencies), or capacity, when other jobs compete for it (S1, below). An unused skill with nothing competing for it is largely kept.
 
@@ -131,7 +143,7 @@ The two halves are different kinds of statement. The guarantee depends on reach 
 
 ![C1b–C1d: detector trade-off curves inside the frozen wire and gate.](figures/fig_c1_detectors.png)
 
-*Figure 5. C1b–C1d. Left irises in band against change outside the eyes, for the closed form and for detectors trained inside the frozen structure.*
+*Figure 8. C1b–C1d. Left irises in band against change outside the eyes, for the closed form and for detectors trained inside the frozen structure.*
 
 **Lesions (S2).** Healing is local. After a residual block of TinySR-26 is removed, the two layers that change most during 1,000 steps of healing are the blocks on either side of the gap, in every one of the six cases. Removing a whole block leaves a lasting deficit at this budget (0.1–0.2 dB on bicubic inputs, 0.2–0.65 dB on nearest-neighbour inputs), while removing the head skip (−1 dB) or a quarter of one block's channels heals completely within 100–300 steps; a closed-form suture makes the channel lesion nearly free from the start.
 
@@ -139,11 +151,11 @@ The two halves are different kinds of statement. The guarantee depends on reach 
 
 **Supplied but not needed (B3).** Exact coordinate wires added to the cat generator, with zero weights into its existing channels: under continued training on real cats the weights out of the wires grow from exactly zero (to a norm of 0.065), but removing them at the end changes the images by only 0.65 RGB levels and leaves the Fréchet distance unchanged (56.35 against 56.49). Real cat images do not ask for position, so the generator reads it a little and does not come to depend on it; the odd eyes, which do ask for it, could not be learned without it (C1, D5).
 
-**A new mode behind an exact switch (D4).** A copy of the cat generator's last blocks reads its block-3 features behind an exact switch on an extra latent bit, and only that branch trains, adversarially, on unpaired anime faces. With the switch off the network is the cat generator to 1.2 × 10⁻¹⁵ (float64). With it on, each latent's cat becomes an anime face that keeps the cat's layout (layout correlation 0.33–0.42 between matched pairs, against 0.04 for shuffled ones) and, more weakly, its colours (Figure 6). The frozen trunk shapes what the new mode learns, with no paired data.
+**A new mode behind an exact switch (D4).** A copy of the cat generator's last blocks reads its block-3 features behind an exact switch on an extra latent bit, and only that branch trains, adversarially, on unpaired anime faces. With the switch off the network is the cat generator to 1.2 × 10⁻¹⁵ (float64). With it on, each latent's cat becomes an anime face that keeps the cat's layout (layout correlation 0.33–0.42 between matched pairs, against 0.04 for shuffled ones) and, more weakly, its colours (Figure 9). The frozen trunk shapes what the new mode learns, with no paired data.
 
 ![D4: one network, two exact modes.](figures/fig_d4_switch.png)
 
-*Figure 6. D4, seed 0. Top: the switch off (the cat generator, exactly). Bottom: the same latents with the switch on, after 3,000 steps of training the branch on anime faces.*
+*Figure 9. D4, seed 0. Top: the switch off (the cat generator, exactly). Bottom: the same latents with the switch on, after 3,000 steps of training the branch on anime faces.*
 
 **Depth (D2).** Growing TinySR-26 from 6 to 9 blocks exactly (zero-output blocks) starts at the base's quality and ends level with crude block duplication (+0.033 vs +0.040 dB after 3,000 steps); the inserted blocks grow to 0.13–0.17 of a base block. Exactness buys a damage-free start, not a better endpoint.
 

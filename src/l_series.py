@@ -7,8 +7,9 @@ trainable parts in front of it, and training renegotiates everything within that
   l4     adding a skill through a contract without forgetting the old one
   l5toy  the impossible end of the exchange rate: the circular network at 16, 64, 256 channels
   l6     renegotiation vs clutter: L1's task (r = 4, sigma = 2) with 0, 2 or 6 orange distractor blobs
+  l7     reach, not depth: three trunks with reach 4 (2 layers, one dilated; 4 layers; 6 layers with two 1x1)
 
-  <venv python> followup/src/l_series.py l1|l2|l3|l4|l5toy|l6 [--smoke]
+  <venv python> followup/src/l_series.py l1|l2|l3|l4|l5toy|l6|l7 [--smoke]
 """
 import copy, sys, time
 import numpy as np
@@ -240,9 +241,36 @@ def l6(R, t0, out):
                 R[str(no)][str(b)].append(r); print("L6 orange", no, "b", b, "seed", seed, {k: v for k, v in r.items() if k != "left_share_by_column"}, f"{time.time() - t0:.0f}s", flush=True)
             C.save_json(R, f"{out}/l6_results.json")
 
+# ---------------------------------------------------------------- L7
+def trunk_spec(spec, ch=32, cin=3):
+    """spec: list of (kernel, dilation); circular padding keeps the size. Reach = sum of dilation * (kernel - 1) / 2."""
+    layers = []
+    for i, (k, d) in enumerate(spec):
+        layers += [nn.Conv2d(cin if i == 0 else ch, ch, k, padding=d * (k - 1) // 2, dilation=d, padding_mode="circular"), nn.ReLU()]
+    return nn.Sequential(*layers)
+
+SPECS = {"2 layers, second dilated 3 (reach 4)": [(3, 1), (3, 3)], "4 layers (reach 4, as L1)": [(3, 1)] * 4,
+         "6 layers, last two 1x1 (reach 4)": [(3, 1)] * 4 + [(1, 1)] * 2}
+
+def l7(R, t0, out):
+    Xtr, ytr = make(4096 if not SMOKE else 512, 1, 2.0); Xte, yte = make(4000 if not SMOKE else 500, 2, 2.0); Xp, cols = probes_synthetic(2.0)
+    R["reach"] = {n: sum(d * (k - 1) // 2 for k, d in sp) for n, sp in SPECS.items()}
+    for name, spec in (SPECS.items() if not SMOKE else list(SPECS.items())[:1]):
+        R[name] = {}
+        for b in ((16, 12, 8, 4) if not SMOKE else (16,)):
+            R[name][str(b)] = []
+            for seed in ((0, 1) if not SMOKE else (0,)):
+                def mk():
+                    m = Contract(4, b); m.trunk = trunk_spec(spec); return m
+                m = fit(mk, Xtr, ytr, len(Xtr), seed); eff, share = effective_boundary(m, Xp, cols, 32)
+                r = {"seed": seed, "acc": Q.acc(m, Xte, yte), "effective_boundary": eff, "correction": eff - b, "left_share_by_column": share}
+                if b == 16: r["guarantee_max_logit_change_by_d"] = guarantee(m, Xte, yte, 4, 16)
+                R[name][str(b)].append(r); print("L7", name, "b", b, "seed", seed, {k: v for k, v in r.items() if k != "left_share_by_column"}, f"{time.time() - t0:.0f}s", flush=True)
+            C.save_json(R, f"{out}/l7_results.json")
+
 def main(which):
     t0 = time.time(); out = C.out_dir(which + ("_smoke" if SMOKE else "")); R = {"smoke": SMOKE}
-    {"l1": l1, "l2": l2, "l3": l3, "l4": l4, "l5toy": l5toy, "l6": l6}[which](R, t0, out); R["seconds"] = time.time() - t0; C.save_json(R, f"{out}/{which}_results.json")
+    {"l1": l1, "l2": l2, "l3": l3, "l4": l4, "l5toy": l5toy, "l6": l6, "l7": l7}[which](R, t0, out); R["seconds"] = time.time() - t0; C.save_json(R, f"{out}/{which}_results.json")
 
 if __name__ == "__main__":
     main(sys.argv[1])

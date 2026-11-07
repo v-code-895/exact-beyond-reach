@@ -746,6 +746,14 @@ toward the gate also leans into false alarms; the guarantee does not change. **A
 **Predictions.** (1) k* decreases as the number of orange distractors grows. (2) With none, k* within 1.5 of L1's 7.5; with six,
 k* < 4 (below the reach). (3) The guarantee is exact at every clutter level (0.0 at distances ≥ 4, all models).
 
+### L7. Reach, not depth (registered 2026-11-06 16:09, after L1–L5, before running)
+**Why.** In L1, reach and depth moved together (r = number of conv layers), so the law could be about depth or capacity rather than
+reach. **Arms.** Three trunks with the same reach, 4, on L1's task (σ = 2): two layers, the second dilated by 3; four layers (as L1);
+six layers, the last two 1×1. Boundary b ∈ {16, 12, 8, 4}, N = 4,096, seeds 0–1 (`src/l_series.py l7`; same probes and guarantee
+check). **Predictions.** (1) For all three trunks the output is exactly unchanged by attacks at distances ≥ 4 and changed at
+distance 3 (the proposition depends on reach only). (2) The renegotiation k* of each reach-4 trunk is within 1.5 columns of L1's
+reach-4 value at σ = 2 (7.5), and further from L1's reach-2 value (4.5): renegotiation follows reach, not depth.
+
 ## Not yet registered
 
 B1 (waits for the setup choice above), E2, F1, and the deferred B4–B6, C2–C4, D1, D3, D6, D7: each gets an entry

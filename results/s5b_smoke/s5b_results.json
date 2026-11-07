@@ -1,0 +1,121 @@
+{
+ "fit": {
+  "orange_share_fitting": 0.13,
+  "feature": {
+   "f1": 0.8913857677902621,
+   "precision": 0.8686131386861314,
+   "recall": 0.9153846153846154
+  },
+  "pixel": {
+   "f1": 0.8863198458574181,
+   "precision": 0.888030888030888,
+   "recall": 0.8846153846153846
+  }
+ },
+ "runs": {
+  "(a) pixel filter on generated images only": [
+   {
+    "seed": 0,
+    "log": [
+     {
+      "step": 0,
+      "orange_share_unfiltered": 0.14333333333333334,
+      "orange_blocked": 0.7209302325581395,
+      "non_orange_blocked": 0.007782101167315175,
+      "fd_unfiltered": 58.32525393921355,
+      "D_real_orange_minus_non_orange": 0.16430330276489258,
+      "D_gap_normalised": 0.11816935241222382
+     },
+     {
+      "step": 10,
+      "orange_share_unfiltered": 0.14333333333333334,
+      "orange_blocked": 0.7209302325581395,
+      "non_orange_blocked": 0.007782101167315175,
+      "fd_unfiltered": 58.32295006581188,
+      "D_real_orange_minus_non_orange": 0.46099889278411865,
+      "D_gap_normalised": 0.3537042438983917
+     },
+     {
+      "step": 20,
+      "orange_share_unfiltered": 0.14333333333333334,
+      "orange_blocked": 0.7209302325581395,
+      "non_orange_blocked": 0.007782101167315175,
+      "fd_unfiltered": 58.33390861556671,
+      "D_real_orange_minus_non_orange": 0.3561875820159912,
+      "D_gap_normalised": 0.3129141926765442
+     }
+    ]
+   }
+  ],
+  "(b) pixel filter on generated and real images": [
+   {
+    "seed": 0,
+    "log": [
+     {
+      "step": 0,
+      "orange_share_unfiltered": 0.14333333333333334,
+      "orange_blocked": 0.7209302325581395,
+      "non_orange_blocked": 0.007782101167315175,
+      "fd_unfiltered": 58.32525393921355,
+      "D_real_orange_minus_non_orange": 0.16430330276489258,
+      "D_gap_normalised": 0.11816935241222382
+     },
+     {
+      "step": 10,
+      "orange_share_unfiltered": 0.14333333333333334,
+      "orange_blocked": 0.7209302325581395,
+      "non_orange_blocked": 0.007782101167315175,
+      "fd_unfiltered": 58.32938853204041,
+      "D_real_orange_minus_non_orange": -0.17696166038513184,
+      "D_gap_normalised": -0.14803612232208252
+     },
+     {
+      "step": 20,
+      "orange_share_unfiltered": 0.14333333333333334,
+      "orange_blocked": 0.7209302325581395,
+      "non_orange_blocked": 0.007782101167315175,
+      "fd_unfiltered": 58.29742836726621,
+      "D_real_orange_minus_non_orange": -0.07890701293945312,
+      "D_gap_normalised": -0.06402124464511871
+     }
+    ]
+   }
+  ],
+  "(c) control: no filter": [
+   {
+    "seed": 0,
+    "log": [
+     {
+      "step": 0,
+      "orange_share_unfiltered": 0.14333333333333334,
+      "orange_blocked": 0.0,
+      "non_orange_blocked": 0.0,
+      "fd_unfiltered": 58.32525393921355,
+      "D_real_orange_minus_non_orange": 0.16430330276489258,
+      "D_gap_normalised": 0.11816935241222382
+     },
+     {
+      "step": 10,
+      "orange_share_unfiltered": 0.14333333333333334,
+      "orange_blocked": 0.0,
+      "non_orange_blocked": 0.0,
+      "fd_unfiltered": 58.31854255751574,
+      "D_real_orange_minus_non_orange": -0.1622980833053589,
+      "D_gap_normalised": -0.14073430001735687
+     },
+     {
+      "step": 20,
+      "orange_share_unfiltered": 0.14333333333333334,
+      "orange_blocked": 0.0,
+      "non_orange_blocked": 0.0,
+      "fd_unfiltered": 58.28048677756425,
+      "D_real_orange_minus_non_orange": 0.07541382312774658,
+      "D_gap_normalised": 0.068919338285923
+     }
+    ]
+   }
+  ]
+ },
+ "orange_training_images": 724,
+ "seconds": 922.3322646617889
+}

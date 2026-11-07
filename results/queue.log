@@ -1,0 +1,90 @@
+11-06 00:03:44 [extra] start C1c
+11-06 00:19:54 [extra] start P1
+11-06 00:37:50 [extra] start P3
+11-06 00:57:08 [extra] end P3 (exit 0)
+11-06 00:57:08 [extra] start P2
+11-06 01:00:12 [extra] end C1c (exit 0)
+11-06 01:01:38 [extra] start C1d
+11-06 01:51:33 [extra] end C1d (exit 0)
+11-06 02:11:47 [a3] A3 stopped after the 3x-wide seed 0; table written
+11-06 02:12:28 [large] start E1 (free 6958 MiB)
+11-06 02:13:05 [extra] end P2 (exit 0)
+11-06 02:13:05 [extra] start P4
+11-06 02:16:29 [small] start S1 (free 5048 MiB)
+11-06 02:28:01 [extra] end P1 (exit 0)
+11-06 02:45:58 [manual] paused S1 (pid 73560) and P4 (pid 73956) so E1 runs alone; resume when E1 ends
+11-06 03:03:37 [small] end S1 (exit 15)
+11-06 03:03:45 [manual] stopped S1 and P4 (memory paging slowed E1 7x); requeued after E1 in one chain with P5-P7
+11-06 03:32:42 [small] start S3 (free 4733 MiB)
+11-06 05:27:57 [small] end S3 (exit 0)
+11-06 05:30:40 [manual] old small lane (still alive, ran S3) and the after_e1 chain stopped; run_queue2.sh chain: P4 P5 P6 P7 (fit next to E1), then S1 S4 S2 A2
+11-06 05:30:41 [small] start P4 (free 1784 MiB)
+11-06 05:50:18 [small] end P4 (exit 0)
+11-06 05:50:19 [small] start P5 (free 1848 MiB)
+11-06 06:03:34 [small] end P5 (exit 0)
+11-06 06:03:34 [small] start P6 (free 1820 MiB)
+11-06 06:30:18 [small] end P6 (exit 0)
+11-06 06:30:18 [small] start P7 (free 1792 MiB)
+11-06 06:56:18 [small] end P7 (exit 0)
+11-06 07:03:35 [large] end E1 (exit 0)
+11-06 07:03:35 [large] start S5 (free 7582 MiB)
+11-06 07:05:26 [manual] chain stopped before S1; run_queue2.sh chain2: P6b P9b P7b, then S1 S4 S2 A2
+11-06 07:07:26 [small] start P6b (free 6047 MiB)
+11-06 07:17:28 [small] end P6b (exit 0)
+11-06 07:17:29 [small] start P9b (free 6045 MiB)
+11-06 07:31:28 [small] end P9b (exit 0)
+11-06 07:31:28 [small] start P7b (free 5742 MiB)
+11-06 07:41:18 [small] end P7b (exit 0)
+11-06 07:41:19 [small] start S1 (free 5946 MiB)
+11-06 08:43:29 [manual] reordered after the user's go-ahead: old lanes stopped (S5 and S1 left running); run_queue4.sh large2: S5 -> E1b -> S5b -> D5 -> D4 block 3 -> B3 (D4 block 2 dropped); small2: S1 -> A2 -> S4 -> S2 -> P2b
+11-06 08:47:30 [small] end S1 (exit 1; adopted, results incomplete)
+11-06 08:47:31 [small] start A2 (free 8027 MiB)
+11-06 08:47:52 [large] end S5 (stopped by the person's decision after arm 1; arm 1 complete, arm 2 seed 0 discarded; PREREG S5 amendment)
+11-06 08:48:51 [manual] S1 crashed at 08:47:27 (CUDA illegal memory access, ~1 min after S5 was force-stopped); S1 resumes after A2 from its 4 saved runs (run_queue6.sh small3: A2 -> S1 resume -> S4 -> S2 -> P2b)
+11-06 08:50:53 [large] start S5 arm 3 (free 6698 MiB)
+11-06 09:20:37 [manual] L-series queued first, by importance (person: depth over breadth); run_queue7.sh small4: A2 -> L1 -> L2 -> L3 -> L4 -> L5 toy -> S1 resume -> S4 -> S2 -> P2b; large4: S5 arm 3 -> L5 -> E1b -> D5 -> D4 block 3 -> B3; S5b not queued
+11-06 10:47:07 [large] end S5 arm 3 (exit 0; adopted, results complete)
+11-06 10:47:08 [large] start L5 (free 2970 MiB)
+11-06 12:06:20 [small] end A2 (exit 0; adopted, results complete)
+11-06 12:06:20 [small] start L1 (free 5721 MiB)
+11-06 12:19:16 [large] end L5 (exit 0)
+11-06 12:19:17 [large] start E1b (free 7518 MiB)
+11-06 13:37:27 [small] end L1 (exit 0)
+11-06 13:41:01 [manual] small lane restarted with 1.2 GB thresholds for the toy L-jobs (E1b holds ~6.4 GB; L1 ran beside it fine): run_queue9.sh small5: L2 -> L3 -> L4 -> L5 toy -> S1 resume -> S4 -> S2 -> P2b
+11-06 13:41:07 [small] start L2 (free 1752 MiB)
+11-06 14:44:28 [small] end L2 (exit 0)
+11-06 14:44:29 [small] start L3 (free 2168 MiB)
+11-06 14:50:29 [small] end L3 (exit 0)
+11-06 14:50:30 [small] start L4 (free 1779 MiB)
+11-06 14:50:56 [large] end E1b (exit 0)
+11-06 14:52:18 [small] end L4 (exit 0)
+11-06 14:53:57 [large] start D5 (free 7976 MiB)
+11-06 14:57:19 [small] start L5 toy (free 5225 MiB)
+11-06 15:09:19 [small] end L5 toy (exit 0)
+11-06 15:09:20 [small] start S1 resume (free 5226 MiB)
+11-06 15:17:48 [manual] L6 registered; small lane: run_queue10.sh small6: S1 resume (adopted) -> L6 -> S4 -> S2 -> P2b
+11-06 16:10:10 [manual] L7 registered; small lane: run_queue11.sh small7: S1 resume (adopted) -> L6 -> L7 -> S4 -> S2 -> P2b
+11-06 17:35:14 [large] end D5 (exit 0)
+11-06 17:35:14 [large] start D4 block 3 (free 6245 MiB)
+11-06 17:47:28 [small] end S1 resume (exit 0; adopted, results complete)
+11-06 17:47:28 [small] start L6 (free 6304 MiB)
+11-06 18:04:49 [small] end L6 (exit 0)
+11-06 18:04:49 [small] start L7 (free 6305 MiB)
+11-06 18:09:44 [manual] L8 registered; small lane: run_queue12.sh small8: L7 (adopted) -> L8 -> S4 -> S2 -> P2b
+11-06 18:20:50 [small] end L7 (exit 0; adopted, results complete)
+11-06 18:20:50 [small] start L8 (free 6270 MiB)
+11-06 18:39:11 [small] end L8 (exit 0)
+11-06 18:39:11 [small] start S4 (free 6271 MiB)
+11-06 19:14:14 [large] end D4 block 3 (exit 0)
+11-06 19:14:14 [large] B3 lr by the rule: 2e-5
+11-06 19:14:15 [large] start B3 (free 6093 MiB)
+11-06 19:43:53 [small] end S4 (exit 0)
+11-06 19:43:53 [small] start S2 (free 5939 MiB)
+11-06 21:10:27 [small] end S2 (exit 0)
+11-06 21:10:28 [small] start P2b (free 3469 MiB)
+11-06 21:22:26 [small] end P2b (exit 0)
+11-06 21:46:01 [large] end B3 (exit 0)
+11-06 21:46:47 [large] start S5b smoke
+11-06 22:02:13 [large] end S5b smoke (exit 0)
+11-06 22:02:14 [large] start S5b (free 7966 MiB)
+11-07 00:10:40 [large] end S5b (exit 0)

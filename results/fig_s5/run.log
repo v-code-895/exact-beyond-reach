@@ -1,0 +1,12 @@
+fit {'orange_share_fitting': 0.13, 'feature': {'f1': 0.8913857677902621, 'precision': 0.8686131386861314, 'recall': 0.9153846153846154}, 'pixel': {'f1': 0.8863198458574181, 'precision': 0.888030888030888, 'recall': 0.8846153846153846}}
+feature filter, seed 0 0 orange share 0.140625 19s
+feature filter, seed 0 500 orange share 0.265625 149s
+feature filter, seed 0 1000 orange share 0.359375 354s
+feature filter, seed 0 1500 orange share 0.453125 526s
+feature filter, seed 0 2000 orange share 0.53125 738s
+pixel filter, seed 1 0 orange share 0.140625 761s
+pixel filter, seed 1 500 orange share 0.1875 871s
+pixel filter, seed 1 1000 orange share 0.140625 1094s
+pixel filter, seed 1 1500 orange share 0.40625 1361s
+pixel filter, seed 1 2000 orange share 0.375 1469s
+done 1470s

@@ -1,0 +1,24 @@
+L8 noise 0.05 b 16 seed 0 {'seed': 0, 'acc': 0.9927500486373901, 'effective_boundary': 16, 'correction': 0, 'guarantee_max_logit_change_by_d': {'0': 20.822158813476562, '1': 11.521650314331055, '2': 3.1855826377868652, '3': 0.22490501403808594, '4': 0.0, '5': 0.0}} 41s
+L8 noise 0.05 b 16 seed 1 {'seed': 1, 'acc': 0.9697500467300415, 'effective_boundary': 16, 'correction': 0, 'guarantee_max_logit_change_by_d': {'0': 19.36238670349121, '1': 10.544989585876465, '2': 2.335151195526123, '3': 0.1796431541442871, '4': 0.0, '5': 0.0}} 110s
+L8 noise 0.05 b 12 seed 0 {'seed': 0, 'acc': 0.9870000556111336, 'effective_boundary': 16, 'correction': 4} 175s
+L8 noise 0.05 b 12 seed 1 {'seed': 1, 'acc': 0.9867500513792038, 'effective_boundary': 16, 'correction': 4} 229s
+L8 noise 0.05 b 8 seed 0 {'seed': 0, 'acc': 0.9340000301599503, 'effective_boundary': 14, 'correction': 6} 255s
+L8 noise 0.05 b 8 seed 1 {'seed': 1, 'acc': 0.9467500448226929, 'effective_boundary': 15, 'correction': 7} 281s
+L8 noise 0.05 b 4 seed 0 {'seed': 0, 'acc': 0.8062500283122063, 'effective_boundary': 12, 'correction': 8} 306s
+L8 noise 0.05 b 4 seed 1 {'seed': 1, 'acc': 0.7722500413656235, 'effective_boundary': 24, 'correction': 20} 359s
+L8 noise 0.15 b 16 seed 0 {'seed': 0, 'acc': 0.9875000417232513, 'effective_boundary': 16, 'correction': 0, 'guarantee_max_logit_change_by_d': {'0': 14.950286865234375, '1': 6.462581634521484, '2': 1.6967277526855469, '3': 0.2570943832397461, '4': 0.020481079816818237, '5': 0.020481079816818237}} 451s
+L8 noise 0.15 b 16 seed 1 {'seed': 1, 'acc': 0.965250052511692, 'effective_boundary': 17, 'correction': 1, 'guarantee_max_logit_change_by_d': {'0': 19.864566802978516, '1': 11.219244003295898, '2': 2.639958381652832, '3': 0.23911094665527344, '4': 0.043285369873046875, '5': 0.043285369873046875}} 512s
+L8 noise 0.15 b 12 seed 0 {'seed': 0, 'acc': 0.9755000397562981, 'effective_boundary': 16, 'correction': 4} 538s
+L8 noise 0.15 b 12 seed 1 {'seed': 1, 'acc': 0.9765000492334366, 'effective_boundary': 16, 'correction': 4} 563s
+L8 noise 0.15 b 8 seed 0 {'seed': 0, 'acc': 0.8970000520348549, 'effective_boundary': 13, 'correction': 5} 606s
+L8 noise 0.15 b 8 seed 1 {'seed': 1, 'acc': 0.9070000424981117, 'effective_boundary': 14, 'correction': 6} 670s
+L8 noise 0.15 b 4 seed 0 {'seed': 0, 'acc': 0.7722500339150429, 'effective_boundary': 12, 'correction': 8} 734s
+L8 noise 0.15 b 4 seed 1 {'seed': 1, 'acc': 0.7905000299215317, 'effective_boundary': 11, 'correction': 7} 768s
+L8 noise 0.3 b 16 seed 0 {'seed': 0, 'acc': 0.9657500460743904, 'effective_boundary': 16, 'correction': 0, 'guarantee_max_logit_change_by_d': {'0': 8.17625617980957, '1': 5.3828535079956055, '2': 2.4239563941955566, '3': 0.8433561325073242, '4': 0.8612298965454102, '5': 0.8612298965454102}} 809s
+L8 noise 0.3 b 16 seed 1 {'seed': 1, 'acc': 0.9522500485181808, 'effective_boundary': 17, 'correction': 1, 'guarantee_max_logit_change_by_d': {'0': 10.585233688354492, '1': 4.8080244064331055, '2': 1.7808058261871338, '3': 0.7102794647216797, '4': 0.7207260131835938, '5': 0.7207260131835938}} 852s
+L8 noise 0.3 b 12 seed 0 {'seed': 0, 'acc': 0.9710000455379486, 'effective_boundary': 16, 'correction': 4} 886s
+L8 noise 0.3 b 12 seed 1 {'seed': 1, 'acc': 0.9670000374317169, 'effective_boundary': 16, 'correction': 4} 912s
+L8 noise 0.3 b 8 seed 0 {'seed': 0, 'acc': 0.8765000402927399, 'effective_boundary': 13, 'correction': 5} 937s
+L8 noise 0.3 b 8 seed 1 {'seed': 1, 'acc': 0.877500057220459, 'effective_boundary': 13, 'correction': 5} 965s
+L8 noise 0.3 b 4 seed 0 {'seed': 0, 'acc': 0.7760000377893448, 'effective_boundary': 10, 'correction': 6} 1029s
+L8 noise 0.3 b 4 seed 1 {'seed': 1, 'acc': 0.780750036239624, 'effective_boundary': 9, 'correction': 5} 1094s

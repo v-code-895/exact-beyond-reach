@@ -981,3 +981,32 @@ and pose, correspondence well above shuffled pairs:* **confirmed for layout** (0
 on unpaired anime faces turns each latent's cat into an anime face that keeps the cat's layout: face position, pose and, visibly, hair
 colour following fur colour (a black cat becomes a dark-haired face). The frozen trunk's features shape what the new mode learns, without
 paired data. At 3,000 steps the anime faces are recognisable but rough (Fréchet distance 331–348).
+
+## L8. Renegotiation and visibility (2026-11-06)
+
+Script `src/l_series.py l8` (and `l8g`, the guarantee recheck); output `results/l8/`, `results/l8g/`. L1's task and contract (reach 4,
+σ = 2) with background noise of standard deviation 0.05, 0.15 or 0.3 in training, test and probe images; seeds 0–1. Effective boundary
+per seed (truth: 16):
+
+| background noise | b = 16 | b = 12 | b = 8 | b = 4 | largest correction k* |
+|---|---|---|---|---|---|
+| 0.05 (as L1) | 16, 16 | 16, 16 | 14, 15 | 12, 24* | 8 |
+| 0.15 | 16, 17 | 16, 16 | 13, 14 | 12, 11 | 7.5 |
+| 0.3 | 16, 17 | 16, 16 | 13, 13 | 10, 9 | 5.5 |
+
+\* A run whose response spread past the true boundary (as one run in L6); with it, k* at 0.05 would read 10.
+
+**Guarantee check, and an artefact found and fixed.** The first check showed changes of 0.02–0.86 logits at distances 4 and 5 for noise 0.15
+and 0.3, identical at both distances. The attack clipped the *whole* image to [0, 1] after each step; with heavy noise, 0.07% (0.15) and
+8.3% (0.3) of pixels lie outside that range, so the clipping changed pixels inside the gate's region. (At noise 0.05 no pixel lies outside
+it, so L1, L2, L6, L7 and P4 are unaffected.) With clipping confined to the attacked column, retrained models (`l8g`, CPU, seeds 0–1)
+give 0.20–0.44 logits at distance 3 and **exactly 0.0 at distances 4 and 5 at every noise level** (6 of 6).
+
+**Against the predictions.** (1) *k* decreases as the noise grows:* **confirmed** (8 → 7.5 → 5.5). (2) *Within 1.5 of 7.5 at 0.05; below
+the reach at 0.3:* **first half confirmed** (8), **second wrong** (5.5 > 4). (3) *The guarantee exact at every noise level:* **confirmed**
+after the attack fix (6 of 6).
+
+**What it means.** Visibility, not distractors, sets the renegotiable band: the noisier the background, the less of its reach the detector
+can use to lean toward the gate (8 → 5.5 columns), while the guarantee stays exact. Independent pixel noise partly averages out over the
+detector's 9×9 field, which is why even noise 0.3 leaves the band above the reach; the correlated texture of cat fur (L2, ~3 columns) does not
+average out the same way.

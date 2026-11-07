@@ -884,3 +884,34 @@ dense layer's per-cell biases become left-right asymmetric (mirror asymmetry 0 �
 What does not transfer is the teacher's exactness: no student keeps the right half unchanged (2–3 RGB levels of drift, against the
 teacher's 1.6 × 10⁻⁷), and without room the student also tints 6% of right irises. With room (b) the student is the cleanest: no right
 iris in band. As in A2, a patched teacher passes on a behaviour, not its guarantee.
+
+## S1. Domestication: does the host adopt a grafted organ, and come to depend on it? (2026-11-06)
+
+Script `src/s1_domestication.py` (interrupted by a GPU crash after 4 of 12 runs and resumed; seeded, so the remaining runs are as they
+would have been); output `results/s1/`. Paper one's noisy-input expert, frozen, beside a TinySR-26 host, behind a gate computed from the
+host's features (exactly 0 at install). 3,000 steps of paper one's mixed objective (clean bicubic, noisy bicubic and nearest inputs).
+"Host alone" = the system with the gate forced to 0. PSNR change against paper one's base (dB), mean of seeds 0–2.
+
+| arm | system: bicubic / noisy / nearest | host alone: bicubic / noisy / nearest | mean gate: bicubic / noisy / nearest |
+|---|---|---|---|
+| adult host + organ | +0.064 / +3.294 / +0.111 | +0.061 / **+0.973** / +0.108 | 0.09 / **0.94** / 0.06 |
+| adult control (no organ) | +0.028 / +3.177 / +0.067 | same | — |
+| young host + organ | −0.166 / +3.184 / −0.825 | **−4.66 / −0.57 / −1.89** | **0.91 / 0.92 / 0.92** |
+| young control | −0.838 / +2.098 / −1.468 | same | — |
+
+The organ alone: −0.20 / +3.26 / −1.01. Dependence on noisy inputs (system minus host alone) over training: adult 1.65 dB at step 250 →
+2.32 at 3,000; young 0.35 → 3.75, both rising at every evaluation but one.
+
+**Against the predictions.** (1) *The gate routes: ≥ 0.5 on noisy inputs, ≤ 0.2 on clean ones (adult):* **confirmed** (0.94, 0.09).
+(2) *The host's own denoising withers: host-alone noisy PSNR ≥ 0.5 dB below the control's:* **confirmed** (+0.97 vs +3.18, 2.2 dB below).
+(3) *Freed capacity: the system's clean-bicubic gain exceeds joint retraining's +0.03 dB by ≥ 0.05:* **narrowly wrong** (+0.064; this
+experiment's own control +0.028). (4) *Dependence grows over training:* **confirmed** (adult 1.65 → 2.32, young 0.35 → 3.75 dB).
+(5) *The young host withers more than the adult:* **confirmed**, far more: it hands *every* input type to the organ (gate 0.91–0.92 on
+clean and nearest inputs too) and its own output falls to −4.7 dB on clean inputs.
+
+**What it means.** The host hands over exactly the jobs the organ does better than it does. The adult host is better than the organ on
+clean and nearest inputs, so it routes only noisy ones (0.94 vs 0.06–0.09); the young host is worse than the organ at everything (young
+control: −0.84 / +2.10 / −1.47 against the organ's −0.20 / +3.26 / −1.01), so it routes everything. What it hands over, it loses, and
+dependence grows step by step. With L3 this sharpens the deletion rule: here the host's skill is not harmful (the gate weights the host's
+noisy-input output by only 1 − 0.94), but it competes for capacity with the jobs the host still does, and it fades; in L3 nothing
+competed for the unused position code, and it stayed.

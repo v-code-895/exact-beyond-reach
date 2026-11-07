@@ -1,0 +1,10 @@
+resuming with {'adult host + organ': [0, 1, 2], 'adult host, control': [0]}
+organ alone {'bicubic LR': -0.20374321407742002, 'noisy bicubic LR': 3.261354139116076, 'nearest LR': -1.0111602571275498}
+adult host, control 1 system {'bicubic LR': 0.019, 'noisy bicubic LR': 3.191, 'nearest LR': 0.077} host alone {'bicubic LR': 0.019, 'noisy bicubic LR': 3.191, 'nearest LR': 0.077} gate {} 729s
+adult host, control 2 system {'bicubic LR': 0.026, 'noisy bicubic LR': 3.191, 'nearest LR': 0.078} host alone {'bicubic LR': 0.026, 'noisy bicubic LR': 3.191, 'nearest LR': 0.078} gate {} 1353s
+young host + organ 0 system {'bicubic LR': -0.164, 'noisy bicubic LR': 3.188, 'nearest LR': -0.829} host alone {'bicubic LR': -4.846, 'noisy bicubic LR': -0.731, 'nearest LR': -2.053} gate {'bicubic LR': 0.918, 'noisy bicubic LR': 0.92, 'nearest LR': 0.923} 3474s
+young host + organ 1 system {'bicubic LR': -0.166, 'noisy bicubic LR': 3.185, 'nearest LR': -0.827} host alone {'bicubic LR': -4.54, 'noisy bicubic LR': -0.46, 'nearest LR': -1.81} gate {'bicubic LR': 0.911, 'noisy bicubic LR': 0.913, 'nearest LR': 0.917} 5551s
+young host + organ 2 system {'bicubic LR': -0.168, 'noisy bicubic LR': 3.18, 'nearest LR': -0.819} host alone {'bicubic LR': -4.605, 'noisy bicubic LR': -0.506, 'nearest LR': -1.818} gate {'bicubic LR': 0.908, 'noisy bicubic LR': 0.911, 'nearest LR': 0.914} 7537s
+young host, control 0 system {'bicubic LR': -0.863, 'noisy bicubic LR': 2.087, 'nearest LR': -1.47} host alone {'bicubic LR': -0.863, 'noisy bicubic LR': 2.087, 'nearest LR': -1.47} gate {} 8318s
+young host, control 1 system {'bicubic LR': -0.865, 'noisy bicubic LR': 2.089, 'nearest LR': -1.478} host alone {'bicubic LR': -0.865, 'noisy bicubic LR': 2.089, 'nearest LR': -1.478} gate {} 8913s
+young host, control 2 system {'bicubic LR': -0.787, 'noisy bicubic LR': 2.117, 'nearest LR': -1.457} host alone {'bicubic LR': -0.787, 'noisy bicubic LR': 2.117, 'nearest LR': -1.457} gate {} 9437s

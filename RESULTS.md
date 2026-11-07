@@ -915,3 +915,27 @@ control: −0.84 / +2.10 / −1.47 against the organ's −0.20 / +3.26 / −1.01
 dependence grows step by step. With L3 this sharpens the deletion rule: here the host's skill is not harmful (the gate weights the host's
 noisy-input output by only 1 − 0.94), but it competes for capacity with the jobs the host still does, and it fades; in L3 nothing
 competed for the unused position code, and it stayed.
+
+## L6. Does object-like clutter shrink renegotiation? (2026-11-06)
+
+Script `src/l_series.py l6`; output `results/l6/`. L1's task and contract (reach 4, σ = 2) with 0, 2 or 6 orange distractor blobs per
+image; gate boundary b ∈ {16, 12, 8, 4}; seeds 0–1. Effective boundary per seed (truth: 16), from clean probes:
+
+| orange distractors | b = 16 | b = 12 | b = 8 | b = 4 | accuracy at b = 4 (%) | largest correction k* |
+|---|---|---|---|---|---|---|
+| 0 | 16, 17 | 16, 16 | 14, 15 | 12, 11 | 80.0, 82.2 | 7.5 |
+| 2 | 16, 16 | 16, 16 | 14, 14 | 12, 11 | 78.0, 81.0 | 7.5 |
+| 6 | 16, 15 | 0*, 16 | 14, 13 | 11, 25* | 82.0, 75.9 | ≈ 7 |
+
+\* Probe artefacts: 0 = column 0 called "right" (the wrap-around edge, as in L2); 25 = a run whose response spread past the true boundary
+(75.9% accuracy). Guarantee check at b = 16: 0.15–0.37 logits at distance 3, exactly 0.0 at distances 4 and 5, in all six models.
+
+**Against the predictions.** (1) *k* decreases as orange distractors grow:* **wrong**: 7.5, 7.5, about 7. (2) *With none, within 1.5 of
+L1's 7.5; with six, below the reach (4):* **first half confirmed** (7.5), **second wrong** (about 7). (3) *The guarantee is exact at every
+clutter level:* **confirmed** (6 of 6).
+
+**What it means.** Distractors of a different hue do not shrink the renegotiable band, so L2's shrinkage on cat fur is not explained by
+"more things that look like the object". The orange blobs here are easy to tell from the red one (their green channel differs by 0.35),
+so a detector can lean toward the gate without leaning into them. What natural backgrounds add is texture: large, spatially correlated
+variation against which the faint tail of the disc is hard to see. The remaining hypothesis is visibility against background variation,
+which L8 tests by raising the background noise.

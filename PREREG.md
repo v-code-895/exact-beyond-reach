@@ -754,6 +754,14 @@ check). **Predictions.** (1) For all three trunks the output is exactly unchange
 distance 3 (the proposition depends on reach only). (2) The renegotiation k* of each reach-4 trunk is within 1.5 columns of L1's
 reach-4 value at σ = 2 (7.5), and further from L1's reach-2 value (4.5): renegotiation follows reach, not depth.
 
+### L8. Renegotiation and visibility (registered 2026-11-06 18:09, after L6, before running)
+**Why.** L6: distinguishable distractors do not shrink renegotiation (7.5 → ~7 columns), so L2's shrinkage on cat fur (~3) needs
+another cause. Hypothesis: visibility. The detector can lean toward the gate only as far as it can see the object's faint tail against
+background variation, which natural texture raises. **Arms.** L1's task and contract (reach 4, σ = 2) with background noise of
+standard deviation 0.05 (as L1), 0.15 or 0.3 per pixel and channel, in training, test and probe images; b ∈ {16, 12, 8, 4}; N = 4,096;
+seeds 0–1 (`src/l_series.py l8`). **Predictions.** (1) k* decreases as the noise grows. (2) At 0.05, within 1.5 of 7.5; at 0.3,
+below the reach (< 4). (3) The guarantee is exact at every noise level (0.0 at distances ≥ 4, all models).
+
 ## Not yet registered
 
 B1 (waits for the setup choice above), E2, F1, and the deferred B4–B6, C2–C4, D1, D3, D6, D7: each gets an entry

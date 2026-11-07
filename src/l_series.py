@@ -8,8 +8,9 @@ trainable parts in front of it, and training renegotiates everything within that
   l5toy  the impossible end of the exchange rate: the circular network at 16, 64, 256 channels
   l6     renegotiation vs clutter: L1's task (r = 4, sigma = 2) with 0, 2 or 6 orange distractor blobs
   l7     reach, not depth: three trunks with reach 4 (2 layers, one dilated; 4 layers; 6 layers with two 1x1)
+  l8     renegotiation vs visibility: L1's task (r = 4, sigma = 2) with background noise 0.05, 0.15 or 0.3
 
-  <venv python> followup/src/l_series.py l1|l2|l3|l4|l5toy|l6|l7 [--smoke]
+  <venv python> followup/src/l_series.py l1|l2|l3|l4|l5toy|l6|l7|l8 [--smoke]
 """
 import copy, sys, time
 import numpy as np
@@ -48,9 +49,9 @@ def blob(img, cx, cy, sigma, col, size):
     dx = np.minimum(np.abs(xx - cx), size - np.abs(xx - cx)); dy = np.minimum(np.abs(yy - cy), size - np.abs(yy - cy))
     a = np.exp(-(dx ** 2 + dy ** 2) / (2 * sigma ** 2))[None]; return (1 - a) * img + a * col[:, None, None]
 
-def make(n, seed, sigma=2.0, size=32):
+def make(n, seed, sigma=2.0, size=32, noise=0.05):
     """P1's task with blob width sigma: green and blue distractors, red blob, label = red centre in the left half (wrap-around)."""
-    rng = np.random.default_rng(seed); X = 0.5 + 0.05 * rng.standard_normal((n, 3, size, size)).astype(np.float32); y = np.zeros(n, np.float32)
+    rng = np.random.default_rng(seed); X = 0.5 + noise * rng.standard_normal((n, 3, size, size)).astype(np.float32); y = np.zeros(n, np.float32)
     for i in range(n):
         for name in ("green", "blue", "red"):
             cx, cy = rng.uniform(0, size, 2); X[i] = blob(X[i], cx, cy, sigma, np.array(P.COLS[name], np.float32), size)
@@ -60,12 +61,12 @@ def make(n, seed, sigma=2.0, size=32):
 def fit(make_model, X, y, n, seed, steps=None):
     torch.manual_seed(seed); m = make_model().to(DEV); return Q.train(m, X[:n], y[:n], seed, steps=steps or STEPS)
 
-def probes_synthetic(sigma, size=32, seed=7):
+def probes_synthetic(sigma, size=32, seed=7, noise=0.05):
     rng = np.random.default_rng(seed); Xp, cols = [], []
     for c in range(size):
         for cy in np.linspace(size / 8, size - size / 8, 4):
             for _ in range(2):
-                bg = 0.5 + 0.05 * rng.standard_normal((3, size, size)).astype(np.float32); Xp.append(blob(bg, c + 0.5, cy, sigma, RED, size)); cols.append(c)
+                bg = 0.5 + noise * rng.standard_normal((3, size, size)).astype(np.float32); Xp.append(blob(bg, c + 0.5, cy, sigma, RED, size)); cols.append(c)
     return torch.from_numpy(np.stack(Xp)), np.array(cols)
 
 @torch.no_grad()
@@ -268,9 +269,23 @@ def l7(R, t0, out):
                 R[name][str(b)].append(r); print("L7", name, "b", b, "seed", seed, {k: v for k, v in r.items() if k != "left_share_by_column"}, f"{time.time() - t0:.0f}s", flush=True)
             C.save_json(R, f"{out}/l7_results.json")
 
+# ---------------------------------------------------------------- L8
+def l8(R, t0, out):
+    for nz in ((0.05, 0.15, 0.3) if not SMOKE else (0.3,)):
+        Xtr, ytr = make(4096 if not SMOKE else 512, 1, 2.0, noise=nz); Xte, yte = make(4000 if not SMOKE else 500, 2, 2.0, noise=nz)
+        Xp, cols = probes_synthetic(2.0, noise=nz); R[str(nz)] = {}
+        for b in ((16, 12, 8, 4) if not SMOKE else (16,)):
+            R[str(nz)][str(b)] = []
+            for seed in ((0, 1) if not SMOKE else (0,)):
+                m = fit(lambda: Contract(4, b), Xtr, ytr, len(Xtr), seed); eff, share = effective_boundary(m, Xp, cols, 32)
+                r = {"seed": seed, "acc": Q.acc(m, Xte, yte), "effective_boundary": eff, "correction": eff - b, "left_share_by_column": share}
+                if b == 16: r["guarantee_max_logit_change_by_d"] = guarantee(m, Xte, yte, 4, 16)
+                R[str(nz)][str(b)].append(r); print("L8 noise", nz, "b", b, "seed", seed, {k: v for k, v in r.items() if k != "left_share_by_column"}, f"{time.time() - t0:.0f}s", flush=True)
+            C.save_json(R, f"{out}/l8_results.json")
+
 def main(which):
     t0 = time.time(); out = C.out_dir(which + ("_smoke" if SMOKE else "")); R = {"smoke": SMOKE}
-    {"l1": l1, "l2": l2, "l3": l3, "l4": l4, "l5toy": l5toy, "l6": l6, "l7": l7}[which](R, t0, out); R["seconds"] = time.time() - t0; C.save_json(R, f"{out}/{which}_results.json")
+    {"l1": l1, "l2": l2, "l3": l3, "l4": l4, "l5toy": l5toy, "l6": l6, "l7": l7, "l8": l8}[which](R, t0, out); R["seconds"] = time.time() - t0; C.save_json(R, f"{out}/{which}_results.json")
 
 if __name__ == "__main__":
     main(sys.argv[1])

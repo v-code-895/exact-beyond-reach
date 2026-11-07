@@ -1,0 +1,15 @@
+(a) same lineage: bicubic expert's block 2 0 {'bicubic LR': -0.615, 'noisy bicubic LR': -0.043, 'nearest LR': -0.478} -> {'seconds': 239.803, 'bicubic LR': 0.008, 'noisy bicubic LR': 0.062, 'nearest LR': -0.007} 304s
+(a) same lineage: bicubic expert's block 2 1 {'bicubic LR': -0.615, 'noisy bicubic LR': -0.043, 'nearest LR': -0.478} -> {'seconds': 209.351, 'bicubic LR': 0.001, 'noisy bicubic LR': -0.002, 'nearest LR': 0.008} 526s
+(a) same lineage: bicubic expert's block 2 2 {'bicubic LR': -0.615, 'noisy bicubic LR': -0.043, 'nearest LR': -0.478} -> {'seconds': 286.4, 'bicubic LR': 0.004, 'noisy bicubic LR': 0.057, 'nearest LR': 0.004} 826s
+(b) same lineage: noisy expert's block 2 0 {'bicubic LR': -0.041, 'noisy bicubic LR': 0.277, 'nearest LR': -1.044} -> {'seconds': 230.19, 'bicubic LR': 0.001, 'noisy bicubic LR': 0.044, 'nearest LR': 0.003} 1080s
+(b) same lineage: noisy expert's block 2 1 {'bicubic LR': -0.041, 'noisy bicubic LR': 0.277, 'nearest LR': -1.044} -> {'seconds': 216.621, 'bicubic LR': -0.001, 'noisy bicubic LR': 0.085, 'nearest LR': 0.002} 1309s
+(b) same lineage: noisy expert's block 2 2 {'bicubic LR': -0.041, 'noisy bicubic LR': 0.277, 'nearest LR': -1.044} -> {'seconds': 278.568, 'bicubic LR': -0.007, 'noisy bicubic LR': 0.063, 'nearest LR': -0.009} 1601s
+(c) foreign: from-scratch network's block 4 0 {'bicubic LR': -0.975, 'noisy bicubic LR': -0.121, 'nearest LR': -1.874} -> {'seconds': 240.874, 'bicubic LR': -0.122, 'noisy bicubic LR': -0.027, 'nearest LR': -0.271} 1864s
+(c) foreign: from-scratch network's block 4 1 {'bicubic LR': -0.975, 'noisy bicubic LR': -0.121, 'nearest LR': -1.874} -> {'seconds': 206.82, 'bicubic LR': -0.122, 'noisy bicubic LR': 0.069, 'nearest LR': -0.329} 2084s
+(c) foreign: from-scratch network's block 4 2 {'bicubic LR': -0.975, 'noisy bicubic LR': -0.121, 'nearest LR': -1.874} -> {'seconds': 193.281, 'bicubic LR': -0.125, 'noisy bicubic LR': 0.079, 'nearest LR': -0.33} 2291s
+(d) foreign + stitching adapters 0 {'bicubic LR': -0.549, 'noisy bicubic LR': 0.039, 'nearest LR': -0.944} -> {'seconds': 246.581, 'bicubic LR': -0.137, 'noisy bicubic LR': 0.11, 'nearest LR': -0.461} 2560s
+(d) foreign + stitching adapters 1 {'bicubic LR': -0.549, 'noisy bicubic LR': 0.039, 'nearest LR': -0.944} -> {'seconds': 246.093, 'bicubic LR': -0.135, 'noisy bicubic LR': 0.147, 'nearest LR': -0.44} 2829s
+(d) foreign + stitching adapters 2 {'bicubic LR': -0.549, 'noisy bicubic LR': 0.039, 'nearest LR': -0.944} -> {'seconds': 245.408, 'bicubic LR': -0.146, 'noisy bicubic LR': 0.133, 'nearest LR': -0.444} 3097s
+(e) control 0 {'bicubic LR': 0.0, 'noisy bicubic LR': 0.0, 'nearest LR': 0.0} -> {'seconds': 261.381, 'bicubic LR': 0.007, 'noisy bicubic LR': 0.006, 'nearest LR': -0.031} 3370s
+(e) control 1 {'bicubic LR': 0.0, 'noisy bicubic LR': 0.0, 'nearest LR': 0.0} -> {'seconds': 284.664, 'bicubic LR': 0.002, 'noisy bicubic LR': -0.036, 'nearest LR': 0.013} 3667s
+(e) control 2 {'bicubic LR': 0.0, 'noisy bicubic LR': 0.0, 'nearest LR': 0.0} -> {'seconds': 189.086, 'bicubic LR': 0.004, 'noisy bicubic LR': 0.004, 'nearest LR': -0.005} 3878s

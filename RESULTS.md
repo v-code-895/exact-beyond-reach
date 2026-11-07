@@ -1010,3 +1010,29 @@ after the attack fix (6 of 6).
 can use to lean toward the gate (8 → 5.5 columns), while the guarantee stays exact. Independent pixel noise partly averages out over the
 detector's 9×9 field, which is why even noise 0.3 leaves the band above the reach; the correlated texture of cat fur (L2, ~3 columns) does not
 average out the same way.
+
+## S4. Transplant and rejection (2026-11-06)
+
+Script `src/s4_transplant.py`; output `results/s4/`. Block 2 of paper one's TinySR-26 replaced, then healed 1,000 steps on the D2
+objective. PSNR change against the base (dB), bicubic / noisy / nearest inputs, mean of seeds 0–2 (every seed within 0.07 dB of the
+mean at step 1,000).
+
+| transplant | step 0 | step 200 | step 500 | step 1,000 |
+|---|---|---|---|---|
+| (a) same lineage: the bicubic expert's block 2 | −0.62 / −0.04 / −0.48 | +0.01 / +0.05 / −0.04 | 0.00 / +0.04 / 0.00 | 0.00 / +0.04 / 0.00 |
+| (b) same lineage: the noisy expert's block 2 | −0.04 / **+0.28** / −1.04 | −0.01 / +0.11 / −0.09 | −0.01 / +0.11 / −0.01 | 0.00 / +0.06 / 0.00 |
+| (c) foreign: block 4 of a 9-block network trained from scratch | −0.98 / −0.12 / −1.87 | −0.29 / +0.06 / −0.76 | −0.18 / +0.06 / −0.52 | **−0.12 / +0.04 / −0.31** |
+| (d) foreign + closed-form 1×1 stitching adapters | **−0.55 / +0.04 / −0.94** | −0.26 / +0.09 / −0.70 | −0.19 / +0.07 / −0.53 | −0.14 / +0.13 / −0.45 |
+| (e) control | 0 / 0 / 0 | 0.00 / +0.02 / 0.00 | 0.00 / +0.02 / 0.00 | 0.00 / −0.01 / −0.01 |
+
+**Against the predictions.** (1) *Same-lineage transplants cost < 0.3 dB at step 0, are within 0.05 dB of the control by step 200, and (b)
+carries ≥ +0.3 dB of noisy-input skill:* **mostly wrong**: (a) costs 0.62 dB and (b) 1.04 dB at step 0 (on bicubic and nearest inputs
+respectively); (a) is within 0.05 dB by step 200, (b) by step 300; (b) carries +0.28 dB (narrowly short). (2) *The foreign transplant costs
+> 3 dB and is not within 0.1 dB of the control by step 500:* **first half wrong** (it costs 1–1.9 dB), **second confirmed** (0.12–0.31 dB
+short even at step 1,000). (3) *Stitching cuts the foreign transplant's damage below 1 dB:* **confirmed** (0.55 / 0.94).
+
+**What it means.** A block from a sibling network (same pretraining) is accepted within 200–300 steps; a block of the same shape from an
+independently trained network is "rejected" in the sense of slow integration: it costs 1–2 dB and is still 0.1–0.3 dB short after 1,000
+steps. Closed-form stitching adapters halve the damage at install but do not speed up healing (on nearest inputs the stitched transplant
+ends further behind, −0.45 vs −0.31 dB). And a skill carried in by the transplant is not kept unless the objective uses it: the noisy
+expert's block brings +0.28 dB on noisy inputs, which fades to +0.06 dB under an objective without noise.

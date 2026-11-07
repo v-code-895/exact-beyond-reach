@@ -1,0 +1,33 @@
+control 0 {'bicubic LR': 0.0, 'nearest LR': 0.0} -> {'seconds': 178.907, 'bicubic LR': 0.003, 'nearest LR': 0.001} 200s
+control 1 {'bicubic LR': 0.0, 'nearest LR': 0.0} -> {'seconds': 143.675, 'bicubic LR': -0.001, 'nearest LR': 0.002} 354s
+control 2 {'bicubic LR': 0.0, 'nearest LR': 0.0} -> {'seconds': 167.277, 'bicubic LR': -0.004, 'nearest LR': 0.011} 527s
+remove block 0 0 {'bicubic LR': -0.434, 'nearest LR': -3.466} -> {'seconds': 130.057, 'bicubic LR': -0.183, 'nearest LR': -0.488} 667s
+remove block 0 1 {'bicubic LR': -0.434, 'nearest LR': -3.466} -> {'seconds': 154.827, 'bicubic LR': -0.167, 'nearest LR': -0.509} 826s
+remove block 0 2 {'bicubic LR': -0.434, 'nearest LR': -3.466} -> {'seconds': 122.818, 'bicubic LR': -0.171, 'nearest LR': -0.503} 959s
+remove block 1 0 {'bicubic LR': -0.557, 'nearest LR': -3.938} -> {'seconds': 161.853, 'bicubic LR': -0.232, 'nearest LR': -0.621} 1126s
+remove block 1 1 {'bicubic LR': -0.557, 'nearest LR': -3.938} -> {'seconds': 105.084, 'bicubic LR': -0.216, 'nearest LR': -0.679} 1236s
+remove block 1 2 {'bicubic LR': -0.557, 'nearest LR': -3.938} -> {'seconds': 111.656, 'bicubic LR': -0.22, 'nearest LR': -0.66} 1357s
+remove block 2 0 {'bicubic LR': -1.46, 'nearest LR': -0.959} -> {'seconds': 172.567, 'bicubic LR': -0.165, 'nearest LR': -0.474} 1534s
+remove block 2 1 {'bicubic LR': -1.46, 'nearest LR': -0.959} -> {'seconds': 102.049, 'bicubic LR': -0.165, 'nearest LR': -0.466} 1646s
+remove block 2 2 {'bicubic LR': -1.46, 'nearest LR': -0.959} -> {'seconds': 173.063, 'bicubic LR': -0.161, 'nearest LR': -0.483} 1828s
+remove block 3 0 {'bicubic LR': -0.337, 'nearest LR': -2.013} -> {'seconds': 98.385, 'bicubic LR': -0.129, 'nearest LR': -0.209} 1936s
+remove block 3 1 {'bicubic LR': -0.337, 'nearest LR': -2.013} -> {'seconds': 173.213, 'bicubic LR': -0.124, 'nearest LR': -0.234} 2119s
+remove block 3 2 {'bicubic LR': -0.337, 'nearest LR': -2.013} -> {'seconds': 98.439, 'bicubic LR': -0.126, 'nearest LR': -0.242} 2222s
+remove block 4 0 {'bicubic LR': -0.659, 'nearest LR': -0.372} -> {'seconds': 169.58, 'bicubic LR': -0.098, 'nearest LR': -0.219} 2401s
+remove block 4 1 {'bicubic LR': -0.659, 'nearest LR': -0.372} -> {'seconds': 103.409, 'bicubic LR': -0.099, 'nearest LR': -0.202} 2509s
+remove block 4 2 {'bicubic LR': -0.659, 'nearest LR': -0.372} -> {'seconds': 110.866, 'bicubic LR': -0.104, 'nearest LR': -0.211} 2625s
+remove block 5 0 {'bicubic LR': -0.914, 'nearest LR': -1.65} -> {'seconds': 172.878, 'bicubic LR': -0.131, 'nearest LR': -0.262} 2808s
+remove block 5 1 {'bicubic LR': -0.914, 'nearest LR': -1.65} -> {'seconds': 166.177, 'bicubic LR': -0.14, 'nearest LR': -0.267} 2979s
+remove block 5 2 {'bicubic LR': -0.914, 'nearest LR': -1.65} -> {'seconds': 118.675, 'bicubic LR': -0.14, 'nearest LR': -0.262} 3108s
+remove tail 0 {'bicubic LR': -3.227, 'nearest LR': -3.525} -> {'seconds': 197.139, 'bicubic LR': -0.08, 'nearest LR': -0.109} 3316s
+remove tail 1 {'bicubic LR': -3.227, 'nearest LR': -3.525} -> {'seconds': 116.094, 'bicubic LR': -0.081, 'nearest LR': -0.119} 3438s
+remove tail 2 {'bicubic LR': -3.227, 'nearest LR': -3.525} -> {'seconds': 191.926, 'bicubic LR': -0.088, 'nearest LR': -0.116} 3640s
+remove head skip 0 {'bicubic LR': -0.944, 'nearest LR': -0.994} -> {'seconds': 161.076, 'bicubic LR': -0.008, 'nearest LR': 0.008} 3807s
+remove head skip 1 {'bicubic LR': -0.944, 'nearest LR': -0.994} -> {'seconds': 172.538, 'bicubic LR': -0.01, 'nearest LR': 0.016} 3991s
+remove head skip 2 {'bicubic LR': -0.944, 'nearest LR': -0.994} -> {'seconds': 192.455, 'bicubic LR': -0.015, 'nearest LR': -0.01} 4189s
+12 channels, crude 0 {'bicubic LR': -0.226, 'nearest LR': -0.107} -> {'seconds': 110.448, 'bicubic LR': -0.009, 'nearest LR': 0.006} 4305s
+12 channels, crude 1 {'bicubic LR': -0.226, 'nearest LR': -0.107} -> {'seconds': 125.99, 'bicubic LR': -0.005, 'nearest LR': -0.007} 4436s
+12 channels, crude 2 {'bicubic LR': -0.226, 'nearest LR': -0.107} -> {'seconds': 166.056, 'bicubic LR': -0.011, 'nearest LR': -0.016} 4613s
+12 channels, sutured 0 {'bicubic LR': -0.018, 'nearest LR': -0.068} -> {'seconds': 187.154, 'bicubic LR': -0.002, 'nearest LR': -0.04} 4820s
+12 channels, sutured 1 {'bicubic LR': -0.018, 'nearest LR': -0.069} -> {'seconds': 146.109, 'bicubic LR': -0.009, 'nearest LR': 0.01} 4990s
+12 channels, sutured 2 {'bicubic LR': -0.018, 'nearest LR': -0.069} -> {'seconds': 177.235, 'bicubic LR': -0.013, 'nearest LR': -0.018} 5191s

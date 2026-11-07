@@ -1036,3 +1036,35 @@ independently trained network is "rejected" in the sense of slow integration: it
 steps. Closed-form stitching adapters halve the damage at install but do not speed up healing (on nearest inputs the stitched transplant
 ends further behind, −0.45 vs −0.31 dB). And a skill carried in by the transplant is not kept unless the objective uses it: the noisy
 expert's block brings +0.28 dB on noisy inputs, which fades to +0.06 dB under an objective without noise.
+
+## S2. Lesion atlas: remove a part, watch it heal (2026-11-06)
+
+Script `src/s2_lesion_atlas.py`; output `results/s2/`. Each lesion on paper one's TinySR-26, healed 1,000 steps on the D2 objective. PSNR
+change against the base (dB), bicubic / nearest inputs, mean of seeds 0–2 (seeds agree within 0.06 dB at step 1,000). "Largest weight
+changes": the two layers with the largest relative change (‖ΔW‖/‖W‖) during healing, named by their original block.
+
+| lesion | step 0 | step 1,000 | largest weight changes |
+|---|---|---|---|
+| remove block 0 | −0.43 / −3.47 | −0.17 / −0.50 | blocks 1, 2 |
+| remove block 1 | −0.56 / −3.94 | −0.22 / −0.65 | blocks 2, 0 |
+| remove block 2 | −1.46 / −0.96 | −0.16 / −0.47 | blocks 3, 1 |
+| remove block 3 | −0.34 / −2.01 | −0.13 / −0.23 | blocks 4, 2 |
+| remove block 4 | −0.66 / −0.37 | −0.10 / −0.21 | blocks 3, 5 |
+| remove block 5 | −0.91 / −1.65 | −0.14 / −0.26 | block 4, output conv |
+| remove the tail conv | **−3.23 / −3.53** | −0.08 / −0.11 | output conv, block 5 |
+| remove the head skip | −0.94 / −0.99 | **−0.01 / +0.01** (healed by step 300) | tail, output conv |
+| 12 of 48 channels in block 2, crude | −0.23 / −0.11 | −0.01 / −0.01 (healed by step 200) | block 2 |
+| the same, sutured (closed-form refit) | −0.02 / −0.07 | −0.01 / −0.02 (healed by step 100) | block 2 |
+
+**Against the predictions.** (1) *Removing the head skip is the most damaging lesion:* **wrong**: removing the tail conv (−3.2 / −3.5 dB) or
+an early block (−3.5 to −3.9 dB on nearest inputs) is worse; the head skip costs ~1 dB and heals completely. (2) *Every single-block removal
+heals to within 0.1 dB of the control by step 1,000:* **wrong**: 0.10–0.22 dB short on bicubic inputs and 0.21–0.65 on nearest. (3) *Healing
+concentrates next to the lesion:* **confirmed**: in every block removal the largest weight changes are in the blocks on either side of the
+gap (for block 0, whose other neighbour is the head, in the next two blocks). (4) *Sutured channel removal starts ≥ 5× closer than crude and
+is within 0.05 dB by step 100; crude needs ≥ 300 steps:* **partly**: 12.6× closer on bicubic inputs but only 1.6× on nearest; sutured within
+0.05 dB by step 100 (confirmed), crude by step 200 (faster than predicted).
+
+**What it means.** Healing is local: the network rebuilds around a missing block mostly in the blocks that border it. Removing whole blocks
+leaves a lasting deficit at this budget (1,000 steps), while removing a quarter of one block's channels, or the head skip, is fully repaired;
+a closed-form suture makes a channel lesion nearly free from the start. The early blocks matter most for nearest-neighbour inputs, the tail and
+the middle block for bicubic ones.

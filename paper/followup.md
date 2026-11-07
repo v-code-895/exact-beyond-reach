@@ -12,7 +12,7 @@ Build: python paper/build_paper.py (HTML + PDF, as paper one). -->
 
 ## Abstract
 
-A companion paper showed that an LLM agent can compile exact structure into trained networks: wires, gates, guards and exceptions built from identities of the activations a network already uses. This paper asks what happens next, when gradient descent keeps training around that structure. In 35 pre-registered experiments so far (four more are running) on a synthetic classifier, a super-resolution network, a cat generator and Pythia-160M, the answer has one organising result, which we call the **reach law**:
+A companion paper showed that an LLM agent can compile exact structure into trained networks: wires, gates, guards and exceptions built from identities of the activations a network already uses. This paper asks what happens next, when gradient descent keeps training around that structure. In 36 pre-registered experiments so far (three more are running) on a synthetic classifier, a super-resolution network, a cat generator and Pythia-160M, the answer has one organising result, which we call the **reach law**:
 
 - **What is fixed.** A frozen module fixes, exactly, everything beyond the reach of the trainable parts in front of it. This is a proposition that holds for any weights. Measured on 39 trained models with three different reaches and three different architectures, on synthetic and natural images, an attacker who may repaint one input column moves the output by up to 45 logits at the module's boundary, and by **exactly 0.0** at every distance at or beyond the reach.
 - **What is renegotiated.** Within that reach, training moves even the module's own boundary. A boundary misplaced by up to 6 columns is moved back to within a column of where it belongs; the distance training can move it grows with the reach and with the size of the object (about the reach plus 1.4 object widths on clean images) and shrinks as the object gets harder to see against its background: from 8 to 5.5 columns as background noise rises, and to about 3 on natural images.
@@ -133,6 +133,8 @@ The two halves are different kinds of statement. The guarantee depends on reach 
 ![C1b–C1d: detector trade-off curves inside the frozen wire and gate.](figures/fig_c1_detectors.png)
 
 *Figure 5. C1b–C1d. Left irises in band against change outside the eyes, for the closed form and for detectors trained inside the frozen structure.*
+
+**Lesions (S2).** Healing is local. After a residual block of TinySR-26 is removed, the two layers that change most during 1,000 steps of healing are the blocks on either side of the gap, in every one of the six cases. Removing a whole block leaves a lasting deficit at this budget (0.1–0.2 dB on bicubic inputs, 0.2–0.65 dB on nearest-neighbour inputs), while removing the head skip (−1 dB) or a quarter of one block's channels heals completely within 100–300 steps; a closed-form suture makes the channel lesion nearly free from the start.
 
 **Transplants (S4).** Replacing one residual block of TinySR-26 with the same block from a sibling network (same pretraining) costs 0.6–1.0 dB and is accepted within 200–300 steps. A block of the same shape from an independently trained network costs 1–1.9 dB and is still 0.1–0.3 dB short after 1,000 steps. Closed-form 1×1 stitching adapters halve the damage at installation but do not speed up integration. A skill carried in by a transplant is kept only if the objective uses it: the noisy expert's block brings +0.28 dB on noisy inputs, which fades to +0.06 dB under an objective without noise.
 
@@ -287,6 +289,7 @@ Each experiment was registered in `PREREG.md` before it ran and is written up in
 | D4 | An exact switch with a trained branch (cat → anime) | Off exact to 10⁻¹⁵; on keeps the cat's layout | 1 of 2, 1 in part |
 | L8 | Renegotiation and visibility | 8 → 7.5 → 5.5 columns as noise rises; guarantee exact (after an attack fix) | 2 of 4, 1 in part |
 | S4 | Transplant and rejection | Sibling block accepted in 200–300 steps; foreign block 0.1–0.3 dB short after 1,000 | 2 of 6, 1 in part |
-| S2, B3, S5b, P2b | | [pending] | |
+| S2 | Lesion atlas | Healing is local (6/6); block removals leave 0.1–0.65 dB | 1 of 4, 1 in part |
+| B3, S5b, P2b | | [pending] | |
 
 **Reproducing.** Every script is under `src/`; `run_queue*.sh` record the order in which jobs ran on one 8 GB GPU; `results/queue.log` records start and end times, and `LOG.md` every change of plan.

@@ -94,3 +94,4 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | D4 | prediction: the branch keeps the cat's colours | agent | D4 | weak: colour gap 0.09–0.12 (layout gap 0.29–0.38) | recorded |
 | 2026-11-06 | L8 | prediction: at noise 0.3 renegotiation falls below the reach | agent | L8 | wrong: 5.5 (> 4); the trend (8 → 7.5 → 5.5) confirmed | recorded |
 | 2026-11-06 | S4 | predictions: same-lineage transplants cost < 0.3 dB; foreign > 3 dB | agent | S4 | wrong: 0.6–1.0 dB and 1–1.9 dB | recorded |
+| 2026-11-06 | S2 | predictions: head skip most damaging; block removals heal within 0.1 dB | agent | S2 | wrong (tail and early blocks worse; 0.1–0.65 dB left) | recorded; healing is local (confirmed) |

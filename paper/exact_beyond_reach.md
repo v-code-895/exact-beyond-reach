@@ -3,7 +3,9 @@ title: "Exact Beyond Reach: What Gradient Descent Can and Cannot Change Around F
 author:
   - Voravee Upatising
   - Claude (Anthropic; Claude Opus 5.5)
-date: November 6, 2026 (draft)
+date: November 7, 2026 (version 1.0.0)
+site: https://v-code-895.github.io/exact-beyond-reach/paper/
+code: https://github.com/v-code-895/exact-beyond-reach
 ---
 
 <!-- Draft. Every number traces to RESULTS.md and a file under results/ (Appendix A). Every experiment was registered in PREREG.md

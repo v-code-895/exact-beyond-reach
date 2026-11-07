@@ -2,7 +2,7 @@
 
 ### What gradient descent can and cannot change after an AI agent patches a neural network's weights
 
-**[Read the paper (PDF)](paper/exact_beyond_reach.pdf)** · Voravee Upatising and Claude (Anthropic; Claude Opus 5.5)
+**[Read the paper](https://v-code-895.github.io/exact-beyond-reach/)** ([PDF](paper/exact_beyond_reach.pdf)) · Voravee Upatising and Claude (Anthropic; Claude Opus 5.5)
 
 ![What the experiments do to a network](paper/figures/fig_vocabulary.png)
 

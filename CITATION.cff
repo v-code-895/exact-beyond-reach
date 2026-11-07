@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the paper below."
+title: "Exact Beyond Reach: What Gradient Descent Can and Cannot Change Around Frozen Structure"
+abstract: >-
+  Code, pre-registrations, results and paper. An LLM coding agent can write exact structure (wires, gates,
+  bounds, switches) into a trained network's weights; this work asks what gradient descent does with such a
+  frozen patch once training resumes. In 39 pre-registered experiments on a synthetic classifier, a
+  super-resolution network, a cat GAN and Pythia-160M, the organising result is the reach law: a frozen
+  patch fixes, exactly, everything beyond the reach of the trainable layers in front of it (attacks there
+  moved the output by exactly 0.0 in all 39 models tested), and training renegotiates everything within
+  that reach, including the patch's own boundary. Paper: https://v-code-895.github.io/exact-beyond-reach/
+type: software
+version: "1.0.0"
+date-released: "2026-11-07"
+license: MIT
+repository-code: "https://github.com/v-code-895/exact-beyond-reach"
+url: "https://v-code-895.github.io/exact-beyond-reach/"
+authors:
+  - given-names: Voravee
+    family-names: Upatising
+  - name: "Claude (Anthropic; model Claude Opus 5.5)"
+keywords:
+  - weight editing
+  - frozen modules
+  - gradient descent
+  - pre-registration
+  - neural network patching
+references:
+  - type: software
+    title: "Beyond Fixed Architectures: An LLM Agent Rewires Trained Neural Networks with Exact, Tested Patches"
+    doi: 10.5281/zenodo.23956114
+    authors:
+      - given-names: Voravee
+        family-names: Upatising
+      - name: "Claude (Anthropic; model Claude Opus 5.5)"

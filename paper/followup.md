@@ -12,7 +12,7 @@ Build: python paper/build_paper.py (HTML + PDF, as paper one). -->
 
 ## Abstract
 
-A companion paper showed that an LLM agent can compile exact structure into trained networks: wires, gates, guards and exceptions built from identities of the activations a network already uses. This paper asks what happens next, when gradient descent keeps training around that structure. In 28 pre-registered experiments so far (ten more are running) on a synthetic classifier, a super-resolution network, a cat generator and Pythia-160M, the answer has one organising result, which we call the **reach law**:
+A companion paper showed that an LLM agent can compile exact structure into trained networks: wires, gates, guards and exceptions built from identities of the activations a network already uses. This paper asks what happens next, when gradient descent keeps training around that structure. In 29 pre-registered experiments so far (nine more are running) on a synthetic classifier, a super-resolution network, a cat generator and Pythia-160M, the answer has one organising result, which we call the **reach law**:
 
 - **What is fixed.** A frozen module fixes, exactly, everything beyond the reach of the trainable parts in front of it. This is a proposition that holds for any weights. Measured on 21 trained models with three different reaches, on synthetic and natural images, an attacker who may repaint one input column moves the output by up to 45 logits at the module's boundary, and by **exactly 0.0** at every distance at or beyond the reach.
 - **What is renegotiated.** Within that reach, training moves even the module's own boundary. A boundary misplaced by up to 6 columns is moved back to within a column of where it belongs; the distance training can move it grows with the reach and with the size of the object (about the reach plus 1.4 object widths on clean images) and shrinks to about 3 columns on natural images, where leaning toward the boundary also means leaning into false alarms.
@@ -154,7 +154,7 @@ The price of a module falls as the network grows. At the other end, P1's circula
 
 **Guarantees do not (A2).** The companion paper's guarded super-resolution network bounds its output by a smoothed copy of its input on every input. Students distilled from it match its quality (regression gate passed, 24.8–25.1 dB against the teacher's 25.1) yet violate the bound on 100% of attack starts, by about 40 RGB levels in regions that should stay black, before any attack. The teacher's violation is exactly 0.00 under every attack. Distilling on a much broader input set, noise images included, barely changes this. A guarantee is a property of the structure that produces it, not of the outputs it produces on data; this is the converse of P4.
 
-**The unreachable odd eyes (D5).** [pending: D5. Early runs: a plain generator distilled from the odd-eyed teacher puts about 50% of left irises in band with 0–6% of right ones.]
+**The unreachable odd eyes (D5).** Gradient descent could not find the odd eyes from real cat images [1]. From the patched generator as a teacher it can: a plain student learns them in 2,000 steps and puts 50% of left irises in band, more than the teacher's 42%, with 6% of right irises; given 16 extra channels per layer, 46% with none on the right. The student holds position in the one place this generator can, the dense layer's per-cell biases, which become left–right asymmetric. What does not transfer is the exactness: every student's right half drifts by 2–3 RGB levels from the teacher's, whose right half is unchanged to 1.6 × 10⁻⁷. A patched teacher makes an unreachable behaviour reachable, and, as in A2, passes on the behaviour without its guarantee.
 
 ## 7. Limits
 
@@ -272,6 +272,7 @@ Each experiment was registered in `PREREG.md` before it ran and is written up in
 | L3 | Does an unused own copy wither? | No (−4.5 points, then flat) | 2 of 3 |
 | L4 | Adding a skill without forgetting | 2 of 3 seeds | 1 of 2 |
 | L5 | Exchange rate structure vs width | 2.2× / 1.7× / ~1.4×; no width helps an impossible task | 2 of 3 |
-| L6, L7, S1, S2, S4, D4, D5, B3, S5b | | [pending] | |
+| D5 | Can a plain generator learn the odd eyes from the patched teacher? | Yes: 50% left, 0–6% right; right half not exact | 2 of 4, 1 in part |
+| L6, L7, S1, S2, S4, D4, B3, S5b, P2b | | [pending] | |
 
 **Reproducing.** Every script is under `src/`; `run_queue*.sh` record the order in which jobs ran on one 8 GB GPU; `results/queue.log` records start and end times, and `LOG.md` every change of plan.

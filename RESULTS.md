@@ -858,3 +858,29 @@ anything.
 existing detector instead of repurposing it. The third seed shows that this is not guaranteed: when fine-tuning through the contract goes
 badly, the shared detector, and with it the old skill, is damaged too. The unconstrained head is a weak comparison here (it never learned the
 task in 300 steps), so L4 supports the claim only modestly; P3 remains the stronger evidence that a contract transfers an existing skill.
+
+## D5. Distilling the odd-eye patch into networks without it (2026-11-06)
+
+Script `src/d5_distil_odd_eye.py`; output `results/d5/`. Teacher: paper one's left-eye patched CatGAN-26 (41.6% of left irises in band,
+0% of right). Students start from the base generator and are trained 2,000 steps (lr 2 × 10⁻⁵, amended) to match the teacher's image for
+fresh latents every batch. EMA students at step 2,000, mean ± sd over seeds 0–2, on paper one's 300 test latents.
+
+| student | left irises in band | right irises in band | left only | right half vs teacher, mean (RGB levels) | dense layer's mirror asymmetry (0 at start) |
+|---|---|---|---|---|---|
+| (a) original architecture | 50.2 ± 0.2% | 5.9 ± 0.2% | 45.4% | 3.15 | 1.29 |
+| (b) with room: 16 extra channels per layer | 45.9 ± 0.2% | **0.0%** | **46.1%** | **2.08** | 1.31 |
+| (c) patched architecture, gate reset to zero, wire frozen | 50.2 ± 0.2% | 6.0 ± 0.0% | 45.4% | 2.97 | 1.29 |
+
+**Against the predictions.** (1) *(a) puts ≥ 20% of left irises in band with ≤ 5% of right, and its right half drifts (> 0.5 levels):*
+**left and drift confirmed** (50.2%; 3.15 levels), **right narrowly wrong** (5.9%). (2) *(b) ≥ (a):* **in part**: fewer left irises in
+band (45.9 vs 50.2%) but more *left-only* ones (46.1 vs 45.4%), no right iris in band and a third less drift. (3) *(c) reaches 41.6% with
+the right half exact to float rounding:* **first half confirmed, second wrong**: (c) matches (a) to within 0.2 points everywhere, with
+the right half drifting by 3 levels: everything else in (c) trains too, so nothing protects the right half, and the reset gate did not
+make (c) behave differently from (a).
+
+**What it means.** The odd eyes, which gradient descent could not find from real cat images (the companion paper), are reachable with a
+teacher: a plain generator learns them in 2,000 steps, putting more left irises in band than the teacher itself (50% against 42%), and the
+dense layer's per-cell biases become left-right asymmetric (mirror asymmetry 0 → 1.3), the one place this generator can hold position.
+What does not transfer is the teacher's exactness: no student keeps the right half unchanged (2–3 RGB levels of drift, against the
+teacher's 1.6 × 10⁻⁷), and without room the student also tints 6% of right irises. With room (b) the student is the cleanest: no right
+iris in band. As in A2, a patched teacher passes on a behaviour, not its guarantee.

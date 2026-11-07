@@ -86,3 +86,4 @@ Same practice as paper one's Table 11.
 | 2026-11-06 | L4 | prediction: the contract keeps the old task within 2 points | agent | L4 | wrong in 1 of 3 seeds (−26.6); the unconstrained head never learned the new task (weak comparison) | recorded |
 | 2026-11-06 | L6 | renegotiation vs object-like clutter (bridges L1's 7.5 columns and L2's ~3) | agent | L1, L2 | refines the law: the band is what the trainable part can reliably see | registered; queued after S1 |
 | 2026-11-06 | L7 | control: reach vs depth (dilated 2-layer and 6-layer trunks with reach 4) | agent | L1 confounds reach and depth | registered; queued after L6 |
+| 2026-11-06 | D5 | prediction: the gate-reset student keeps the right half exact | agent | D5 | wrong: every other weight trains too (3 levels drift); (c) = (a) | recorded |

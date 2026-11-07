@@ -1,0 +1,24 @@
+3 0 0 719.99 {'colour_hist': 0.757, 'layout_16x16': 0.971} 213s
+3 0 500 659.92 {'colour_hist': 0.426, 'layout_16x16': 0.842} 504s
+3 0 1000 583.22 {'colour_hist': 0.256, 'layout_16x16': 0.635} 786s
+3 0 1500 480.67 {'colour_hist': 0.179, 'layout_16x16': 0.505} 1043s
+3 0 2000 394.49 {'colour_hist': 0.143, 'layout_16x16': 0.427} 1297s
+3 0 2500 352.21 {'colour_hist': 0.122, 'layout_16x16': 0.348} 1546s
+3 0 3000 331.07 {'colour_hist': 0.108, 'layout_16x16': 0.292} 1798s
+compiled switch {'off_vs_catgan_float32': 3.039836883544922e-06, 'on_vs_branch_float32': 1.0251998901367188e-05, 'off_vs_catgan_float64': 1.1657341758564144e-15, 'compiled_params': 8459057, 'catgan_params': 8128291}
+3 1 0 719.99 {'colour_hist': 0.757, 'layout_16x16': 0.971} 1968s
+3 1 500 659.45 {'colour_hist': 0.395, 'layout_16x16': 0.851} 2234s
+3 1 1000 574.96 {'colour_hist': 0.201, 'layout_16x16': 0.624} 2524s
+3 1 1500 463.11 {'colour_hist': 0.142, 'layout_16x16': 0.485} 2789s
+3 1 2000 384.79 {'colour_hist': 0.125, 'layout_16x16': 0.407} 3053s
+3 1 2500 358.57 {'colour_hist': 0.107, 'layout_16x16': 0.346} 3318s
+3 1 3000 342.58 {'colour_hist': 0.092, 'layout_16x16': 0.286} 3580s
+compiled switch {'off_vs_catgan_float32': 3.2186508178710938e-06, 'on_vs_branch_float32': 9.834766387939453e-06, 'off_vs_catgan_float64': 1.1657341758564144e-15, 'compiled_params': 8459057, 'catgan_params': 8128291}
+3 2 0 719.99 {'colour_hist': 0.757, 'layout_16x16': 0.971} 3701s
+3 2 500 652.64 {'colour_hist': 0.414, 'layout_16x16': 0.852} 3976s
+3 2 1000 576.83 {'colour_hist': 0.232, 'layout_16x16': 0.633} 4392s
+3 2 1500 472.02 {'colour_hist': 0.162, 'layout_16x16': 0.508} 4793s
+3 2 2000 391.08 {'colour_hist': 0.13, 'layout_16x16': 0.436} 5166s
+3 2 2500 360.92 {'colour_hist': 0.121, 'layout_16x16': 0.4} 5553s
+3 2 3000 347.87 {'colour_hist': 0.121, 'layout_16x16': 0.375} 5926s
+compiled switch {'off_vs_catgan_float32': 3.039836883544922e-06, 'on_vs_branch_float32': 1.3232231140136719e-05, 'off_vs_catgan_float64': 1.1102230246251565e-15, 'compiled_params': 8459057, 'catgan_params': 8128291}

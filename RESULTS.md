@@ -960,3 +960,24 @@ dilated one** (6.0: within 1.5 of 7.5, but exactly as far from 4.5).
 at exactly 4. Renegotiation is set by reach to within about a column: at reach 4 the three trunks move a misplaced boundary back by 6.0–8.0
 columns, between L1's reach-2 (4.5) and reach-6 (9.5) values; the two-layer dilated trunk, which sees its outer pixels through only three
 taps, uses a little less of its reach.
+
+## D4. An exact switch with a branch trained by GAN: cat → anime (block 3 only; 2026-11-06)
+
+Script `src/d4_switch.py 3 2e-4`; output `results/d4/` (grids `grid_k3_s*.png`). A copy of CatGAN-26's blocks 4–5 and output layer reads
+block 3's features behind an exact switch on an extra latent bit; only the branch (and a discriminator) trains, on 63,565 anime faces,
+3,000 steps, seeds 0–2. The block-2 variant was dropped (the person's decision, to save GPU time).
+
+| seed | switch off vs CatGAN-26, float32 / float64 | Fréchet distance to anime faces, step 0 → 3,000 | layout correlation, matched vs shuffled | colour correlation, matched vs shuffled |
+|---|---|---|---|---|
+| 0 | 3.0 × 10⁻⁶ / 1.2 × 10⁻¹⁵ | 720 → 331 | 0.33 vs 0.04 | 0.03 vs −0.08 |
+| 1 | 3.2 × 10⁻⁶ / 1.2 × 10⁻¹⁵ | 720 → 343 | 0.33 vs 0.05 | 0.04 vs −0.06 |
+| 2 | 3.0 × 10⁻⁶ / 1.1 × 10⁻¹⁵ | 720 → 348 | 0.42 vs 0.04 | 0.08 vs −0.04 |
+
+**Against the predictions.** (1) *Off is exact to float rounding:* **confirmed** (10⁻¹⁵ in float64). (2) *The branch keeps the cat's colours
+and pose, correspondence well above shuffled pairs:* **confirmed for layout** (0.33–0.42 against 0.04), **weak for colour** (a gap of
+0.09–0.12). (3) *The block-2 variant:* not run.
+
+**What it means.** One network, two exact modes. With the switch off it is the cat generator to 10⁻¹⁵; with it on, a branch trained only
+on unpaired anime faces turns each latent's cat into an anime face that keeps the cat's layout: face position, pose and, visibly, hair
+colour following fur colour (a black cat becomes a dark-haired face). The frozen trunk's features shape what the new mode learns, without
+paired data. At 3,000 steps the anime faces are recognisable but rough (Fréchet distance 331–348).

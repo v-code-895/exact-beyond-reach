@@ -12,7 +12,7 @@ Build: python paper/build_paper.py (HTML + PDF, as paper one). -->
 
 ## Abstract
 
-A companion paper showed that an LLM agent can compile exact structure into trained networks: wires, gates, guards and exceptions built from identities of the activations a network already uses. This paper asks what happens next, when gradient descent keeps training around that structure. In 32 pre-registered experiments so far (seven more are running) on a synthetic classifier, a super-resolution network, a cat generator and Pythia-160M, the answer has one organising result, which we call the **reach law**:
+A companion paper showed that an LLM agent can compile exact structure into trained networks: wires, gates, guards and exceptions built from identities of the activations a network already uses. This paper asks what happens next, when gradient descent keeps training around that structure. In 33 pre-registered experiments so far (six more are running) on a synthetic classifier, a super-resolution network, a cat generator and Pythia-160M, the answer has one organising result, which we call the **reach law**:
 
 - **What is fixed.** A frozen module fixes, exactly, everything beyond the reach of the trainable parts in front of it. This is a proposition that holds for any weights. Measured on 33 trained models with three different reaches and three different architectures, on synthetic and natural images, an attacker who may repaint one input column moves the output by up to 45 logits at the module's boundary, and by **exactly 0.0** at every distance at or beyond the reach.
 - **What is renegotiated.** Within that reach, training moves even the module's own boundary. A boundary misplaced by up to 6 columns is moved back to within a column of where it belongs; the distance training can move it grows with the reach and with the size of the object (about the reach plus 1.4 object widths on clean images) and shrinks to about 3 columns on natural images, where leaning toward the boundary also means leaning into false alarms.
@@ -133,6 +133,12 @@ The two halves are different kinds of statement. The guarantee depends on reach 
 ![C1b–C1d: detector trade-off curves inside the frozen wire and gate.](figures/fig_c1_detectors.png)
 
 *Figure 5. C1b–C1d. Left irises in band against change outside the eyes, for the closed form and for detectors trained inside the frozen structure.*
+
+**A new mode behind an exact switch (D4).** A copy of the cat generator's last blocks reads its block-3 features behind an exact switch on an extra latent bit, and only that branch trains, adversarially, on unpaired anime faces. With the switch off the network is the cat generator to 1.2 × 10⁻¹⁵ (float64). With it on, each latent's cat becomes an anime face that keeps the cat's layout (layout correlation 0.33–0.42 between matched pairs, against 0.04 for shuffled ones) and, more weakly, its colours (Figure 6). The frozen trunk shapes what the new mode learns, with no paired data.
+
+![D4: one network, two exact modes.](figures/fig_d4_switch.png)
+
+*Figure 6. D4, seed 0. Top: the switch off (the cat generator, exactly). Bottom: the same latents with the switch on, after 3,000 steps of training the branch on anime faces.*
 
 **Depth (D2).** Growing TinySR-26 from 6 to 9 blocks exactly (zero-output blocks) starts at the base's quality and ends level with crude block duplication (+0.033 vs +0.040 dB after 3,000 steps); the inserted blocks grow to 0.13–0.17 of a base block. Exactness buys a damage-free start, not a better endpoint.
 
@@ -276,6 +282,7 @@ Each experiment was registered in `PREREG.md` before it ran and is written up in
 | D5 | Can a plain generator learn the odd eyes from the patched teacher? | Yes: 50% left, 0–6% right; right half not exact | 2 of 4, 1 in part |
 | L6 | Does object-like clutter shrink renegotiation? | No (7.5 → ~7 columns); guarantee exact 6/6 | 2 of 4 |
 | L7 | Reach, not depth? | Edge at exactly 4 for three reach-4 architectures (6/6); k* 6.0–8.0 | 1 of 2, 1 in part |
-| L8, S2, S4, D4, B3, S5b, P2b | | [pending] | |
+| D4 | An exact switch with a trained branch (cat → anime) | Off exact to 10⁻¹⁵; on keeps the cat's layout | 1 of 2, 1 in part |
+| L8, S2, S4, B3, S5b, P2b | | [pending] | |
 
 **Reproducing.** Every script is under `src/`; `run_queue*.sh` record the order in which jobs ran on one 8 GB GPU; `results/queue.log` records start and end times, and `LOG.md` every change of plan.

@@ -939,3 +939,24 @@ clutter level:* **confirmed** (6 of 6).
 so a detector can lean toward the gate without leaning into them. What natural backgrounds add is texture: large, spatially correlated
 variation against which the faint tail of the disc is hard to see. The remaining hypothesis is visibility against background variation,
 which L8 tests by raising the background noise.
+
+## L7. Reach, not depth (2026-11-06)
+
+Script `src/l_series.py l7`; output `results/l7/`. Three trunks with reach 4 on L1's task (σ = 2), boundary b ∈ {16, 12, 8, 4}, seeds 0–1.
+
+| trunk (reach 4) | change at distance 3 (logits) | at distances 4, 5 | effective boundary at b = 8 / b = 4 (per seed) | k* |
+|---|---|---|---|---|
+| 2 layers, the second dilated by 3 | 2.3, 2.6 | **0.0, 0.0** | 13, 13 / 10, 10 | 6.0 |
+| 4 layers (as L1) | 1.9, 0.37 | **0.0, 0.0** | 14, 14 / 12, 12 | 8.0 |
+| 6 layers, the last two 1×1 | 0.68, 0.31 | **0.0, 0.0** | 14, 15 / 11, 10 | 6.5 |
+
+For comparison, L1 at σ = 2: k* = 4.5 at reach 2, 7.5 at reach 4, 9.5 at reach 6.
+
+**Against the predictions.** (1) *All three reach-4 trunks: exactly unchanged at distances ≥ 4, changed at distance 3:* **confirmed** (6 of 6
+models). (2) *Each reach-4 trunk's k* within 1.5 of 7.5 and further from 4.5:* **confirmed for two trunks** (8.0; 6.5), **borderline for the
+dilated one** (6.0: within 1.5 of 7.5, but exactly as far from 4.5).
+
+**What it means.** The guarantee's edge follows reach, not depth or parameter count: three different architectures with reach 4 all have it
+at exactly 4. Renegotiation is set by reach to within about a column: at reach 4 the three trunks move a misplaced boundary back by 6.0–8.0
+columns, between L1's reach-2 (4.5) and reach-6 (9.5) values; the two-layer dilated trunk, which sees its outer pixels through only three
+taps, uses a little less of its reach.

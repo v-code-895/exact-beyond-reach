@@ -1,0 +1,24 @@
+L7 2 layers, second dilated 3 (reach 4) b 16 seed 0 {'seed': 0, 'acc': 0.9670000523328781, 'effective_boundary': 16, 'correction': 0, 'guarantee_max_logit_change_by_d': {'0': 10.876733779907227, '1': 8.315040588378906, '2': 5.893135070800781, '3': 2.2963147163391113, '4': 0.0, '5': 0.0}} 21s
+L7 2 layers, second dilated 3 (reach 4) b 16 seed 1 {'seed': 1, 'acc': 0.9410000517964363, 'effective_boundary': 18, 'correction': 2, 'guarantee_max_logit_change_by_d': {'0': 15.115720748901367, '1': 9.200129508972168, '2': 5.788323879241943, '3': 2.597194194793701, '4': 0.0, '5': 0.0}} 50s
+L7 2 layers, second dilated 3 (reach 4) b 12 seed 0 {'seed': 0, 'acc': 0.9862500503659248, 'effective_boundary': 16, 'correction': 4} 62s
+L7 2 layers, second dilated 3 (reach 4) b 12 seed 1 {'seed': 1, 'acc': 0.9650000482797623, 'effective_boundary': 17, 'correction': 5} 74s
+L7 2 layers, second dilated 3 (reach 4) b 8 seed 0 {'seed': 0, 'acc': 0.8950000554323196, 'effective_boundary': 13, 'correction': 5} 87s
+L7 2 layers, second dilated 3 (reach 4) b 8 seed 1 {'seed': 1, 'acc': 0.8697500452399254, 'effective_boundary': 13, 'correction': 5} 102s
+L7 2 layers, second dilated 3 (reach 4) b 4 seed 0 {'seed': 0, 'acc': 0.8215000331401825, 'effective_boundary': 10, 'correction': 6} 119s
+L7 2 layers, second dilated 3 (reach 4) b 4 seed 1 {'seed': 1, 'acc': 0.8000000268220901, 'effective_boundary': 10, 'correction': 6} 135s
+L7 4 layers (reach 4, as L1) b 16 seed 0 {'seed': 0, 'acc': 0.9917500391602516, 'effective_boundary': 16, 'correction': 0, 'guarantee_max_logit_change_by_d': {'0': 29.283578872680664, '1': 20.05517578125, '2': 10.738834381103516, '3': 1.910700798034668, '4': 0.0, '5': 0.0}} 177s
+L7 4 layers (reach 4, as L1) b 16 seed 1 {'seed': 1, 'acc': 0.9497500509023666, 'effective_boundary': 17, 'correction': 1, 'guarantee_max_logit_change_by_d': {'0': 20.042573928833008, '1': 11.264179229736328, '2': 3.093021869659424, '3': 0.3748946189880371, '4': 0.0, '5': 0.0}} 247s
+L7 4 layers (reach 4, as L1) b 12 seed 0 {'seed': 0, 'acc': 0.987250030040741, 'effective_boundary': 16, 'correction': 4} 308s
+L7 4 layers (reach 4, as L1) b 12 seed 1 {'seed': 1, 'acc': 0.9762500450015068, 'effective_boundary': 16, 'correction': 4} 361s
+L7 4 layers (reach 4, as L1) b 8 seed 0 {'seed': 0, 'acc': 0.9407500550150871, 'effective_boundary': 14, 'correction': 6} 385s
+L7 4 layers (reach 4, as L1) b 8 seed 1 {'seed': 1, 'acc': 0.9367500469088554, 'effective_boundary': 14, 'correction': 6} 409s
+L7 4 layers (reach 4, as L1) b 4 seed 0 {'seed': 0, 'acc': 0.8282500356435776, 'effective_boundary': 12, 'correction': 8} 437s
+L7 4 layers (reach 4, as L1) b 4 seed 1 {'seed': 1, 'acc': 0.7962500303983688, 'effective_boundary': 12, 'correction': 8} 472s
+L7 6 layers, last two 1x1 (reach 4) b 16 seed 0 {'seed': 0, 'acc': 0.9845000505447388, 'effective_boundary': 16, 'correction': 0, 'guarantee_max_logit_change_by_d': {'0': 26.36490821838379, '1': 17.613922119140625, '2': 8.886628150939941, '3': 0.681732177734375, '4': 0.0, '5': 0.0}} 580s
+L7 6 layers, last two 1x1 (reach 4) b 16 seed 1 {'seed': 1, 'acc': 0.9595000520348549, 'effective_boundary': 17, 'correction': 1, 'guarantee_max_logit_change_by_d': {'0': 20.657224655151367, '1': 12.49316692352295, '2': 5.1546759605407715, '3': 0.30827760696411133, '4': 0.0, '5': 0.0}} 670s
+L7 6 layers, last two 1x1 (reach 4) b 12 seed 0 {'seed': 0, 'acc': 0.9920000284910202, 'effective_boundary': 16, 'correction': 4} 703s
+L7 6 layers, last two 1x1 (reach 4) b 12 seed 1 {'seed': 1, 'acc': 0.9840000495314598, 'effective_boundary': 16, 'correction': 4} 735s
+L7 6 layers, last two 1x1 (reach 4) b 8 seed 0 {'seed': 0, 'acc': 0.9387500435113907, 'effective_boundary': 14, 'correction': 6} 793s
+L7 6 layers, last two 1x1 (reach 4) b 8 seed 1 {'seed': 1, 'acc': 0.9327500313520432, 'effective_boundary': 15, 'correction': 7} 863s
+L7 6 layers, last two 1x1 (reach 4) b 4 seed 0 {'seed': 0, 'acc': 0.8280000388622284, 'effective_boundary': 11, 'correction': 7} 923s
+L7 6 layers, last two 1x1 (reach 4) b 4 seed 1 {'seed': 1, 'acc': 0.7945000380277634, 'effective_boundary': 10, 'correction': 6} 951s

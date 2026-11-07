@@ -1,0 +1,24 @@
+L6 orange 0 b 16 seed 0 {'seed': 0, 'acc': 0.9925000369548798, 'effective_boundary': 16, 'correction': 0, 'guarantee_max_logit_change_by_d': {'0': 21.053298950195312, '1': 11.833840370178223, '2': 3.369729995727539, '3': 0.1938180923461914, '4': 0.0, '5': 0.0}} 40s
+L6 orange 0 b 16 seed 1 {'seed': 1, 'acc': 0.9620000496506691, 'effective_boundary': 17, 'correction': 1, 'guarantee_max_logit_change_by_d': {'0': 18.042007446289062, '1': 9.365689277648926, '2': 1.4967856407165527, '3': 0.1469283103942871, '4': 0.0, '5': 0.0}} 105s
+L6 orange 0 b 12 seed 0 {'seed': 0, 'acc': 0.9885000512003899, 'effective_boundary': 16, 'correction': 4} 165s
+L6 orange 0 b 12 seed 1 {'seed': 1, 'acc': 0.9832500517368317, 'effective_boundary': 16, 'correction': 4} 219s
+L6 orange 0 b 8 seed 0 {'seed': 0, 'acc': 0.9400000497698784, 'effective_boundary': 14, 'correction': 6} 243s
+L6 orange 0 b 8 seed 1 {'seed': 1, 'acc': 0.9477500393986702, 'effective_boundary': 15, 'correction': 7} 267s
+L6 orange 0 b 4 seed 0 {'seed': 0, 'acc': 0.8002500310540199, 'effective_boundary': 12, 'correction': 8} 291s
+L6 orange 0 b 4 seed 1 {'seed': 1, 'acc': 0.8215000405907631, 'effective_boundary': 11, 'correction': 7} 324s
+L6 orange 2 b 16 seed 0 {'seed': 0, 'acc': 0.986500047147274, 'effective_boundary': 16, 'correction': 0, 'guarantee_max_logit_change_by_d': {'0': 19.400962829589844, '1': 10.396742820739746, '2': 3.0172386169433594, '3': 0.3735170364379883, '4': 0.0, '5': 0.0}} 410s
+L6 orange 2 b 16 seed 1 {'seed': 1, 'acc': 0.9790000393986702, 'effective_boundary': 16, 'correction': 0, 'guarantee_max_logit_change_by_d': {'0': 15.929277420043945, '1': 7.579218864440918, '2': 1.5864043235778809, '3': 0.2971372604370117, '4': 0.0, '5': 0.0}} 482s
+L6 orange 2 b 12 seed 0 {'seed': 0, 'acc': 0.9887500405311584, 'effective_boundary': 16, 'correction': 4} 506s
+L6 orange 2 b 12 seed 1 {'seed': 1, 'acc': 0.9835000485181808, 'effective_boundary': 16, 'correction': 4} 530s
+L6 orange 2 b 8 seed 0 {'seed': 0, 'acc': 0.9125000461935997, 'effective_boundary': 14, 'correction': 6} 554s
+L6 orange 2 b 8 seed 1 {'seed': 1, 'acc': 0.9087500348687172, 'effective_boundary': 14, 'correction': 6} 601s
+L6 orange 2 b 4 seed 0 {'seed': 0, 'acc': 0.7802500426769257, 'effective_boundary': 12, 'correction': 8} 661s
+L6 orange 2 b 4 seed 1 {'seed': 1, 'acc': 0.8095000386238098, 'effective_boundary': 11, 'correction': 7} 720s
+L6 orange 6 b 16 seed 0 {'seed': 0, 'acc': 0.98375004529953, 'effective_boundary': 16, 'correction': 0, 'guarantee_max_logit_change_by_d': {'0': 24.016761779785156, '1': 14.448810577392578, '2': 5.668537139892578, '3': 0.3511686325073242, '4': 0.0, '5': 0.0}} 763s
+L6 orange 6 b 16 seed 1 {'seed': 1, 'acc': 0.9725000411272049, 'effective_boundary': 15, 'correction': -1, 'guarantee_max_logit_change_by_d': {'0': 18.46686363220215, '1': 9.675919532775879, '2': 2.5395209789276123, '3': 0.31950855255126953, '4': 0.0, '5': 0.0}} 799s
+L6 orange 6 b 12 seed 0 {'seed': 0, 'acc': 0.945250041782856, 'effective_boundary': 0, 'correction': -12} 838s
+L6 orange 6 b 12 seed 1 {'seed': 1, 'acc': 0.9772500470280647, 'effective_boundary': 16, 'correction': 4} 898s
+L6 orange 6 b 8 seed 0 {'seed': 0, 'acc': 0.9270000234246254, 'effective_boundary': 14, 'correction': 6} 958s
+L6 orange 6 b 8 seed 1 {'seed': 1, 'acc': 0.895000047981739, 'effective_boundary': 13, 'correction': 5} 989s
+L6 orange 6 b 4 seed 0 {'seed': 0, 'acc': 0.8200000375509262, 'effective_boundary': 11, 'correction': 7} 1013s
+L6 orange 6 b 4 seed 1 {'seed': 1, 'acc': 0.7587500289082527, 'effective_boundary': 25, 'correction': 21} 1037s

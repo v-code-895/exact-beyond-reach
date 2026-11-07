@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # S5b at the end of the large lane (2026-11-06 10:55): after B3 ends, a 20-step smoke run, then the full run if it passed.
 #   bash run_queue8.sh s5b
-cd "$(dirname "$0")"; export KMP_DUPLICATE_LIB_OK=TRUE; PY=/c/Users/starb/.venvs/wsse/Scripts/python
+cd "$(dirname "$0")/../.."; export KMP_DUPLICATE_LIB_OK=TRUE; PY=/c/Users/starb/.venvs/wsse/Scripts/python
 log() { echo "$(date +%m-%d\ %H:%M:%S) [$1] $2" >> results/queue.log; }
 free_mib() { nvidia-smi --query-gpu=memory.total,memory.used --format=csv,noheader,nounits | awk -F', ' '{print $1-$2}'; }
 since_last_start() { [ -f results/.queue_last_start ] && echo $(( $(date +%s) - $(cat results/.queue_last_start) )) || echo 99999; }

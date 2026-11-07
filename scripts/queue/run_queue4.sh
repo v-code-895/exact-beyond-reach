@@ -5,7 +5,7 @@
 #   bash run_queue4.sh large2 <S5 python PID>   S5 (running) -> E1b -> S5b (once registered) -> D5 -> D4 block 3 -> B3
 #   bash run_queue4.sh small2 <S1 python PID>   S1 (running) -> A2 -> S4 -> S2 -> P2b
 # Dropped: D4 block 2 (the same switch at a second depth).
-cd "$(dirname "$0")"; export KMP_DUPLICATE_LIB_OK=TRUE; PY=/c/Users/starb/.venvs/wsse/Scripts/python
+cd "$(dirname "$0")/../.."; export KMP_DUPLICATE_LIB_OK=TRUE; PY=/c/Users/starb/.venvs/wsse/Scripts/python
 log() { echo "$(date +%m-%d\ %H:%M:%S) [$1] $2" >> results/queue.log; }
 free_mib() { nvidia-smi --query-gpu=memory.total,memory.used --format=csv,noheader,nounits | awk -F', ' '{print $1-$2}'; }
 since_last_start() { [ -f results/.queue_last_start ] && echo $(( $(date +%s) - $(cat results/.queue_last_start) )) || echo 99999; }

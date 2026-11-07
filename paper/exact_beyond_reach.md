@@ -316,4 +316,4 @@ Each experiment was registered in `PREREG.md` before it ran and is written up in
 | B3 | Give a generator position | Read from zero, but ablating it changes images by 0.65 levels | 2 of 3 |
 | S5b | Why does the filter pull the generator in? | Registered mechanism refuted; filtering reals too makes it worse | 1 of 3, 1 in part |
 
-**Reproducing.** Code, pre-registrations and results are released at https://github.com/v-code-895/exact-beyond-reach and archived at https://doi.org/10.5281/zenodo.24032112. Every script is under `src/`; `run_queue*.sh` record the order in which jobs ran on one 8 GB GPU; `results/queue.log` records start and end times, and `LOG.md` every change of plan.
+**Reproducing.** Code, pre-registrations and results are released at https://github.com/v-code-895/exact-beyond-reach and archived at https://doi.org/10.5281/zenodo.24032112. Every script is under `src/`; `scripts/queue/run_queue*.sh` record the order in which jobs ran on one 8 GB GPU; `results/queue.log` records start and end times, and `LOG.md` every change of plan.

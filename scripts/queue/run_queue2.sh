@@ -4,7 +4,7 @@
 # E1 alone holds ~6.4 GB of the 8 GB card, so the light P-series jobs go first (they fit next to it); the TinySR jobs wait
 # for 2.5 GB free, which in practice means E1's end. S3 is done and is not repeated. P2b runs after A2 (separate waiter).
 #   bash run_queue2.sh chain
-cd "$(dirname "$0")"; export KMP_DUPLICATE_LIB_OK=TRUE; PY=/c/Users/starb/.venvs/wsse/Scripts/python
+cd "$(dirname "$0")/../.."; export KMP_DUPLICATE_LIB_OK=TRUE; PY=/c/Users/starb/.venvs/wsse/Scripts/python
 log() { echo "$(date +%m-%d\ %H:%M:%S) [$1] $2" >> results/queue.log; }
 free_mib() { nvidia-smi --query-gpu=memory.total,memory.used --format=csv,noheader,nounits | awk -F', ' '{print $1-$2}'; }
 since_last_start() { [ -f results/.queue_last_start ] && echo $(( $(date +%s) - $(cat results/.queue_last_start) )) || echo 99999; }

@@ -5,7 +5,7 @@
 #   bash run_queue.sh a3      stop A3 after its 3x-wide seed 0 (person's decision), write its table
 #   bash run_queue.sh large   E1, S5, D5, B3, D4 (block 3), D4 (block 2)
 #   bash run_queue.sh small   S1, S3, S4, S2, A2
-cd "$(dirname "$0")"; export KMP_DUPLICATE_LIB_OK=TRUE; PY=/c/Users/starb/.venvs/wsse/Scripts/python
+cd "$(dirname "$0")/../.."; export KMP_DUPLICATE_LIB_OK=TRUE; PY=/c/Users/starb/.venvs/wsse/Scripts/python
 log() { echo "$(date +%m-%d\ %H:%M:%S) [$1] $2" >> results/queue.log; }
 free_mib() { nvidia-smi --query-gpu=memory.total,memory.used --format=csv,noheader,nounits | awk -F', ' '{print $1-$2}'; }
 since_last_start() { [ -f results/.queue_last_start ] && echo $(( $(date +%s) - $(cat results/.queue_last_start) )) || echo 99999; }

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Small lane with L7 after L6 (2026-11-06 ~16:20). Replaces run_queue10.sh small6; S1 (resumed, running) is adopted.
 #   bash run_queue11.sh small7 <S1 python PID>   S1 resume -> L6 -> L7 -> S4 -> S2 -> P2b
-cd "$(dirname "$0")"; export KMP_DUPLICATE_LIB_OK=TRUE; PY=/c/Users/starb/.venvs/wsse/Scripts/python
+cd "$(dirname "$0")/../.."; export KMP_DUPLICATE_LIB_OK=TRUE; PY=/c/Users/starb/.venvs/wsse/Scripts/python
 log() { echo "$(date +%m-%d\ %H:%M:%S) [$1] $2" >> results/queue.log; }
 free_mib() { nvidia-smi --query-gpu=memory.total,memory.used --format=csv,noheader,nounits | awk -F', ' '{print $1-$2}'; }
 since_last_start() { [ -f results/.queue_last_start ] && echo $(( $(date +%s) - $(cat results/.queue_last_start) )) || echo 99999; }

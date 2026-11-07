@@ -4,7 +4,7 @@
 #   bash run_queue7.sh small4 <A2 python PID>         A2 -> L1 -> L2 -> L3 -> L4 -> L5 toy -> S1 (resume) -> S4 -> S2 -> P2b
 #   bash run_queue7.sh large4 <S5 arm 3 python PID>   S5 arm 3 -> L5 (TinySR) -> E1b -> D5 -> D4 block 3 -> B3
 # S5b is no longer queued automatically (registered and added only if S5 arm 3 calls for it).
-cd "$(dirname "$0")"; export KMP_DUPLICATE_LIB_OK=TRUE; PY=/c/Users/starb/.venvs/wsse/Scripts/python
+cd "$(dirname "$0")/../.."; export KMP_DUPLICATE_LIB_OK=TRUE; PY=/c/Users/starb/.venvs/wsse/Scripts/python
 log() { echo "$(date +%m-%d\ %H:%M:%S) [$1] $2" >> results/queue.log; }
 free_mib() { nvidia-smi --query-gpu=memory.total,memory.used --format=csv,noheader,nounits | awk -F', ' '{print $1-$2}'; }
 since_last_start() { [ -f results/.queue_last_start ] && echo $(( $(date +%s) - $(cat results/.queue_last_start) )) || echo 99999; }

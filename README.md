@@ -1,5 +1,7 @@
 # Exact Beyond Reach
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24032112.svg)](https://doi.org/10.5281/zenodo.24032112)
+
 ### What gradient descent can and cannot change after an AI agent patches a neural network's weights
 
 **[Read the paper](https://v-code-895.github.io/exact-beyond-reach/)** ([PDF](paper/exact_beyond_reach.pdf)) · Voravee Upatising and Claude (Anthropic; Claude Opus 5.5)

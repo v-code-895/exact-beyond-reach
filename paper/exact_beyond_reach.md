@@ -6,6 +6,7 @@ author:
 date: November 7, 2026 (version 1.0.0)
 site: https://v-code-895.github.io/exact-beyond-reach/paper/
 code: https://github.com/v-code-895/exact-beyond-reach
+doi: 10.5281/zenodo.24032112
 ---
 
 <!-- Draft. Every number traces to RESULTS.md and a file under results/ (Appendix A). Every experiment was registered in PREREG.md

@@ -13,6 +13,7 @@ type: software
 version: "1.0.0"
 date-released: "2026-11-07"
 license: MIT
+doi: 10.5281/zenodo.24032112
 repository-code: "https://github.com/v-code-895/exact-beyond-reach"
 url: "https://v-code-895.github.io/exact-beyond-reach/"
 authors:
